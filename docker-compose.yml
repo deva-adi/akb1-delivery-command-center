@@ -1,0 +1,73 @@
+# AKB1 Delivery Command Center v1
+# Local development stack
+# Placeholder authored 2026-04-24. Real compose file populated at M6 when backend and frontend exist.
+#
+# Usage (once populated):
+#   docker compose up -d
+#   Navigate to http://localhost:3000
+#
+# Services planned:
+#   frontend (Next.js 14) on port 3000
+#   backend (FastAPI) on port 8000
+#   postgres on port 5432
+#   redis on port 6379
+#   caddy (reverse proxy, optional) on port 80
+
+version: "3.9"
+
+services:
+  # Postgres database
+  postgres:
+    image: postgres:16-alpine
+    container_name: akb1_dcc_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-akb1}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-akb1_dev_password}
+      POSTGRES_DB: ${POSTGRES_DB:-akb1_dcc}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-akb1}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis cache and session store
+  redis:
+    image: redis:7-alpine
+    container_name: akb1_dcc_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend FastAPI (populated at M6)
+  # backend:
+  #   build: ./backend
+  #   container_name: akb1_dcc_backend
+  #   env_file: .env
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #     redis:
+  #       condition: service_healthy
+  #   ports:
+  #     - "8000:8000"
+
+  # Frontend Next.js (populated at M7)
+  # frontend:
+  #   build: ./frontend
+  #   container_name: akb1_dcc_frontend
+  #   env_file: .env
+  #   depends_on:
+  #     - backend
+  #   ports:
+  #     - "3000:3000"
+
+volumes:
+  postgres-data:

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Executive Overview | AKB1 Delivery Command Center v1</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .tabular { font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body class="bg-[#0B1220] text-[#F1F5F9] min-h-screen">
+
+  <!-- Brand header -->
+  <header class="border-b border-[#1F2937] bg-[#111827]">
+    <div class="max-w-[1440px] mx-auto px-8 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="v1_00_Index.html" class="flex items-center gap-3 hover:opacity-80 transition">
+          <div class="w-8 h-8 rounded-md bg-[#F5B800] flex items-center justify-center">
+            <span class="text-[#0B1220] font-bold text-sm">A1</span>
+          </div>
+          <div>
+            <div class="text-[#F1F5F9] font-semibold text-sm tracking-tight">AKB1 Delivery Command Center</div>
+            <div class="text-[#94A3B8] text-[11px]">Executive Overview</div>
+          </div>
+        </a>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="text-[#64748B] text-xs font-mono tabular">2026-04-24 | 14:32 IST</div>
+        <span class="px-3 py-1.5 bg-[#78350F] border border-[#F5B800] rounded-md text-[#F5B800] text-xs font-medium">v0.1.0-wireframe</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filter bar -->
+  <div class="border-b border-[#1F2937] bg-[#111827] sticky top-0 z-20">
+    <div class="max-w-[1440px] mx-auto px-8 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-[#1F2937] border border-[#334155] rounded-md cursor-pointer hover:border-[#F5B800] transition">
+          <span class="text-[#94A3B8] text-[10px] uppercase tracking-wider">Geo</span>
+          <span class="text-[#F1F5F9] text-sm">All regions</span>
+          <svg class="w-3 h-3 text-[#94A3B8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </div>
+
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-[#1F2937] border border-[#334155] rounded-md cursor-pointer hover:border-[#F5B800] transition">
+          <span class="text-[#94A3B8] text-[10px] uppercase tracking-wider">Programme</span>
+          <span class="text-[#F1F5F9] text-sm">All (10)</span>
+          <svg class="w-3 h-3 text-[#94A3B8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </div>
+
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-[#1F2937] border border-[#334155] rounded-md cursor-pointer hover:border-[#F5B800] transition">
+          <span class="text-[#94A3B8] text-[10px] uppercase tracking-wider">Vendor</span>
+          <span class="text-[#F1F5F9] text-sm">All (25)</span>
+          <svg class="w-3 h-3 text-[#94A3B8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </div>
+
+        <div class="flex items-center bg-[#1F2937] border border-[#334155] rounded-md overflow-hidden">
+          <button class="px-3 py-1.5 text-xs text-[#94A3B8] hover:text-[#F1F5F9] transition">MTD</button>
+          <button class="px-3 py-1.5 text-xs text-[#F5B800] bg-[#0F172A] font-medium">QTD</button>
+          <button class="px-3 py-1.5 text-xs text-[#94A3B8] hover:text-[#F1F5F9] transition">YTD</button>
+          <button class="px-3 py-1.5 text-xs text-[#94A3B8] hover:text-[#F1F5F9] transition">R12M</button>
+        </div>
+
+      </div>
+
+      <div class="flex items-center gap-2 px-3 py-1.5 bg-[#78350F]/30 border border-[#F5B800] rounded-md">
+        <div class="w-2 h-2 rounded-full bg-[#F5B800]"></div>
+        <span class="text-[#F5B800] text-xs font-medium">Portfolio Owner</span>
+        <svg class="w-3 h-3 text-[#F5B800]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab navigation -->
+  <nav class="border-b border-[#1F2937] bg-[#111827]">
+    <div class="max-w-[1440px] mx-auto px-8">
+      <div class="flex gap-1 pt-2 text-[10px] text-[#64748B] uppercase tracking-wider">
+        <div class="w-[6.2rem] border-r border-[#1F2937] py-1">Leadership</div>
+      </div>
+      <div class="flex gap-0">
+
+        <a class="px-4 py-3 text-sm text-[#F5B800] border-b-2 border-[#F5B800] font-medium">Executive</a>
+        <a class="px-4 py-3 text-sm text-[#94A3B8] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#334155] transition">Delivery Health</a>
+        <a class="px-4 py-3 text-sm text-[#94A3B8] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#334155] transition">Risk and RAID</a>
+        <a class="px-4 py-3 text-sm text-[#94A3B8] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#334155] transition">Workforce</a>
+        <a class="px-4 py-3 text-sm text-[#94A3B8] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#334155] transition">Financials</a>
+        <a class="px-4 py-3 text-sm text-[#94A3B8] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#334155] transition">P and L Cockpit</a>
+
+        <span class="px-2 py-3 text-[#334155]">|</span>
+
+        <a class="px-4 py-3 text-sm text-[#94A3B8] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#334155] transition">Flow</a>
+        <a class="px-4 py-3 text-sm text-[#94A3B8] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#334155] transition">AI</a>
+        <a class="px-4 py-3 text-sm text-[#94A3B8] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#334155] transition">Commercial</a>
+        <a class="px-4 py-3 text-sm text-[#94A3B8] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#334155] transition">Backlog</a>
+        <a class="px-4 py-3 text-sm text-[#94A3B8] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#334155] transition">Scenario</a>
+        <a class="px-4 py-3 text-sm text-[#94A3B8] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#334155] transition">Ops and SLA</a>
+
+        <span class="px-2 py-3 text-[#334155]">|</span>
+
+        <a class="px-4 py-3 text-sm text-[#94A3B8] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#334155] transition">Vendors</a>
+        <a class="px-4 py-3 text-sm text-[#94A3B8] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#334155] transition">Change</a>
+        <a class="px-4 py-3 text-sm text-[#94A3B8] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#334155] transition">Client Health</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Intelligence layer -->
+  <section class="border-b border-[#1F2937] bg-[#0F172A]">
+    <div class="max-w-[1440px] mx-auto px-8 py-6 grid grid-cols-3 gap-8">
+
+      <!-- What does this tell me -->
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-1.5 h-5 bg-[#F5B800] rounded-full"></div>
+          <h3 class="text-[#F5B800] text-base font-semibold tracking-tight">What does this tell me</h3>
+        </div>
+        <p class="text-[#CBD5E1] text-sm leading-relaxed">
+          Portfolio margin held at <span class="text-[#F1F5F9] font-semibold">19.2 percent</span> this month against a <span class="text-[#F5B800] font-semibold">21 percent</span> target. Three programmes are dragging the blended average. Utilisation is stable at 82 percent, but the billable mix is softening.
+        </p>
+      </div>
+
+      <!-- Why is this happening -->
+      <div class="pl-8 border-l border-[#1F2937]">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-1.5 h-5 bg-[#F5B800] rounded-full"></div>
+          <h3 class="text-[#F5B800] text-base font-semibold tracking-tight">Why is this happening</h3>
+        </div>
+        <ol class="space-y-2 text-sm">
+          <li class="flex items-baseline gap-3">
+            <span class="text-[#F1F5F9] font-mono font-semibold tabular min-w-[3ch]">42%</span>
+            <span class="text-[#CBD5E1]">Pegasus Healthcare milestone slip pushed revenue recognition by 4 weeks.</span>
+          </li>
+          <li class="flex items-baseline gap-3">
+            <span class="text-[#F1F5F9] font-mono font-semibold tabular min-w-[3ch]">31%</span>
+            <span class="text-[#CBD5E1]">Orion Insurance replaced two B4 Senior Managers at lower blended rates after attrition.</span>
+          </li>
+          <li class="flex items-baseline gap-3">
+            <span class="text-[#F1F5F9] font-mono font-semibold tabular min-w-[3ch]">27%</span>
+            <span class="text-[#CBD5E1]">Stellar Logistics absorbed a scope expansion without a price adjustment.</span>
+          </li>
+        </ol>
+      </div>
+
+      <!-- What do I do this week -->
+      <div class="pl-8 border-l border-[#1F2937]">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-1.5 h-5 bg-[#F5B800] rounded-full"></div>
+          <h3 class="text-[#F5B800] text-base font-semibold tracking-tight">What do I do this week</h3>
+        </div>
+        <div class="space-y-2">
+
+          <div class="bg-[#111827] border border-[#1F2937] rounded-md p-3 hover:border-[#334155] transition cursor-pointer">
+            <p class="text-[#F1F5F9] text-sm font-medium mb-1.5 leading-snug">Escalate Pegasus milestone slip in the Thursday client steerco.</p>
+            <div class="flex items-center gap-3 text-[11px]">
+              <span class="flex items-center gap-1 text-[#94A3B8]">
+                <span class="w-4 h-4 rounded-full bg-[#60A5FA] flex items-center justify-center text-[#0B1220] text-[9px] font-semibold">R</span>
+                Rajiv
+              </span>
+              <span class="text-[#F59E0B] font-medium">Due Thu 30 Apr</span>
+            </div>
+          </div>
+
+          <div class="bg-[#111827] border border-[#1F2937] rounded-md p-3 hover:border-[#334155] transition cursor-pointer">
+            <p class="text-[#F1F5F9] text-sm font-medium mb-1.5 leading-snug">Reprice Stellar scope expansion and recover the margin.</p>
+            <div class="flex items-center gap-3 text-[11px]">
+              <span class="flex items-center gap-1 text-[#94A3B8]">
+                <span class="w-4 h-4 rounded-full bg-[#F59E0B] flex items-center justify-center text-[#0B1220] text-[9px] font-semibold">P</span>
+                Priya
+              </span>
+              <span class="text-[#F59E0B] font-medium">Due Tue 28 Apr</span>
+            </div>
+          </div>
+
+          <div class="bg-[#111827] border border-[#1F2937] rounded-md p-3 hover:border-[#334155] transition cursor-pointer">
+            <p class="text-[#F1F5F9] text-sm font-medium mb-1.5 leading-snug">Move two B3 Tech Leads to Orion at blended rate parity.</p>
+            <div class="flex items-center gap-3 text-[11px]">
+              <span class="flex items-center gap-1 text-[#94A3B8]">
+                <span class="w-4 h-4 rounded-full bg-[#8B5CF6] flex items-center justify-center text-[#0B1220] text-[9px] font-semibold">M</span>
+                Meera
+              </span>
+              <span class="text-[#F59E0B] font-medium">Due Mon 27 Apr</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- KPI row -->
+  <section>
+    <div class="max-w-[1440px] mx-auto px-8 py-6">
+      <div class="grid grid-cols-5 gap-4">
+
+        <div class="bg-[#111827] border border-[#1F2937] rounded-lg p-5 relative hover:border-[#334155] transition cursor-pointer group">
+          <svg class="absolute top-4 right-4 w-4 h-4 text-[#64748B] group-hover:text-[#F5B800] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg>
+          <div class="text-[#94A3B8] text-[10px] uppercase tracking-wider mb-2 font-medium">Portfolio Margin</div>
+          <div class="text-[#F1F5F9] text-4xl font-semibold font-mono tabular">19.2<span class="text-xl text-[#94A3B8]">%</span></div>
+          <div class="flex items-center gap-2 mt-2 text-xs">
+            <span class="text-[#EF4444] font-medium">&#9660; 0.6pp</span>
+            <span class="text-[#64748B]">vs target 21%</span>
+          </div>
+          <svg class="w-full h-8 mt-3" viewBox="0 0 200 32" preserveAspectRatio="none">
+            <polyline fill="none" stroke="#EF4444" stroke-width="1.5" points="0,4 18,6 36,9 54,12 72,14 90,16 108,18 126,20 144,22 162,24 180,26 200,28"/>
+          </svg>
+        </div>
+
+        <div class="bg-[#111827] border border-[#1F2937] rounded-lg p-5 relative hover:border-[#334155] transition cursor-pointer group">
+          <svg class="absolute top-4 right-4 w-4 h-4 text-[#64748B] group-hover:text-[#F5B800] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg>
+          <div class="text-[#94A3B8] text-[10px] uppercase tracking-wider mb-2 font-medium">Utilisation</div>
+          <div class="text-[#F1F5F9] text-4xl font-semibold font-mono tabular">82.0<span class="text-xl text-[#94A3B8]">%</span></div>
+          <div class="flex items-center gap-2 mt-2 text-xs">
+            <span class="text-[#10B981] font-medium">&#9650; 1.2pp</span>
+            <span class="text-[#64748B]">vs target 80%</span>
+          </div>
+          <svg class="w-full h-8 mt-3" viewBox="0 0 200 32" preserveAspectRatio="none">
+            <polyline fill="none" stroke="#10B981" stroke-width="1.5" points="0,20 18,18 36,19 54,17 72,15 90,16 108,14 126,13 144,15 162,12 180,11 200,10"/>
+          </svg>
+        </div>
+
+        <div class="bg-[#111827] border border-[#1F2937] rounded-lg p-5 relative hover:border-[#334155] transition cursor-pointer group">
+          <svg class="absolute top-4 right-4 w-4 h-4 text-[#64748B] group-hover:text-[#F5B800] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg>
+          <div class="text-[#94A3B8] text-[10px] uppercase tracking-wider mb-2 font-medium">Forecast Accuracy</div>
+          <div class="text-[#F1F5F9] text-4xl font-semibold font-mono tabular">91.4<span class="text-xl text-[#94A3B8]">%</span></div>
+          <div class="flex items-center gap-2 mt-2 text-xs">
+            <span class="text-[#F59E0B] font-medium">&#9660; 2.1pp</span>
+            <span class="text-[#64748B]">vs target 95%</span>
+          </div>
+          <svg class="w-full h-8 mt-3" viewBox="0 0 200 32" preserveAspectRatio="none">
+            <polyline fill="none" stroke="#F59E0B" stroke-width="1.5" points="0,8 18,10 36,11 54,12 72,14 90,13 108,15 126,16 144,18 162,19 180,20 200,22"/>
+          </svg>
+        </div>
+
+        <div class="bg-[#111827] border border-[#1F2937] rounded-lg p-5 relative hover:border-[#334155] transition cursor-pointer group">
+          <svg class="absolute top-4 right-4 w-4 h-4 text-[#64748B] group-hover:text-[#F5B800] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg>
+          <div class="text-[#94A3B8] text-[10px] uppercase tracking-wider mb-2 font-medium">On-Time Delivery</div>
+          <div class="text-[#F1F5F9] text-4xl font-semibold font-mono tabular">87.0<span class="text-xl text-[#94A3B8]">%</span></div>
+          <div class="flex items-center gap-2 mt-2 text-xs">
+            <span class="text-[#F59E0B] font-medium">&#9660; 3.5pp</span>
+            <span class="text-[#64748B]">vs target 92%</span>
+          </div>
+          <svg class="w-full h-8 mt-3" viewBox="0 0 200 32" preserveAspectRatio="none">
+            <polyline fill="none" stroke="#F59E0B" stroke-width="1.5" points="0,10 18,9 36,10 54,12 72,13 90,14 108,15 126,17 144,16 162,18 180,19 200,20"/>
+          </svg>
+        </div>
+
+        <div class="bg-[#111827] border border-[#1F2937] rounded-lg p-5 relative hover:border-[#334155] transition cursor-pointer group">
+          <svg class="absolute top-4 right-4 w-4 h-4 text-[#64748B] group-hover:text-[#F5B800] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg>
+          <div class="text-[#94A3B8] text-[10px] uppercase tracking-wider mb-2 font-medium">RAID Severity Index</div>
+          <div class="text-[#F1F5F9] text-4xl font-semibold font-mono tabular">6.4<span class="text-xl text-[#94A3B8]">/10</span></div>
+          <div class="flex items-center gap-2 mt-2 text-xs">
+            <span class="text-[#EF4444] font-medium">&#9650; 0.8</span>
+            <span class="text-[#64748B]">alert &#8805; 7.0</span>
+          </div>
+          <svg class="w-full h-8 mt-3" viewBox="0 0 200 32" preserveAspectRatio="none">
+            <polyline fill="none" stroke="#EF4444" stroke-width="1.5" points="0,18 18,17 36,16 54,15 72,14 90,14 108,13 126,12 144,11 162,10 180,8 200,6"/>
+          </svg>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Charts row -->
+  <section>
+    <div class="max-w-[1440px] mx-auto px-8 py-6 grid grid-cols-3 gap-6">
+
+      <!-- Margin trend chart -->
+      <div class="col-span-2 bg-[#111827] border border-[#1F2937] rounded-lg p-5 relative">
+        <svg class="absolute top-5 right-5 w-4 h-4 text-[#64748B] hover:text-[#F5B800] cursor-pointer transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg>
+        <div class="flex items-baseline justify-between mb-1">
+          <h3 class="text-[#F1F5F9] font-semibold">Portfolio Margin</h3>
+          <span class="text-[#64748B] text-xs">Rolling 12 months</span>
+        </div>
+        <p class="text-[#94A3B8] text-xs mb-4">Gross margin compression from 23.8 to 19.2 percent. Target band in gold.</p>
+        <svg class="w-full h-52" viewBox="0 0 800 220" preserveAspectRatio="none">
+          <!-- Grid lines -->
+          <line x1="40" y1="40" x2="790" y2="40" stroke="#1F2937" stroke-width="1"/>
+          <line x1="40" y1="90" x2="790" y2="90" stroke="#1F2937" stroke-width="1"/>
+          <line x1="40" y1="140" x2="790" y2="140" stroke="#1F2937" stroke-width="1"/>
+          <line x1="40" y1="190" x2="790" y2="190" stroke="#334155" stroke-width="1"/>
+          <!-- Y axis labels -->
+          <text x="10" y="45" fill="#64748B" font-size="11" font-family="JetBrains Mono">26%</text>
+          <text x="10" y="95" fill="#64748B" font-size="11" font-family="JetBrains Mono">22%</text>
+          <text x="10" y="145" fill="#64748B" font-size="11" font-family="JetBrains Mono">18%</text>
+          <text x="10" y="195" fill="#64748B" font-size="11" font-family="JetBrains Mono">14%</text>
+          <!-- Target band -->
+          <rect x="40" y="75" width="750" height="15" fill="#F5B800" fill-opacity="0.08"/>
+          <line x1="40" y1="78" x2="790" y2="78" stroke="#F5B800" stroke-width="1" stroke-dasharray="4 4" opacity="0.5"/>
+          <text x="744" y="75" fill="#F5B800" font-size="10" font-weight="500">21% target</text>
+          <!-- Data line -->
+          <polyline fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"
+            points="60,55 125,60 190,65 255,72 320,80 385,88 450,100 515,112 580,125 645,138 710,150 775,155"/>
+          <!-- Data points -->
+          <circle cx="60" cy="55" r="3" fill="#EF4444"/>
+          <circle cx="125" cy="60" r="3" fill="#EF4444"/>
+          <circle cx="190" cy="65" r="3" fill="#EF4444"/>
+          <circle cx="255" cy="72" r="3" fill="#EF4444"/>
+          <circle cx="320" cy="80" r="3" fill="#EF4444"/>
+          <circle cx="385" cy="88" r="3" fill="#EF4444"/>
+          <circle cx="450" cy="100" r="3" fill="#EF4444"/>
+          <circle cx="515" cy="112" r="3" fill="#EF4444"/>
+          <circle cx="580" cy="125" r="3" fill="#EF4444"/>
+          <circle cx="645" cy="138" r="3" fill="#EF4444"/>
+          <circle cx="710" cy="150" r="3" fill="#EF4444"/>
+          <circle cx="775" cy="155" r="4" fill="#EF4444" stroke="#0B1220" stroke-width="2"/>
+          <!-- X axis labels -->
+          <text x="60" y="210" fill="#64748B" font-size="10" text-anchor="middle">May</text>
+          <text x="125" y="210" fill="#64748B" font-size="10" text-anchor="middle">Jun</text>
+          <text x="190" y="210" fill="#64748B" font-size="10" text-anchor="middle">Jul</text>
+          <text x="255" y="210" fill="#64748B" font-size="10" text-anchor="middle">Aug</text>
+          <text x="320" y="210" fill="#64748B" font-size="10" text-anchor="middle">Sep</text>
+          <text x="385" y="210" fill="#64748B" font-size="10" text-anchor="middle">Oct</text>
+          <text x="450" y="210" fill="#64748B" font-size="10" text-anchor="middle">Nov</text>
+          <text x="515" y="210" fill="#64748B" font-size="10" text-anchor="middle">Dec</text>
+          <text x="580" y="210" fill="#64748B" font-size="10" text-anchor="middle">Jan</text>
+          <text x="645" y="210" fill="#64748B" font-size="10" text-anchor="middle">Feb</text>
+          <text x="710" y="210" fill="#64748B" font-size="10" text-anchor="middle">Mar</text>
+          <text x="775" y="210" fill="#F1F5F9" font-size="10" text-anchor="middle" font-weight="600">Apr</text>
+        </svg>
+      </div>
+
+      <!-- Programme state grid -->
+      <div class="bg-[#111827] border border-[#1F2937] rounded-lg p-5 relative">
+        <svg class="absolute top-5 right-5 w-4 h-4 text-[#64748B] hover:text-[#F5B800] cursor-pointer transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg>
+        <div class="flex items-baseline justify-between mb-1">
+          <h3 class="text-[#F1F5F9] font-semibold">Programme State</h3>
+          <span class="text-[#64748B] text-xs">10 programmes</span>
+        </div>
+        <p class="text-[#94A3B8] text-xs mb-4">3 green, 4 amber, 2 red, 1 breach.</p>
+        <div class="space-y-2">
+          <div class="flex items-center justify-between p-2 rounded bg-[#10B981]/5 border border-[#10B981]/20 hover:border-[#10B981]/60 transition cursor-pointer">
+            <span class="text-[#F1F5F9] text-xs font-medium">Helix Retail OMS</span>
+            <span class="flex items-center gap-1 text-[10px]"><span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span><span class="text-[#10B981] font-semibold">GREEN</span></span>
+          </div>
+          <div class="flex items-center justify-between p-2 rounded bg-[#10B981]/5 border border-[#10B981]/20 hover:border-[#10B981]/60 transition cursor-pointer">
+            <span class="text-[#F1F5F9] text-xs font-medium">Nova Telecom BSS</span>
+            <span class="flex items-center gap-1 text-[10px]"><span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span><span class="text-[#10B981] font-semibold">GREEN</span></span>
+          </div>
+          <div class="flex items-center justify-between p-2 rounded bg-[#10B981]/5 border border-[#10B981]/20 hover:border-[#10B981]/60 transition cursor-pointer">
+            <span class="text-[#F1F5F9] text-xs font-medium">Quantum Mfg Data</span>
+            <span class="flex items-center gap-1 text-[10px]"><span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span><span class="text-[#10B981] font-semibold">GREEN</span></span>
+          </div>
+          <div class="flex items-center justify-between p-2 rounded bg-[#F59E0B]/5 border border-[#F59E0B]/20 hover:border-[#F59E0B]/60 transition cursor-pointer">
+            <span class="text-[#F1F5F9] text-xs font-medium">Atlas Banking Transform</span>
+            <span class="flex items-center gap-1 text-[10px]"><span class="w-1.5 h-1.5 rounded-full bg-[#F59E0B]"></span><span class="text-[#F59E0B] font-semibold">AMBER</span></span>
+          </div>
+          <div class="flex items-center justify-between p-2 rounded bg-[#F59E0B]/5 border border-[#F59E0B]/20 hover:border-[#F59E0B]/60 transition cursor-pointer">
+            <span class="text-[#F1F5F9] text-xs font-medium">Orion Insurance</span>
+            <span class="flex items-center gap-1 text-[10px]"><span class="w-1.5 h-1.5 rounded-full bg-[#F59E0B]"></span><span class="text-[#F59E0B] font-semibold">AMBER</span></span>
+          </div>
+          <div class="flex items-center justify-between p-2 rounded bg-[#F59E0B]/5 border border-[#F59E0B]/20 hover:border-[#F59E0B]/60 transition cursor-pointer">
+            <span class="text-[#F1F5F9] text-xs font-medium">Vega Energy Grid</span>
+            <span class="flex items-center gap-1 text-[10px]"><span class="w-1.5 h-1.5 rounded-full bg-[#F59E0B]"></span><span class="text-[#F59E0B] font-semibold">AMBER</span></span>
+          </div>
+          <div class="flex items-center justify-between p-2 rounded bg-[#F59E0B]/5 border border-[#F59E0B]/20 hover:border-[#F59E0B]/60 transition cursor-pointer">
+            <span class="text-[#F1F5F9] text-xs font-medium">Lyra Airlines Ops</span>
+            <span class="flex items-center gap-1 text-[10px]"><span class="w-1.5 h-1.5 rounded-full bg-[#F59E0B]"></span><span class="text-[#F59E0B] font-semibold">AMBER</span></span>
+          </div>
+          <div class="flex items-center justify-between p-2 rounded bg-[#EF4444]/5 border border-[#EF4444]/20 hover:border-[#EF4444]/60 transition cursor-pointer">
+            <span class="text-[#F1F5F9] text-xs font-medium">Phoenix Pharma Reg</span>
+            <span class="flex items-center gap-1 text-[10px]"><span class="w-1.5 h-1.5 rounded-full bg-[#EF4444]"></span><span class="text-[#EF4444] font-semibold">RED</span></span>
+          </div>
+          <div class="flex items-center justify-between p-2 rounded bg-[#EF4444]/5 border border-[#EF4444]/20 hover:border-[#EF4444]/60 transition cursor-pointer">
+            <span class="text-[#F1F5F9] text-xs font-medium">Stellar Logistics</span>
+            <span class="flex items-center gap-1 text-[10px]"><span class="w-1.5 h-1.5 rounded-full bg-[#EF4444]"></span><span class="text-[#EF4444] font-semibold">RED</span></span>
+          </div>
+          <div class="flex items-center justify-between p-2 rounded bg-[#EF4444]/10 border border-[#EF4444]/40 hover:border-[#EF4444] transition cursor-pointer">
+            <span class="text-[#F1F5F9] text-xs font-medium">Pegasus Healthcare</span>
+            <span class="flex items-center gap-1 text-[10px]"><span class="w-1.5 h-1.5 rounded-full bg-[#EF4444]"></span><span class="text-[#EF4444] font-bold">BREACH</span></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Top risks table -->
+  <section>
+    <div class="max-w-[1440px] mx-auto px-8 py-6">
+      <div class="bg-[#111827] border border-[#1F2937] rounded-lg p-5 relative">
+        <svg class="absolute top-5 right-5 w-4 h-4 text-[#64748B] hover:text-[#F5B800] cursor-pointer transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg>
+        <div class="flex items-baseline justify-between mb-1">
+          <h3 class="text-[#F1F5F9] font-semibold">Top 5 High-Severity Risks</h3>
+          <span class="text-[#64748B] text-xs">18 high severity total | 7 aging more than 30 days</span>
+        </div>
+        <p class="text-[#94A3B8] text-xs mb-4">Drill to Risk and RAID tab for full portfolio view.</p>
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-[#94A3B8] text-[10px] uppercase tracking-wider border-b border-[#1F2937]">
+              <th class="text-left pb-3 font-medium">Risk</th>
+              <th class="text-left pb-3 font-medium">Programme</th>
+              <th class="text-left pb-3 font-medium">Owner</th>
+              <th class="text-right pb-3 font-medium">Age</th>
+              <th class="text-right pb-3 font-medium">Severity</th>
+              <th class="text-right pb-3 font-medium">Mitigation due</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#1F2937]">
+            <tr class="hover:bg-[#1F2937]/30 transition cursor-pointer">
+              <td class="py-3 text-[#F1F5F9]">Compliance gap flagged by external auditor</td>
+              <td class="py-3 text-[#CBD5E1]">Phoenix Pharma Reg</td>
+              <td class="py-3 text-[#94A3B8]">Rajiv</td>
+              <td class="py-3 text-right text-[#EF4444] font-mono tabular">42 days</td>
+              <td class="py-3 text-right"><span class="px-2 py-0.5 bg-[#EF4444]/10 border border-[#EF4444]/40 rounded text-[#EF4444] text-[10px] font-semibold">CRITICAL</span></td>
+              <td class="py-3 text-right text-[#F59E0B] font-mono tabular">30 Apr</td>
+            </tr>
+            <tr class="hover:bg-[#1F2937]/30 transition cursor-pointer">
+              <td class="py-3 text-[#F1F5F9]">SLA breach triggering contractual penalty</td>
+              <td class="py-3 text-[#CBD5E1]">Pegasus Healthcare</td>
+              <td class="py-3 text-[#94A3B8]">Priya</td>
+              <td class="py-3 text-right text-[#EF4444] font-mono tabular">38 days</td>
+              <td class="py-3 text-right"><span class="px-2 py-0.5 bg-[#EF4444]/10 border border-[#EF4444]/40 rounded text-[#EF4444] text-[10px] font-semibold">CRITICAL</span></td>
+              <td class="py-3 text-right text-[#F59E0B] font-mono tabular">02 May</td>
+            </tr>
+            <tr class="hover:bg-[#1F2937]/30 transition cursor-pointer">
+              <td class="py-3 text-[#F1F5F9]">Three scope changes absorbed without pricing</td>
+              <td class="py-3 text-[#CBD5E1]">Stellar Logistics</td>
+              <td class="py-3 text-[#94A3B8]">Priya</td>
+              <td class="py-3 text-right text-[#F59E0B] font-mono tabular">21 days</td>
+              <td class="py-3 text-right"><span class="px-2 py-0.5 bg-[#EF4444]/10 border border-[#EF4444]/40 rounded text-[#EF4444] text-[10px] font-semibold">HIGH</span></td>
+              <td class="py-3 text-right text-[#F59E0B] font-mono tabular">28 Apr</td>
+            </tr>
+            <tr class="hover:bg-[#1F2937]/30 transition cursor-pointer">
+              <td class="py-3 text-[#F1F5F9]">B4 attrition replacing at lower rate impacting margin</td>
+              <td class="py-3 text-[#CBD5E1]">Orion Insurance</td>
+              <td class="py-3 text-[#94A3B8]">Meera</td>
+              <td class="py-3 text-right text-[#F59E0B] font-mono tabular">18 days</td>
+              <td class="py-3 text-right"><span class="px-2 py-0.5 bg-[#EF4444]/10 border border-[#EF4444]/40 rounded text-[#EF4444] text-[10px] font-semibold">HIGH</span></td>
+              <td class="py-3 text-right text-[#64748B] font-mono tabular">05 May</td>
+            </tr>
+            <tr class="hover:bg-[#1F2937]/30 transition cursor-pointer">
+              <td class="py-3 text-[#F1F5F9]">Three-vendor integration complexity blocking releases</td>
+              <td class="py-3 text-[#CBD5E1]">Lyra Airlines Ops</td>
+              <td class="py-3 text-[#94A3B8]">Kiran</td>
+              <td class="py-3 text-right text-[#F59E0B] font-mono tabular">14 days</td>
+              <td class="py-3 text-right"><span class="px-2 py-0.5 bg-[#EF4444]/10 border border-[#EF4444]/40 rounded text-[#EF4444] text-[10px] font-semibold">HIGH</span></td>
+              <td class="py-3 text-right text-[#64748B] font-mono tabular">07 May</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related tabs -->
+  <section>
+    <div class="max-w-[1440px] mx-auto px-8 py-6">
+      <div class="text-[#94A3B8] text-[10px] uppercase tracking-wider mb-3 font-medium">Related tabs</div>
+      <div class="flex gap-3 flex-wrap">
+        <a class="px-4 py-2 bg-[#111827] border border-[#1F2937] hover:border-[#F5B800] rounded-md text-[#F5B800] text-sm transition cursor-pointer flex items-center gap-2">
+          Delivery Health
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+        <a class="px-4 py-2 bg-[#111827] border border-[#1F2937] hover:border-[#F5B800] rounded-md text-[#F5B800] text-sm transition cursor-pointer flex items-center gap-2">
+          Risk and RAID
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+        <a class="px-4 py-2 bg-[#111827] border border-[#1F2937] hover:border-[#F5B800] rounded-md text-[#F5B800] text-sm transition cursor-pointer flex items-center gap-2">
+          Financials
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+        <a class="px-4 py-2 bg-[#111827] border border-[#1F2937] hover:border-[#F5B800] rounded-md text-[#F5B800] text-sm transition cursor-pointer flex items-center gap-2">
+          P and L Cockpit
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-[#1F2937] bg-[#111827] mt-8">
+    <div class="max-w-[1440px] mx-auto px-8 py-5 flex justify-between items-center text-[#64748B] text-xs">
+      <div>Demo data. All programmes, clients, vendors, and people in this application are fictional.</div>
+      <div>Built by Adi Kompalli | AKB1 Delivery Command Center | v0.1.0-wireframe</div>
+    </div>
+  </footer>
+
+</body>
+</html>

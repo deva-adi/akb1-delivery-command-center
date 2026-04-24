@@ -1,0 +1,54 @@
+# AKB1 Delivery Command Center v1
+# Pre-commit hook configuration
+# Install: pip install pre-commit && pre-commit install
+# Runs on every git commit. Blocks push if any hook fails.
+# Created: 2026-04-24
+
+repos:
+  # Standard file hygiene
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-added-large-files
+        args: ['--maxkb=500']
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: mixed-line-ending
+
+  # AKB1 custom quality gates
+  - repo: local
+    hooks:
+      - id: no-em-dash
+        name: Block em dash character (U+2014) in source files
+        description: Adi hard rule. Use comma, period, colon, or "and" instead.
+        entry: bash -c 'for f in "$@"; do if [ -f "$f" ] && grep -l "—" "$f" >/dev/null 2>&1; then echo "Em dash found in: $f"; exit 1; fi; done' --
+        language: system
+        types_or: [python, javascript, ts, tsx, html, markdown, yaml, json, css, text]
+        exclude: '^(\.pre-commit-config\.yaml|PROJECT_MANIFEST\.md|CLAUDE\.md|docs/state/PRE_WIREFRAME_READINESS_PLAN\.md|docs/state/DECISION_LOG\.md|docs/state/BUILD_STATE\.md|docs/state/MILESTONE_STATUS\.md|docs/architecture/00_Design_Foundations\.md)$'
+
+      - id: no-emoji
+        name: Block Unicode emojis in source files
+        description: Adi hard rule. No emojis in code or commits. Exception path docs/linkedin/ for launch copy.
+        entry: python3 -c "import sys, re; pattern = re.compile(r'[\U0001F300-\U0001FAFF\U0001F600-\U0001F64F\u2600-\u26FF\u2700-\u27BF]'); sys.exit(1 if any(pattern.search(open(f, encoding='utf-8', errors='ignore').read()) for f in sys.argv[1:]) else 0)"
+        language: system
+        types_or: [python, javascript, ts, tsx, html, yaml, json, css]
+        exclude: '^(docs/linkedin/)'
+
+  # Python linting (activated when backend code lands at M6)
+  # - repo: https://github.com/astral-sh/ruff-pre-commit
+  #   rev: v0.5.0
+  #   hooks:
+  #     - id: ruff
+  #       args: [--fix]
+  #     - id: ruff-format
+
+  # JavaScript and TypeScript linting (activated when frontend lands at M7)
+  # - repo: https://github.com/pre-commit/mirrors-eslint
+  #   rev: v9.5.0
+  #   hooks:
+  #     - id: eslint
+  #       files: \.(js|jsx|ts|tsx)$

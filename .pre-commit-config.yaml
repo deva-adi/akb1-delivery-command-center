@@ -2,7 +2,8 @@
 # Pre-commit hook configuration
 # Install: pip install pre-commit && pre-commit install
 # Runs on every git commit. Blocks push if any hook fails.
-# Created: 2026-04-24
+# Updated for slice 2.6 (M6): em-dash hook moved to scripts/check_em_dash.sh
+# with line-level workspace-path exclusion.
 
 repos:
   # Standard file hygiene
@@ -24,19 +25,34 @@ repos:
     hooks:
       - id: no-em-dash
         name: Block em dash character (U+2014) in source files
-        description: Adi hard rule. Use comma, period, colon, or "and" instead.
-        entry: bash -c 'for f in "$@"; do if [ -f "$f" ] && grep -l "—" "$f" >/dev/null 2>&1; then echo "Em dash found in: $f"; exit 1; fi; done' --
-        language: system
-        types_or: [python, javascript, ts, tsx, html, markdown, yaml, json, css, text]
-        exclude: '^(\.pre-commit-config\.yaml|PROJECT_MANIFEST\.md|CLAUDE\.md|docs/state/PRE_WIREFRAME_READINESS_PLAN\.md|docs/state/DECISION_LOG\.md|docs/state/BUILD_STATE\.md|docs/state/MILESTONE_STATUS\.md|docs/architecture/00_Design_Foundations\.md)$'
+        description: |
+          Adi hard rule. Use comma, period, colon, or "and" instead.
+          The single legitimate occurrence is the workspace path
+          'AKB1 Base [em-dash] Chief of Staff'; lines containing that
+          path are excluded by scripts/check_em_dash.sh at line level.
+        entry: scripts/check_em_dash.sh
+        language: script
+        types_or: [python, javascript, ts, tsx, html, markdown, yaml, json, css, text, shell]
 
       - id: no-emoji
         name: Block Unicode emojis in source files
         description: Adi hard rule. No emojis in code or commits. Exception path docs/linkedin/ for launch copy.
-        entry: python3 -c "import sys, re; pattern = re.compile(r'[\U0001F300-\U0001FAFF\U0001F600-\U0001F64F\u2600-\u26FF\u2700-\u27BF]'); sys.exit(1 if any(pattern.search(open(f, encoding='utf-8', errors='ignore').read()) for f in sys.argv[1:]) else 0)"
+        entry: python3 -c "import sys, re; pattern = re.compile(r'[\U0001F300-\U0001FAFF\U0001F600-\U0001F64F☀-⛿✀-➿]'); sys.exit(1 if any(pattern.search(open(f, encoding='utf-8', errors='ignore').read()) for f in sys.argv[1:]) else 0)"
         language: system
         types_or: [python, javascript, ts, tsx, html, yaml, json, css]
-        exclude: '^(docs/linkedin/)'
+        exclude: '^(docs/linkedin/|\.pre-commit-config\.yaml)'
+
+      - id: no-hardcoded-thresholds
+        name: Block hardcoded threshold literals in tab intelligence modules
+        description: |
+          Per Design Foundations R4.2 every tab intelligence rule reads
+          green / amber / red boundaries from threshold_calibration_register
+          at request time, never from a numeric literal in code. The lint
+          is a no-op until tab modules land in slice 6+.
+        entry: scripts/check_no_hardcoded_thresholds.sh
+        language: script
+        always_run: true
+        pass_filenames: false
 
   # Python linting (activated when backend code lands at M6)
   # - repo: https://github.com/astral-sh/ruff-pre-commit

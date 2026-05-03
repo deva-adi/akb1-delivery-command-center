@@ -1,0 +1,42 @@
+# AKB1 Delivery Command Center v1 - backend runtime dependencies
+# Python 3.12 or 3.14. Lock file for slice 1 (M6).
+# Install: python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+
+# Web framework
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+python-multipart==0.0.20
+
+# Data validation and settings
+pydantic==2.10.4
+pydantic-settings==2.7.1
+
+# Database (async SQLAlchemy 2 plus asyncpg)
+SQLAlchemy[asyncio]==2.0.36
+asyncpg==0.30.0
+alembic==1.14.0
+greenlet==3.1.1
+
+# Auth (JWT for M6 backend; NextAuth integration in M7)
+python-jose[cryptography]==3.3.0
+# bcrypt direct (passlib 1.7.4 incompatible with bcrypt 5.x: removed __about__).
+# Slice 3 uses cost factor 4 in tests, 12 in production via env override.
+bcrypt==5.0.0
+
+# Numerics and seeding
+numpy==2.2.1
+
+# Cache and rate-limit backing store (slice 5b)
+redis==5.2.1
+
+# Test
+pytest==8.3.4
+pytest-asyncio==0.25.2
+pytest-cov==6.0.0
+httpx==0.28.1
+schemathesis==3.39.7
+hypothesis==6.123.7
+fakeredis==2.26.1
+
+# Lint and format
+ruff==0.8.6

@@ -5,6 +5,43 @@
 
 ---
 
+## D-046 | 2026-05-04 | M7-3 Risk and RAID tab closed
+
+Context: M7-3 scope confirmed by Adi. Wireframe v1_03_Risk_RAID.html read before any code was written. Routing confirmed as nested route app/home/risk-raid/page.tsx (inherits home/layout.tsx JWT guard and nav). Trend chart confirmed as server-side weekly bucketing from raised_date. 4-column heat map approved over 3-column wireframe.
+
+Decisions recorded:
+
+1. Route as app/home/risk-raid/page.tsx nested under home/layout.tsx. URL: /home/risk-raid. Middleware already protects /home/* so no middleware change needed. HomeLayout decodes the JWT and redirects if invalid before children render. Page-level role guard (isRaidAllowed) additionally redirects HRBP and RO to /home since those roles do not have risk-raid in their scope per Data Model PRD access matrix row 3.1.10.
+
+2. Data fetch via Promise.allSettled over all 10 PROGRAMME_CODES. PO receives 10 fulfilled responses. DD/FL/PM receive fulfilled responses for their assigned programmes (up to 3 each) and rejected (403) responses for the rest; BackendError with status 403 is silently discarded in the filter. Non-403 errors produce a warning banner but do not break the page. No new "get my programmes" endpoint needed; the API access matrix already enforces scope.
+
+3. Heat map uses 4 columns (Critical, High, Medium, Low) not the 3-column wireframe (High, Medium, Low). The wireframe predates the severity enum being locked with Critical as a distinct level. The seeded data includes Critical items (5 per programme at risk-weighted rates). Acceptance gate explicitly required Critical column. Token mapping: Critical -> status-red fill (white text), High -> status-amber fill (bg-base text), Medium/Low -> neutral fills. Zero-count cells render at reduced opacity to show the matrix structure without false alarm colouring.
+
+4. Trend chart is a stacked SVG area chart rendered server-side. Weekly buckets computed via Math.floor(daysSinceEarliest / 7) using raised_date on the fetched RaidItem array. Earliest is the minimum raised_date across all visible raids. Gap weeks (no raids raised) are filled with zero buckets so the area chart is continuous. The SVG polygon points are generated from a toPoints() helper that takes forward (top) and backward (bottom) coordinate arrays per severity band.
+
+5. lib/raids.ts introduced as the single home for all pure utility functions: buildHeatMap, buildTop10, buildTrend, computeKPIs, isRaidAllowed, PROGRAMME_CODES constant. All functions are independently testable (no React, no Next.js, no fetch). This is the pattern for all subsequent tabs: utilities in lib/{tab}.ts, components in components/{Tab}*.tsx.
+
+6. Intelligence card renders real counts in the What section (kpis.openCount, kpis.highSevCount, kpis.agingCount). Why and Act sections are static content matching the wireframe tone and typical portfolio risk narrative. Full LLM-driven intelligence layer lands in M6 slice 6+ (tab intelligence engine); the static placeholder preserves the visual contract and is clearly not hardcoded thresholds (no numeric literals compared to register values).
+
+7. ownerUserId rendered as truncated UUID (first 8 chars, uppercase) in the top-10 table because the API returns UUID only; full name resolution requires a people lookup endpoint not yet implemented. "Unassigned" when owner_user_id is null. This is intentionally honest about what the current API returns. A future slice adds the lookup and replaces this display.
+
+8. noUncheckedIndexedAccess is active in tsconfig. Array index accesses in test files carry ! non-null assertions (justified by preceding toHaveLength guards). Production code uses only Array methods (.map, .filter, .find, etc.) so no ! assertions appear in non-test files.
+
+9. The RaidIntelligenceCard uses -mx-8 on the wrapping section to break out of the home/layout px-8 padding for the full-width background. The home/layout <main> has px-8 py-8; sections that need section-level backgrounds (bg-bg-surface-subtle covering the full content width) use -mx-8 px-8 to extend edge-to-edge within the 1440px constraint.
+
+10. vitest 72 of 72 green (40 prior + 32 new). tsc --noEmit clean. npm run build produces 8 routes including /home/risk-raid as a dynamic server-rendered route (ƒ).
+
+Files created:
+  frontend/lib/raids.ts
+  frontend/components/RaidHeatMap.tsx
+  frontend/components/RaidTrend.tsx
+  frontend/components/RaidTop10.tsx
+  frontend/components/RaidIntelligenceCard.tsx
+  frontend/app/home/risk-raid/page.tsx
+  frontend/tests/unit/raid-utils.test.ts
+  frontend/tests/unit/raid-heat-map.test.tsx
+  frontend/tests/unit/raid-role-guard.test.ts
+
 ## D-045 | 2026-05-03 | M7-2 programme-scoped resources; 5a-broad audit search scoping closed
 
 Context: M7-2 kickoff approved by Adi. Scope: three new DB tables (programme_raids, programme_milestones, programme_health_snapshots), three read endpoints per programme code, PM added to person_programme_assignments, and the 5a-broad TODO in audit_search.py closed.

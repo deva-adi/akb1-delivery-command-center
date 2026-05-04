@@ -10,6 +10,12 @@
                           role mismatch writes RoleDenied audit row + 403.
                           On ap_flag false writes ApFlagDenied audit row
                           + 403. Both denials are queryable by AP observers.
+  require_programme_access()  async helper called from scoped endpoints.
+                          Raises 403 when DD/FL/PM does not have an entry
+                          in person_programme_assignments for the requested
+                          programme_code. PO/HRBP/RO skip this check entirely.
+                          Not a FastAPI dependency factory; called imperatively
+                          inside the endpoint after the role gate passes.
 """
 
 from __future__ import annotations
@@ -20,6 +26,7 @@ from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import JWTError, jwt
 from pydantic import BaseModel
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import get_settings
@@ -208,3 +215,34 @@ def require_audit_access(
         return user
 
     return _enforce
+
+
+async def require_programme_access(
+    programme_code: str,
+    user: CurrentUser,
+    session: AsyncSession,
+) -> None:
+    """Assert that a scoped user (DD/FL/PM) has access to this programme.
+
+    Checks person_programme_assignments for an entry (user.user_id, programme_code).
+    Raises 403 if no matching assignment is found. PO/HRBP/RO callers bypass
+    this entirely at the endpoint level.
+
+    Not a FastAPI dependency factory. Called imperatively inside endpoints that
+    already have a session from Depends(get_session) and a user from require_role.
+    """
+    from app.models.person_programme_assignment import PersonProgrammeAssignment  # noqa: PLC0415
+
+    assignment = await session.scalar(
+        select(PersonProgrammeAssignment.programme_id).where(
+            PersonProgrammeAssignment.person_id == user.user_id,
+            PersonProgrammeAssignment.programme_id == programme_code,
+        )
+    )
+    if assignment is None:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=(
+                f"Role {user.role!r} does not have access to programme {programme_code!r}"
+            ),
+        )

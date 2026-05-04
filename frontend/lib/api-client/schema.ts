@@ -194,6 +194,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/programmes/{code}/raids": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Programme Raids */
+        get: operations["list_programme_raids_api_v1_programmes__code__raids_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/programmes/{code}/milestones": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Programme Milestones */
+        get: operations["list_programme_milestones_api_v1_programmes__code__milestones_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/programmes/{code}/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Programme Health */
+        get: operations["list_programme_health_api_v1_programmes__code__health_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -335,6 +386,13 @@ export interface components {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
+        /** HealthListResponse */
+        HealthListResponse: {
+            /** Items */
+            items: components["schemas"]["HealthSnapshotItem"][];
+            /** Count */
+            count: number;
+        };
         /** HealthResponse */
         HealthResponse: {
             /** Status */
@@ -343,6 +401,46 @@ export interface components {
             service: string;
             /** Version */
             version: string;
+        };
+        /** HealthSnapshotItem */
+        HealthSnapshotItem: {
+            /**
+             * Snapshot Id
+             * Format: uuid
+             */
+            snapshot_id: string;
+            /** Programme Code */
+            programme_code: string;
+            /**
+             * Snapshot Date
+             * Format: date
+             */
+            snapshot_date: string;
+            /**
+             * Overall Rag
+             * @enum {string}
+             */
+            overall_rag: "Red" | "Amber" | "Green" | "Watching" | "Failing";
+            /** Schedule Rag */
+            schedule_rag: ("Red" | "Amber" | "Green" | "Watching" | "Failing") | null;
+            /** Budget Rag */
+            budget_rag: ("Red" | "Amber" | "Green" | "Watching" | "Failing") | null;
+            /** Resources Rag */
+            resources_rag: ("Red" | "Amber" | "Green" | "Watching" | "Failing") | null;
+            /** Risks Rag */
+            risks_rag: ("Red" | "Amber" | "Green" | "Watching" | "Failing") | null;
+            /** Commentary */
+            commentary: string | null;
+            /**
+             * Captured By User Id
+             * Format: uuid
+             */
+            captured_by_user_id: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
         };
         /**
          * LoginRequest
@@ -379,6 +477,104 @@ export interface components {
             role: string;
             /** Ap Flag */
             ap_flag: boolean;
+        };
+        /** MilestoneItem */
+        MilestoneItem: {
+            /**
+             * Milestone Id
+             * Format: uuid
+             */
+            milestone_id: string;
+            /** Programme Code */
+            programme_code: string;
+            /** Title */
+            title: string;
+            /** Baseline Date */
+            baseline_date: string | null;
+            /**
+             * Due Date
+             * Format: date
+             */
+            due_date: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "On Track" | "At Risk" | "Delayed" | "Complete";
+            /** Completion Pct */
+            completion_pct: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** MilestoneListResponse */
+        MilestoneListResponse: {
+            /** Items */
+            items: components["schemas"]["MilestoneItem"][];
+            /** Count */
+            count: number;
+        };
+        /** RAIDItem */
+        RAIDItem: {
+            /**
+             * Raid Id
+             * Format: uuid
+             */
+            raid_id: string;
+            /** Programme Code */
+            programme_code: string;
+            /**
+             * Raid Type
+             * @enum {string}
+             */
+            raid_type: "Risk" | "Assumption" | "Issue" | "Dependency";
+            /** Title */
+            title: string;
+            /** Description */
+            description: string | null;
+            /**
+             * Severity
+             * @enum {string}
+             */
+            severity: "Critical" | "High" | "Medium" | "Low";
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "Open" | "Escalated" | "Mitigated" | "Accepted" | "Closed";
+            /** Owner User Id */
+            owner_user_id: string | null;
+            /** Mitigation Date */
+            mitigation_date: string | null;
+            /**
+             * Raised Date
+             * Format: date
+             */
+            raised_date: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** RAIDListResponse */
+        RAIDListResponse: {
+            /** Items */
+            items: components["schemas"]["RAIDItem"][];
+            /** Count */
+            count: number;
         };
         /**
          * ThresholdRegisterList
@@ -741,6 +937,102 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AuditEntryDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_programme_raids_api_v1_programmes__code__raids_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Programme code, e.g. PEGASUS */
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RAIDListResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_programme_milestones_api_v1_programmes__code__milestones_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Programme code, e.g. PEGASUS */
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MilestoneListResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_programme_health_api_v1_programmes__code__health_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Programme code, e.g. PEGASUS */
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HealthListResponse"];
                 };
             };
             /** @description Validation Error */

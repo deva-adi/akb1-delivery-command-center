@@ -5,6 +5,64 @@
 
 ---
 
+## D-045 | 2026-05-03 | M7-2 programme-scoped resources; 5a-broad audit search scoping closed
+
+Context: M7-2 kickoff approved by Adi. Scope: three new DB tables (programme_raids, programme_milestones, programme_health_snapshots), three read endpoints per programme code, PM added to person_programme_assignments, and the 5a-broad TODO in audit_search.py closed.
+
+Decisions recorded:
+
+1. Role gate for GET /programmes/{code}/raids|milestones|health: PO/HRBP/RO unrestricted (no ownership filter); DD/FL/PM scoped to person_programme_assignments. All six roles allowed by require_role at the HTTP layer; scoped roles pass through require_programme_access as an imperative async call rather than a FastAPI Depends factory. Rationale: the scope check needs the programme_code from the URL path AND the session from Depends(get_session) -- wiring both into a single Depends factory would require a closure that makes testing awkward. Calling the helper imperatively inside the endpoint body, after both are available, is simpler and directly testable.
+
+2. PM added to person_programme_assignments in the seed (slice M7-2). Each of the 10 PMs gets one row: (pm_user_ids[i], PROGRAMMES[i][0], SEED_TIMESTAMP). This aligns PM with the same require_programme_access code path as DD/FL. Prior seed had PMs cross-linked via people.programme_id only; that column remains (for downstream PM-scoped queries that reference a single programme), but the join table now also backs the endpoint access check. Total person_programme_assignments rows: 25 (15 DD/FL from slice 5a + 10 PM from M7-2). Seed SHA-256 updated to 338ee06b723de32d78684b4b1c8c49c9ee5aec8687487d61c3f2c1cbcbfe24e9.
+
+3. programme_raids FK to programmes(programme_code) ON DELETE CASCADE. Same pattern as person_programme_assignments (006) which uses the UNIQUE VARCHAR(32) natural key not the UUID PK. Consistent with the 006 naming note: the column is named programme_code not programme_id to avoid the 006 confusion. programme_health_snapshots follows the same FK pattern. UNIQUE(programme_code, snapshot_date) prevents duplicate snapshots per programme per day.
+
+4. health_snapshot RAG enum: Red/Amber/Green/Watching/Failing, matching the existing health_state column on programmes. Not narrowed to standard RAG (Red/Amber/Green only) so that the snapshot timeline for a programme with a Failing health_state can record its current state accurately without a data transformation.
+
+5. require_programme_access is an async function, not a FastAPI Depends factory. It takes (programme_code, user, session) as positional args and raises 403 directly. The caller (endpoint function) holds session via Depends(get_session) and user via Depends(require_role), so both are available. This is consistent with the write_audit_entry pattern from services/audit.py (also called imperatively).
+
+6. 5a-broad audit search extension: removed both TODO comment blocks from audit_search.py (module docstring and inline comment in search_audit_entries). Added three OR branches to the DD/FL AP=true scope filter: one per programme-scoped resource type (programme_raid, programme_milestone, programme_health_snapshot). Each branch uses a single-level scalar_subquery on the resource table WHERE programme_code.in_(caller_programmes). caller_programmes is the same scalar_subquery already computed for the 5a-narrow actor filter, reused without re-executing. The resulting SQL: WHERE actor_user_id IN (people-in-caller-progs) OR (resource_type = X AND resource_id IN (resource-ids-for-caller-progs)). Three OR branches for three resource types.
+
+7. Seed RAID distribution: 15 per programme; type cycles deterministically (Risk 5, Assumption 4, Issue 4, Dependency 2) without consuming rng so the severity/status draws stay stable across any future type count change. Status biased by health: Red/Failing programmes see 70 percent open/escalated, Amber/Watching 50 percent, Green 30 percent.
+
+8. Seed milestone distribution: 20 per programme; due_date drawn from rng over [-90, +270] days from SEED_TIMESTAMP (mix of past and future). completion_pct derived from status: Complete=100, Delayed=20-70, At Risk=30-80, On Track=elapsed/total capped at 95.
+
+9. Seed health snapshot distribution: 4 per programme at months -3/-2/-1/0 from SEED_TIMESTAMP (day 1 of each month, 30-day step). overall_rag mirrors programme.health_state; four sub-RAGs (schedule, budget, resources, risks) all set to a single rng draw per snapshot for simplicity. Commentary is a fixed string per snapshot. UNIQUE(programme_code, snapshot_date) constraint would block duplicate dates; the month-step spacing ensures no collisions.
+
+10. OpenAPI regen triggered by three new endpoints. frontend/openapi.json replaced with the new spec dump; frontend/lib/api-client/schema.ts regenerated via openapi-typescript 7.4.1. Both files committed. CI --check mode now validates against the new spec.
+
+11. test_seed_determinism.py updated: test_seed_row_counts now asserts 25 person_programme_assignments, 150 programme_raids, 200 programme_milestones, 40 programme_health_snapshots. The two-run byte-identicality test (test_seed_byte_identical) continues to pass without hardcoded hash.
+
+Files created or modified:
+NEW (backend/):
+  alembic/versions/007_programme_raids.py
+  alembic/versions/008_programme_milestones.py
+  alembic/versions/009_programme_health_snapshots.py
+  app/models/programme_raid.py
+  app/models/programme_milestone.py
+  app/models/programme_health_snapshot.py
+  app/schemas/programmes.py
+  app/services/programme_raids.py
+  app/services/programme_milestones.py
+  app/services/programme_health.py
+  app/api/v1/programmes.py
+  tests/integration/test_programme_raids.py
+  tests/integration/test_programme_milestones.py
+  tests/integration/test_programme_health.py
+  tests/integration/test_audit_search_5a_broad.py
+MODIFIED (backend/):
+  app/models/__init__.py (three new model imports)
+  app/auth/dependencies.py (require_programme_access added + select import)
+  app/main.py (programmes_router wired)
+  app/seed/generator.py (PM assignments + 3 new seed sections + compute_seed_hash extended)
+  app/services/audit_search.py (5a-broad TODO removed; DD/FL OR filter extended)
+  tests/integration/test_seed_determinism.py (new count assertions)
+MODIFIED (frontend/):
+  openapi.json (regenerated)
+  lib/api-client/schema.ts (regenerated)
+
+Migrations applied: 001 through 009 (head: 009_programme_health_snapshots).
+
 ## D-044 | 2026-05-01 | M7 frontend scaffold closed; foolproof first vertical (shell, login, role nav, role-aware tier card)
 
 Context: Slice 5c (D-043) closed the audit console MVP and unblocked frontend kickoff. Adi approved the M7 scaffold scope plus four open-question rulings before any code was written. Scope is intentionally narrow: zero real tab pages; ship the smallest end-to-end stack that proves login, role-resolution, role-scoped nav, JWT cookie handling, CSRF round-trip, OpenAPI codegen, and one authenticated read against one live backend endpoint. 40 of 40 vitest tests green plus end-to-end smoke against live backend (db + redis + uvicorn + npm run dev) confirms all seven acceptance gate items. Backend pytest baseline 171 of 171 unchanged (frontend scaffold did not touch backend code).

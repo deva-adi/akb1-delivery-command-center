@@ -1,678 +1,333 @@
 # 00_Design_Foundations.md
-### AKB1 Delivery Command Center v1 | Design DNA for all 16 wireframes and v1 production build | Author: Claude | Created: 2026-04-24
+### AKB1 Delivery Command Center v1 | Design DNA | Revision 4 | Updated: 2026-04-25
 
-> The single document that locks every design decision before the first wireframe is authored. Every wireframe inherits from this file. Every PRD references it. Every React component in M7 maps back to it. If something is not in this document, it is not in the product.
+> Revision 4 extends the design DNA to cover the 51 new data entities, 3 new primary tabs (Governance Operating Model, Capability and Supply Chain, AI Governance), 3 cross-cutting surfaces (Audit Trail Explorer, Board Pack export variant, First 90 Days Onboarding), the expanded role taxonomy (Delivery Director, HR Business Partner, Audit Permission flag), and the 60-metric threshold calibration register. Two additional locked Hub phrases added. Revision 3 content preserved verbatim below.
+>
+> Revision 3 aligned voice and positioning with the AKB1 LinkedIn Hub content. "Governance is a revenue lever" framing locked into product copy. "Amber equals steering" framing applied to intelligence layer voice samples. New voice samples added for Decision Velocity, Bus Factor, Scope Debt, and Value Realisation metrics. Replaced revision 2.
 
 ---
 
 ## Part 1: Visual system
 
----
+### 1. Colour palette (Option D Executive Mid, locked D-018)
 
-## 1. Colour palette
+Unchanged from revision 2. `bg-primary #242D3D`, `bg-surface #2E3849`, `bg-surface-elevated #3A4454`, `bg-surface-subtle #2A3446`, `border-default #3A4454`, `border-strong #4A5568`, `text-primary #F1F5F9`, `text-secondary #CBD5E1`, `text-muted #A0AEC0`, `text-subtle #718096`, `accent-gold #F5B800`, `status-green #10B981`, `status-amber #F59E0B`, `status-red #EF4444`.
 
-Reused from v5.8 AKB1 with explicit hex values locked. Dark navy primary, gold accent, traffic-light status colours.
+### 2. Typography, spacing, grid, icons, charts
 
-### 1.1 Base and surface
-
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `bg-primary` | `#0B1220` | Page background |
-| `bg-surface` | `#111827` | Card background |
-| `bg-surface-elevated` | `#1F2937` | Modal, popover, elevated panel |
-| `bg-surface-subtle` | `#0F172A` | Section background inside cards |
-| `border-default` | `#1F2937` | Card border, divider |
-| `border-strong` | `#334155` | Focus ring, strong divider |
-
-### 1.2 Text
-
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `text-primary` | `#F1F5F9` | Headlines, KPI numerics |
-| `text-secondary` | `#CBD5E1` | Body text, labels |
-| `text-muted` | `#94A3B8` | Secondary labels, help text |
-| `text-subtle` | `#64748B` | Tertiary annotations |
-
-### 1.3 Accent (gold)
-
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `accent-gold` | `#F5B800` | Primary accent, brand mark, CTA |
-| `accent-gold-hover` | `#FFCA40` | Hover state |
-| `accent-gold-muted` | `#78350F` | Background tint |
-
-### 1.4 Status (traffic lights)
-
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `status-green` | `#10B981` | Healthy, on track, within target |
-| `status-amber` | `#F59E0B` | Watchful, approaching threshold |
-| `status-red` | `#EF4444` | At risk, breach, critical |
-| `status-blue` | `#3B82F6` | Informational, neutral callout |
-| `status-purple` | `#8B5CF6` | New, emerging, experimental |
-
-### 1.5 Chart palette (categorical)
-
-For Recharts series colours. Six hues, accessibility-checked against dark background.
-
-| Slot | Hex | Use for |
-|------|-----|---------|
-| `chart-1` | `#60A5FA` | Primary series |
-| `chart-2` | `#F5B800` | Secondary series |
-| `chart-3` | `#10B981` | Tertiary, healthy |
-| `chart-4` | `#F87171` | Alert, loss |
-| `chart-5` | `#A78BFA` | Category 4 |
-| `chart-6` | `#34D399` | Category 5 |
-
-### 1.6 Accessibility contrast summary
-
-All foreground and background combinations above meet WCAG AA for normal text (4.5:1). Bold and large text combinations hit AAA (7:1). Status colours against `bg-surface` all clear 4.5:1.
-
----
-
-## 2. Typography
-
-### 2.1 Font stack
-
-| Role | Family | Licence |
-|------|--------|---------|
-| UI and body | Inter | Open Font Licence, free for commercial and open source |
-| Numeric display | Inter with `font-feature-settings: "tnum"` (tabular numerals) | Same |
-| Monospace | JetBrains Mono | Apache 2.0 |
-
-Fallback: `-apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`.
-
-### 2.2 Type scale
-
-| Role | Size | Line height | Weight |
-|------|------|-------------|--------|
-| Display | 40px | 48px | 700 |
-| H1 | 32px | 40px | 700 |
-| H2 | 24px | 32px | 600 |
-| H3 | 20px | 28px | 600 |
-| Body large | 16px | 24px | 400 |
-| Body | 14px | 20px | 400 |
-| Small | 12px | 16px | 500 |
-| Micro | 11px | 14px | 500 |
-| KPI numeric | 36px | 40px | 600, tabular numerals |
-
-### 2.3 Weights
-
-400 regular, 500 medium, 600 semibold, 700 bold. No 300 or 800.
-
----
-
-## 3. Spacing, grid, radius, shadow
-
-### 3.1 Spacing scale (4-point base)
-
-`4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96`. Tailwind equivalents `1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24`.
-
-### 3.2 Grid
-
-12-column responsive grid. Gutter 24px. Container max-width 1440px. Page padding 32px on desktop, 16px on mobile.
-
-### 3.3 Breakpoints
-
-| Name | Width | Typical device |
-|------|-------|---------------|
-| sm | 640 | Small tablet |
-| md | 768 | Tablet |
-| lg | 1024 | Small desktop |
-| xl | 1280 | Desktop |
-| 2xl | 1536 | Large desktop |
-
-Primary target: lg and xl. Dashboard does not run on phone.
-
-### 3.4 Border radius
-
-| Token | Size | Usage |
-|-------|------|-------|
-| `radius-sm` | 4px | Buttons, chips |
-| `radius-md` | 8px | Cards, inputs |
-| `radius-lg` | 12px | Large cards, popovers |
-| `radius-xl` | 16px | Modals, drawers |
-
-### 3.5 Shadow
-
-Subtle elevation. Cards do not float heavily.
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `shadow-sm` | `0 1px 2px rgba(0, 0, 0, 0.3)` | Card default |
-| `shadow-md` | `0 4px 8px rgba(0, 0, 0, 0.4)` | Hover, active card |
-| `shadow-lg` | `0 12px 24px rgba(0, 0, 0, 0.5)` | Modal, drawer, dropdown |
-
----
-
-## 4. Icon and chart libraries
-
-| Library | Choice | Rationale |
-|---------|--------|-----------|
-| Icons | Lucide React 0.383 | v5.8 continuity, open licence, tree-shakable, 1000+ icons, consistent 24px grid |
-| Charts | Recharts 2.x | v5.8 continuity, React-native, composable, Tailwind-friendly, good animation defaults |
-| Motion (optional) | Framer Motion (M7) | For drill panel slide-in and chart animations |
-
-Icon sizes: `16px` (inline), `20px` (button), `24px` (card header), `32px` (hero).
+Unchanged. Inter, JetBrains Mono, 4pt spacing, 12-column grid, Lucide, Recharts.
 
 ---
 
 ## Part 2: Component patterns
 
----
+### 5. Core components
 
-## 5. Core components
+Unchanged from revision 2. Card, filter bar, role-scoped 5-tab nav, intelligence layer, drill affordance, role badge, status chip, empty state, error state, search palette, notifications bell, exports, as-of date picker.
 
-Every component follows the design system locked above. Specific behaviour and variants below.
+### 5.4 Intelligence layer (voice revised, D-019)
 
-### 5.1 Card
-
-Container for a single logical unit of information on a tab.
-
-Structure: header row (title, icon, status chip, drill handle), body (KPI or chart or list), optional footer (action link, last-updated timestamp).
-
-Padding: 20px. Radius: `radius-md`. Background: `bg-surface`. Border: 1px solid `border-default`. Shadow: `shadow-sm`.
-
-Variants: standard, compact (12px padding), hero (32px padding), inline (no border, no shadow, for grid cells).
-
-### 5.2 Filter bar
-
-Horizontal strip above every tab. Left-aligned filters, right-aligned role badge.
-
-Standard filters, from left to right:
-Geo (dropdown, multi-select), Programme (dropdown, multi-select), Time Window (segmented control: MTD, QTD, YTD, Rolling 12M), Role View (read-only indicator).
-
-State: global. Changing a filter on one tab propagates to all tabs via Redux or Zustand.
-
-Sticky at top: yes. Background: `bg-surface`. Height: 56px.
-
-### 5.3 Tab navigation
-
-Horizontal top bar grouped into three clusters, locked by role.
-
-Group 1 Leadership: Executive, Delivery Health, Risk and RAID, Workforce, Financials, P and L Cockpit.
-Group 2 Operations: Flow and Velocity, AI and Innovation, Commercial Pipeline, Backlog Health, Scenario Planner, Ops and SLA.
-Group 3 Deep Dive (new tabs): Multi-Vendor Scorecard, Change Impact, Client Health Radar.
-
-Visual: three cluster labels above the tabs, gold accent on the active tab, muted on inactive, hidden on role-gated tabs.
-
-Height: 48px. Placement: below filter bar.
-
-### 5.4 Intelligence layer (the core value prop)
-
-Three-column strip rendered at the top of every tab, beneath the filter bar, above the first card grid.
-
-Column 1 What does this tell me: headline size H3 in `accent-gold`, body size body in `text-secondary`, max 3 sentences descriptive.
-
-Column 2 Why is this happening: headline size H3 in `accent-gold`, body is a numbered list of 3 drivers, each with a contribution percentage in `text-primary` and a one-line explanation in `text-secondary`.
-
-Column 3 What do I do this week: headline size H3 in `accent-gold`, body is 3 action cards stacked, each showing verb, owner, and deadline. Verb in `text-primary`, owner as avatar chip, deadline as small text in `status-amber` if within 3 days.
-
-Height: 240px min, auto-expand. Padding 24px per column. Dividers between columns 1px `border-default`.
-
-Copy voice: Adi executive tone. Direct, no fluff, industry vocabulary, specific names and numbers.
-
-### 5.5 Drill affordance
-
-Every drillable element (KPI, card, chart series, table row) has a drill handle.
-
-Visual: right-arrow Lucide icon (`ArrowUpRight`) in the top-right corner of the element, 16px, `text-muted` by default, `accent-gold` on hover.
-
-Interaction: click opens the drill panel as a right-side slide-in drawer. Drawer width 40 percent of viewport, max 720px. Breadcrumbs at top of drawer show the drill path.
-
-Drill paths defined per tab in each tab PRD. Example: Executive summary KPI (portfolio margin) drills to Financials tab margin waterfall, then drills to a specific programme, then drills to a specific month, then drills to a specific leakage driver.
-
-### 5.6 Role badge
-
-Top-right of filter bar. Shows which role the current user is viewing as.
-
-Format: colour-coded chip with role name. Portfolio Owner in `accent-gold`. Programme Manager in `status-blue`. Finance Lead in `status-purple`. Read Only in `text-muted`.
-
-Click opens role switcher (in demo, switches the view). Production locks this to actual role.
-
-### 5.7 Status chip
-
-Inline badge used anywhere a single-value status is shown.
-
-Format: 6px dot in status colour, plus word in `text-primary`. "Green", "Amber", "Red", "Breach", "New", "On track", "At risk".
-
-Size: small by default (height 20px, padding 4px 8px).
-
-### 5.8 Empty state
-
-Shown when a tab has no data for the current filter combination.
-
-Visual: centred, max-width 480px. Lucide icon `FolderOpen` 48px `text-muted` at top. Headline H3 `text-secondary`. Two sentence body `text-muted`. Single button in `accent-gold` with action label.
-
-### 5.9 Error state
-
-Shown when a data fetch fails.
-
-Visual: similar to empty state, icon `AlertTriangle` in `status-red`. Headline in `status-red`. Body explains the error and offers retry.
+Three-column What Why Act strip unchanged. Content contract unchanged. **Voice now aligned to Hub framing** per section 11 revision 3.
 
 ---
 
-## Part 3: Data foundations (canonical seed)
+## Part 3: Data foundations
+
+Unchanged from revision 2 plus the seven new entities per Data Model PRD revision 3 (team sustainability, scope debt, value realisation, estimation baselines, AI defect attribution, vendor rationalisation queue, QBR records).
 
 ---
 
-## 6. Ten programme seed table
+## Part 4: Language and voice (revision 3, Hub-aligned)
 
-All names fictional, public-safe. No resemblance to any real client or engagement.
+### 11. Intelligence layer voice samples
 
-| # | Programme name | Client (fictional) | Geo | TCV (USD M) | Contract type | Start | End | State | Why this state |
-|---|----------------|--------------------|-----|-------------|---------------|-------|-----|-------|-----------------|
-| 1 | Atlas Banking Transform | Helvetia BNK | EU plus India | 42 | Outcome | 2024-06 | 2027-05 | Amber | Two senior attritions this quarter, pyramid integrity at risk |
-| 2 | Helix Retail OMS | Nordweave Stores | Nordics plus India | 28 | Time and Materials | 2024-09 | 2026-08 | Green | On track, 104 percent billable utilisation, CSAT 4.7 |
-| 3 | Pegasus Healthcare Cloud | Meridian Health Group | US plus India | 55 | Fixed Price | 2024-03 | 2026-12 | Breach | SLA missed three months, credit exposure 380K |
-| 4 | Orion Insurance Modernization | Sentinel Mutual | US plus India | 38 | Outcome | 2024-11 | 2027-10 | Amber | Scope expansion absorbed, margin down 2.4 points |
-| 5 | Nova Telecom BSS | Aurora Mobile | APAC plus India | 22 | Time and Materials | 2025-01 | 2026-09 | Green | Ahead of plan, margin 28 percent, client NPS 62 |
-| 6 | Quantum Manufacturing Data Platform | Ironbridge Industries | EU plus India | 18 | Fixed Price | 2024-08 | 2026-06 | Green | Tracking to plan, zero RAID items above amber |
-| 7 | Vega Energy Grid Analytics | Aurora Utilities | EU plus India | 32 | Outcome | 2024-07 | 2027-03 | Amber | Regulatory scope addition pending re-pricing |
-| 8 | Lyra Airlines Ops Digitization | Skybridge Airways | EU plus APAC plus India | 24 | Time and Materials | 2025-03 | 2026-10 | Amber | Three-vendor integration complexity, two open high risks |
-| 9 | Phoenix Pharma Regulatory Cloud | Caelum Pharma | US plus EU plus India | 48 | Outcome | 2024-04 | 2027-06 | Red | Auditor flagged compliance gap, deadline in 45 days |
-| 10 | Stellar Logistics Visibility | Globestride Cargo | Global plus India | 30 | Time and Materials | 2025-02 | 2026-11 | Red | Absorbed 3 scope changes without price adjustment, margin down 4.2 points |
+Revised to match Hub framing. Five samples covering Executive, Delivery Health, P and L Cockpit (retained from rev 2) plus two new samples for gap-closure metrics.
 
-Distribution check against D-010 mixed signal narrative: 3 green, 4 amber, 2 red at risk, 1 in active breach. Confirmed.
-
-Total TCV: 337 M USD. Portfolio blended margin target: 21 percent. Current actual: 19.2 percent.
-
----
-
-## 7. 300-person pyramid
-
-Standard IT services pyramid.
-
-### 7.1 Band distribution
-
-| Band | Level | Count | Percent | Typical blended rate USD per hour |
-|------|-------|-------|---------|-----------------------------------|
-| B5 | Principal / Architect | 9 | 3.0 | 180 |
-| B4 | Senior Manager / Senior Architect | 21 | 7.0 | 130 |
-| B3 | Manager / Tech Lead | 45 | 15.0 | 95 |
-| B2 | Senior Engineer / Senior Consultant | 90 | 30.0 | 65 |
-| B1 | Engineer / Consultant | 135 | 45.0 | 40 |
-| **Total** | | **300** | **100.0** | **Blended 58** |
-
-### 7.2 Geo distribution
-
-| Geo | Count | Percent |
-|-----|-------|---------|
-| India | 210 | 70.0 |
-| US | 45 | 15.0 |
-| EU | 30 | 10.0 |
-| APAC | 15 | 5.0 |
-
-### 7.3 Role family distribution
-
-| Family | Count | Percent |
-|--------|-------|---------|
-| Engineering (Dev, SRE, DevOps) | 165 | 55.0 |
-| Data and analytics | 45 | 15.0 |
-| Quality and testing | 30 | 10.0 |
-| Delivery (PM, SM, Lead) | 30 | 10.0 |
-| Architecture | 15 | 5.0 |
-| Business analyst and product | 15 | 5.0 |
-
-### 7.4 Allocation distribution
-
-| Status | Count | Percent |
-|--------|-------|---------|
-| Fully allocated to one programme | 210 | 70.0 |
-| Split across two programmes | 54 | 18.0 |
-| Bench (available) | 30 | 10.0 |
-| On leave or LOA | 6 | 2.0 |
-
-### 7.5 Attrition rolling 12 months
-
-Annualised attrition: 14.2 percent. Regretted: 9.1 percent. Voluntary non-regretted: 3.8 percent. Involuntary: 1.3 percent.
-
-Hotspots: B2 Senior Engineer attrition at 18.4 percent (above portfolio average). India geo attrition at 16.1 percent.
-
----
-
-## 8. Twenty-five vendor seed
-
-Fictional partner firms. Used in Multi-Vendor Scorecard tab.
-
-| # | Vendor | Type | Count of active programmes |
-|---|--------|------|----------------------------|
-| 1 | Altair Systems | Platform | 3 |
-| 2 | Axiomata | Boutique consulting | 2 |
-| 3 | BlueHelm Consulting | Strategy plus delivery | 4 |
-| 4 | Brightforge Labs | Niche engineering | 2 |
-| 5 | Cantata Digital | Design plus digital | 1 |
-| 6 | Ceruleo Tech | Data platform | 3 |
-| 7 | Draco Solutions | Offshore delivery | 5 |
-| 8 | Elytra Services | Managed services | 2 |
-| 9 | Finch Software | Product vendor | 1 |
-| 10 | Glassio | SaaS platform | 2 |
-| 11 | Halcyon Stack | DevOps and SRE | 2 |
-| 12 | Ironclad Engineering | Niche integration | 1 |
-| 13 | Kestrel Data | Analytics | 2 |
-| 14 | Luminare | UX and research | 1 |
-| 15 | Mistral Labs | AI and ML | 1 |
-| 16 | Northwind Engineering | Staff augmentation | 4 |
-| 17 | Oakstream | Security specialist | 1 |
-| 18 | Plexus Works | Integration platform | 2 |
-| 19 | Quartermaster IT | Infrastructure | 2 |
-| 20 | Redpath Services | Managed operations | 3 |
-| 21 | Stellaris Networks | Networking and cloud | 1 |
-| 22 | Tarmigan Systems | Banking vertical SME | 1 |
-| 23 | Vantara Stack | Cloud native | 2 |
-| 24 | Vireo Cloud | Hyperscaler reseller | 1 |
-| 25 | Zenith Delivery | Global delivery partner | 4 |
-
-Each vendor carries performance scores on delivery, quality, SLA adherence, and cost. Distribution matches programme states.
-
----
-
-## 9. Twelve-month financial shape template
-
-### 9.1 Portfolio level monthly shape
-
-| Month (rolling) | Revenue booked (USD M) | Revenue billed (USD M) | Revenue collected (USD M) | Direct cost (USD M) | Indirect cost (USD M) | Gross margin percent | Net margin percent |
-|-----------------|------------------------|------------------------|---------------------------|---------------------|----------------------|----------------------|--------------------|
-| M-11 | 28.1 | 26.8 | 24.9 | 20.5 | 3.2 | 23.8 | 16.4 |
-| M-10 | 28.6 | 27.1 | 25.3 | 20.8 | 3.2 | 23.7 | 16.3 |
-| M-9 | 29.2 | 27.6 | 25.9 | 21.3 | 3.3 | 23.6 | 16.2 |
-| M-8 | 29.7 | 28.2 | 26.4 | 21.7 | 3.3 | 23.5 | 16.1 |
-| M-7 | 30.1 | 28.5 | 26.8 | 22.1 | 3.3 | 23.3 | 15.9 |
-| M-6 | 30.4 | 28.8 | 27.1 | 22.5 | 3.4 | 22.9 | 15.7 |
-| M-5 | 30.6 | 29.0 | 27.4 | 22.9 | 3.4 | 22.4 | 15.3 |
-| M-4 | 30.8 | 29.2 | 27.6 | 23.3 | 3.5 | 21.8 | 14.9 |
-| M-3 | 30.9 | 29.4 | 27.8 | 23.7 | 3.5 | 21.1 | 14.4 |
-| M-2 | 31.0 | 29.5 | 28.0 | 24.1 | 3.5 | 20.3 | 13.9 |
-| M-1 | 31.1 | 29.6 | 28.2 | 24.4 | 3.6 | 19.6 | 13.5 |
-| M (current) | 31.2 | 29.7 | 28.3 | 24.6 | 3.6 | 19.2 | 13.2 |
-
-Narrative: portfolio revenue growing slowly. Costs rising faster. Gross margin compressing from 23.8 to 19.2 over 12 months. This is the story the intelligence layer narrates on the Executive and Financials tabs.
-
-### 9.2 Programme level shape
-
-Each programme gets its own 12-month shape, proportional to its TCV and state. Green programmes show stable margin. Amber programmes show declining margin. Red and breach programmes show sharp decline in the last 3 months.
-
-Full per-programme shapes will be generated by the seed generator at M6. The shape rule: `margin(m) = base_margin + state_delta(m)`, where base_margin is derived from TCV and contract type, and state_delta reflects the programme's current state.
-
----
-
-## 10. Distributions for RAID, SLA, change requests, client health
-
-### 10.1 RAID distribution
-
-Portfolio total open RAID items: 150.
-
-| Severity | Open count | Aging more than 30 days |
-|----------|-----------|-------------------------|
-| High | 18 | 7 |
-| Medium | 54 | 22 |
-| Low | 78 | 30 |
-
-By programme, the 3 red and breach programmes (Pegasus, Phoenix, Stellar) carry 42 percent of the high-severity risks.
-
-### 10.2 SLA state
-
-Portfolio tracks 60 SLA metrics across 10 programmes.
-
-| Status | Count | Percent |
-|--------|-------|---------|
-| Green (within target, last 3 months) | 38 | 63.3 |
-| Amber (threshold breached once) | 14 | 23.3 |
-| Red (threshold breached twice) | 5 | 8.3 |
-| Breach (threshold breached 3 plus, penalty triggered) | 3 | 5.0 |
-
-All 3 breach entries belong to Pegasus Healthcare programme. Total penalty exposure: 380K USD.
-
-### 10.3 Change request distribution
-
-Portfolio has 100 change requests over 12 months.
-
-| Category | Count | Margin impact USD K |
-|----------|-------|---------------------|
-| Approved and repriced | 62 | Positive 1240 |
-| Approved without price adjustment | 18 | Negative 520 |
-| Pending approval | 12 | n/a |
-| Rejected | 8 | n/a |
-
-The 18 unpriced approvals surface on the Change Impact tab as the "scope creep eating margin silently" story.
-
-### 10.4 Client health signals
-
-Portfolio tracks four proxy signals per programme: escalations, missed executive meetings, ticket age trend, NPS last measured.
-
-| Programme | Escalations (last 90 days) | Missed exec meetings | Ticket age trend | NPS last measured |
-|-----------|----------------------------|---------------------|------------------|-------------------|
-| Atlas Banking Transform | 2 | 0 | Flat | 58 |
-| Helix Retail OMS | 0 | 0 | Improving | 67 |
-| Pegasus Healthcare Cloud | 7 | 2 | Worsening | 41 |
-| Orion Insurance Modernization | 3 | 1 | Worsening | 52 |
-| Nova Telecom BSS | 0 | 0 | Flat | 62 |
-| Quantum Manufacturing Data Platform | 1 | 0 | Flat | 64 |
-| Vega Energy Grid Analytics | 2 | 0 | Flat | 55 |
-| Lyra Airlines Ops Digitization | 3 | 1 | Worsening | 49 |
-| Phoenix Pharma Regulatory Cloud | 5 | 2 | Worsening | 44 |
-| Stellar Logistics Visibility | 4 | 1 | Worsening | 47 |
-
-Client Health Radar tab converts these four signals into a composite health score and flags programmes where the composite drops below threshold.
-
----
-
-## Part 4: Language and voice
-
----
-
-## 11. Intelligence layer voice samples
-
-Three worked examples, one per tab type, written in Adi executive tone. These set the voice for all remaining tabs.
-
-### 11.1 Sample: Executive Overview tab
+#### 11.1 Executive Overview (Hub-aligned)
 
 **What does this tell me**
-Portfolio margin held at 19.2 percent this month against a 21 percent target. Three programmes are dragging the blended average. Utilisation is stable at 82 percent, but the billable mix is softening.
+Portfolio gross margin held at 19.2 percent, down 60 basis points from last month. We saw this moving into amber three weeks ago and we are steering. Three programmes dragging the blend. Decision latency at 9 days against a 2-day target is the single largest unlocked margin lever.
 
 **Why is this happening**
-1. Pegasus Healthcare slipped a milestone this month and pushed revenue recognition by four weeks. Contribution to variance: 42 percent.
-2. Orion Insurance replaced two B4 Senior Managers at a lower blended rate after attrition. Contribution to variance: 31 percent.
-3. Stellar Logistics absorbed a scope expansion without a price adjustment. Contribution to variance: 27 percent.
+1. 42 percent. Pegasus milestone slip pushed revenue recognition by 4 weeks. Steerco has been sitting on the recovery decision for 11 days.
+2. 31 percent. Orion replaced two B4 Senior Managers at lower blended rates. Replacement plan approved but the hire decision pending for 7 days.
+3. 27 percent. Stellar absorbed a scope expansion without price adjustment. CR reprice decision pending for 14 days, past SLA.
 
 **What do I do this week**
-1. Escalate the Pegasus milestone slip in the Thursday client steerco. Owner: Rajiv. Deadline: 2026-04-30.
-2. Reprice the Stellar scope expansion and recover the margin. Owner: Priya. Deadline: 2026-04-28.
-3. Move two B3 Tech Leads into Orion at blended rate parity. Owner: Meera. Deadline: 2026-04-27.
+1. Clear the Pegasus recovery decision in Thursday steerco. Ship 2-day decision latency discipline. Rajiv. Due Thu 30 Apr 2026.
+2. Approve Orion replacement hiring immediately. Meera. Due Mon 27 Apr 2026.
+3. Reprice Stellar scope. Priya. Due Tue 28 Apr 2026.
 
-### 11.2 Sample: Delivery Health tab
+Voice note: "we saw this in amber and we are steering" reframes the decline as a signal being acted on, not a passive metric. This is the Hub thesis: amber equals steering.
+
+#### 11.2 Delivery Health (Hub-aligned)
 
 **What does this tell me**
-Delivery is green on seven of ten programmes. Three are off-plan. Velocity has dropped on Pegasus for three consecutive sprints. SLA breaches are concentrated in one programme.
+Delivery is green on seven of ten programmes, amber on two, red on one. The Delivery Health Index composite at 74 is two points below target. Pegasus velocity has dropped three sprints in a row. Team sustainability on Pegasus flagged amber on bus factor and overtime hours. Green on metrics, amber on reality.
 
 **Why is this happening**
-1. Pegasus Sprint velocity fell 28 percent after the senior developer exit. Contribution: 55 percent.
-2. Phoenix regulatory audit has pulled two senior engineers off delivery into compliance work for 40 hours per week. Contribution: 28 percent.
-3. Stellar integration test environments are unstable, blocking story closure. Contribution: 17 percent.
+1. 55 percent. Pegasus senior developer exited, bus factor dropped from 3 to 1 on the payment module. Overtime hours 62 percent of team above 45 hours per week.
+2. 28 percent. Phoenix regulatory audit pulling two senior engineers off delivery into compliance work.
+3. 17 percent. Stellar test environments unstable, blocking story closure.
 
 **What do I do this week**
-1. Rebuild the Pegasus pod with two replacement hires starting Monday. Owner: Rajiv. Deadline: 2026-04-28.
-2. Cap Phoenix compliance draw to 20 hours per week and backfill the audit work with two contractors. Owner: Kiran. Deadline: 2026-04-29.
-3. Stabilise Stellar test environments or freeze new story starts until done. Owner: Meera. Deadline: 2026-04-30.
+1. Rebuild Pegasus pod with 2 replacement hires starting Monday, cap overtime immediately. Rajiv. Due Mon 28 Apr.
+2. Cap Phoenix compliance draw to 20 hours per week, backfill with 2 contractors. Kiran. Due Wed 29 Apr.
+3. Stabilise Stellar test environments or freeze new story starts. Meera. Due Thu 30 Apr.
 
-### 11.3 Sample: P and L Cockpit tab
+Voice note: "green on metrics, amber on reality" is the Hub's central warning. Team sustainability signals surface the hidden state before metrics catch up.
+
+#### 11.3 P and L Cockpit (Hub-aligned)
+
+Retained from revision 2. Four leakage drivers plus contingency reserve visibility. Voice unchanged.
+
+#### 11.4 Decision Velocity section (NEW)
 
 **What does this tell me**
-Gross margin this month at 19.2 percent, down 60 basis points from last month and 460 basis points from the trailing high 12 months ago. Revenue is stable. Cost is rising faster than revenue. Margin waterfall shows leakage concentrated in four drivers.
+Decision queue has 14 items open, 7 past the 2-day SLA target. Average decision latency at 9.3 days. The Pegasus recovery decision is stuck for 11 days and is the single biggest margin lever in the current quarter.
 
 **Why is this happening**
-1. Direct cost grew 3.1 percent month on month due to replacement hires at higher blended rates. Contribution: 48 percent.
-2. Unbilled WIP rose to 2.8 M USD, up from 1.9 M last month, due to milestone slips. Contribution: 29 percent.
-3. Non-billable training and bench days rose 17 percent as bench hit 10 percent. Contribution: 23 percent.
+1. 52 percent. Steerco meets monthly, decisions accumulate between cadence.
+2. 30 percent. Decision ownership ambiguous on 4 items. No single accountable owner.
+3. 18 percent. Escalation path unclear on 3 items, stuck at programme level.
 
 **What do I do this week**
-1. Clear the 2.8 M unbilled WIP with client sign-off on delayed milestones by Friday. Owner: Rajiv. Deadline: 2026-04-30.
-2. Shift 30 percent of bench resources to two new commercial opportunities in the pipeline. Owner: Priya. Deadline: 2026-04-29.
-3. Enforce blended rate ceiling on replacement hires across India geo. Owner: Meera. Deadline: 2026-04-30.
+1. Move Pegasus steerco from monthly to fortnightly. Rajiv. Due Mon 27 Apr.
+2. Assign single accountable owner to the 4 stuck decisions. Priya. Due Tue 28 Apr.
+3. Close the Pegasus recovery decision in Thursday steerco. Rajiv. Due Thu 30 Apr.
 
-### 11.4 Voice rules (for all remaining tabs)
+Voice note: Hub Proposition A Part 2: "fortnightly decision forum beats monthly status review." Dashboard surface of the same operating model.
 
-No em dashes. No emojis. No pleasantries. No "we need to" unless followed by specific action. No "key takeaways" or "synergies" or "leverage." Always specific numbers, specific names, specific deadlines. Contribution percentages in the Why column sum to 100. Action verbs in the Act column are imperative (Escalate, Reprice, Move, Rebuild, Cap, Stabilise, Clear, Shift, Enforce).
+#### 11.5 Value Realisation section (NEW)
 
----
+**What does this tell me**
+Portfolio value realisation score at 62, against a target of 70. Three programmes delivered on time and on budget but did not achieve the business case outcome. McKinsey research cites 0.5 percent of programmes deliver intended value. The dashboard exists to avoid that trap.
 
-## 12. Action verb taxonomy
+**Why is this happening**
+1. 45 percent. Atlas Banking: on-time at 96 percent but client NPS at 58, expansion revenue zero. Execution green, outcome amber.
+2. 35 percent. Helix Retail: delivered features not aligned to current client strategy, outcome attestation declined.
+3. 20 percent. Phoenix: compliance work delivered, regulatory value realised, but operational value not yet measured.
 
-Every "What do I do this week" action uses one of the locked verbs.
+**What do I do this week**
+1. Book Atlas QBR with client CFO to surface expansion opportunity. Priya. Due Fri 02 May.
+2. Commission Helix outcome review. Review client strategy shifts. Rajiv. Due Wed 29 Apr.
+3. Confirm Phoenix operational value measurement plan with client audit team. Kiran. Due Thu 30 Apr.
 
-| Category | Verbs |
-|----------|-------|
-| Commercial | Reprice, Recover, Hold, Negotiate, Renew, Upsell |
-| Delivery | Replan, Rebuild, Stabilise, Freeze, Unblock, Cap |
-| Financial | Clear, Recognise, Accrue, Writeoff, Defer |
-| People | Move, Backfill, Promote, Reassign, Release, Hire |
-| Governance | Escalate, Enforce, Audit, Approve, Reject |
-| Client | Escalate, Align, Realign, Apologise (rarely), Commit |
+Voice note: "execution green, outcome amber" is the Hub framing. On-time on-budget is necessary but not sufficient.
 
-Never use: "explore", "consider", "look into", "investigate further" unless paired with a deadline and owner.
+### 12. Action verb taxonomy
+
+Unchanged from revision 2.
+
+### 12.1 Hub voice phrases locked into product copy (NEW)
+
+These five phrases from the AKB1 LinkedIn Hub appear in the product surface where contextually appropriate:
+
+| Phrase | Placement |
+|--------|-----------|
+| "Governance is a revenue lever, not overhead" | README first paragraph, About page |
+| "Green on metrics, red on reality" | Executive tab intelligence layer when amber-state variance exceeds 100 bps |
+| "Amber equals steering. Red means we failed to decide in amber." | Intelligence layer help text, hover tooltip |
+| "Ten seconds. What is your current margin and what is driving the variance?" | Finance Lead onboarding tooltip on first login |
+| "Delivery excellence is the retention argument" | Client Health Radar tab subtitle |
+
+These phrases make the product voice feel like Adi wrote it rather than generic SaaS copy.
 
 ---
 
 ## Part 5: Structure and governance
 
----
+### 13 to 17. Unchanged from revision 2
 
-## 13. Cross-tab link graph
-
-Every tab links to at least two other tabs through the drill affordance or through contextual "related" links in the footer.
-
-```
-Executive ---> Delivery Health, Risk RAID, Financials, P and L Cockpit
-Delivery Health ---> Risk RAID, Workforce, Flow and Velocity, Ops and SLA
-Risk RAID ---> Delivery Health, Client Health Radar, Scenario Planner
-Workforce ---> Delivery Health, Financials, Flow and Velocity
-Financials ---> P and L Cockpit, Commercial Pipeline, Change Impact
-P and L Cockpit ---> Financials, Commercial Pipeline, Change Impact
-Flow and Velocity ---> Delivery Health, Backlog Health, Workforce
-AI and Innovation ---> Commercial Pipeline, Backlog Health
-Commercial Pipeline ---> P and L Cockpit, Change Impact, Multi-Vendor Scorecard
-Backlog Health ---> Flow and Velocity, Scenario Planner
-Scenario Planner ---> Financials, Commercial Pipeline, Risk RAID
-Ops and SLA ---> Delivery Health, Multi-Vendor Scorecard, Client Health Radar
-Multi-Vendor Scorecard ---> Commercial Pipeline, Ops and SLA
-Change Impact ---> P and L Cockpit, Commercial Pipeline, Financials
-Client Health Radar ---> Risk RAID, Ops and SLA, Commercial Pipeline
-```
-
-Every tab footer carries three "Related" links. Chosen from the graph above.
+Cross-tab link graph, confidentiality, operational readiness, wireframe review protocol, exit criteria. Unchanged.
 
 ---
 
-## 14. Confidentiality and legal declarations
-
-### 14.1 All mock data is fictional
-
-Every programme name, client name, vendor name, person name, financial number, RAID item, SLA breach, and change request in this project is fully fictional. Nothing in this product references or resembles any real engagement, client, colleague, or dataset from Adi Kompalli's actual professional history. Any resemblance to real entities is coincidental.
-
-### 14.2 Fictional data footer
-
-Every wireframe and every production page renders a persistent footer:
-
-```
-Demo data. All programmes, clients, vendors, and people in this application are fictional.
-```
-
-Position: page footer, small text, `text-muted`.
-
-### 14.3 Attribution footer
-
-Every wireframe and every production page renders an attribution line:
-
-```
-Built by Adi Kompalli | AKB1 Delivery Command Center | Open source at github.com/deva-adi/AKB1_Delivery_Command_Center (from v1.0.0)
-```
-
-Position: page footer, small text, `text-muted`.
-
-### 14.4 Font and icon licences
-
-Inter font: SIL Open Font Licence. Commercial use allowed. Redistribution allowed.
-
-Lucide icons: ISC Licence. Free for commercial and open source.
-
-Recharts: MIT Licence.
-
-No licence conflicts with the proposed AGPL-3 project licence.
+*Revision 3 owner: Claude. Signoff: Adi. Voice alignment with AKB1 LinkedIn Hub content complete.*
 
 ---
 
-## 15. Operational readiness checklist
+## Revision 4 amendments (2026-04-25)
 
-Before the first wireframe commit, these items must be landed.
+All revision 3 content above is preserved unchanged. Revision 4 content below is additive.
 
-| # | Item | Status | Responsible |
-|---|------|--------|-------------|
-| 1 | `.gitignore` with Python, Node, OS, secrets rules | Done 2026-04-24 | Claude |
-| 2 | `.pre-commit-config.yaml` with em dash and emoji scanners | Done 2026-04-24 | Claude |
-| 3 | Git init and baseline commit | Pending Adi consent | Adi executes |
-| 4 | pre-commit hooks installed in the git repo | Pending | Adi executes |
-| 5 | First wireframe authored | Pending Design Foundations signoff | Claude |
+### R4.1 Role taxonomy expansion
 
-### 15.1 Git init command (requires Adi consent)
+Revision 4 introduces two new named roles and one permission flag to the design system. Each inherits visual treatment and voice conventions from the existing roles. None requires a new colour or chip style; the existing role badge pattern is sufficient.
 
-```bash
-cd "/Users/adikompalli/Documents/Claude/Cowork/Projects/AKB1 Base — Chief of Staff/AKB1_Delivery_Command_Center"
-git init -b main
-git add .
-git commit -m "chore(scaffold): initial project scaffold at v0.1.0-wireframe"
-```
+| Role | Badge label | Badge colour token | Scope notes |
+|------|-------------|--------------------|--------------|
+| Portfolio Owner | PO | accent-gold | Existing, unchanged |
+| Delivery Director | DD | text-primary on bg-surface-elevated | New, senior-across role. Directly above PM in the ladder |
+| Programme Manager | PM | text-primary on bg-surface | Existing, unchanged. Own-programme scope |
+| Finance Lead | FL | text-primary on bg-surface | Existing, unchanged |
+| HR Business Partner | HRBP | text-primary on bg-surface | New, scoped to people and capability surfaces |
+| Read Only | RO | text-muted on bg-surface | Existing, unchanged |
+| Audit Permission (flag) | AP (added to PO, DD, or FL badge as a small gold dot) | accent-gold dot | Not a role, a flag. Visual: the carrying role's badge plus a 4px gold dot in upper-right corner. Hover tooltip reads "Audit permission enabled" |
 
-### 15.2 Pre-commit install command
+Roles that do not carry Audit Permission show no dot. The AP dot is the only visual cue that a calling user can read `audit_trail_entries` in full.
 
-```bash
-pip install pre-commit --break-system-packages
-pre-commit install
-pre-commit run --all-files
-```
+### R4.2 Threshold calibration register (60 metrics)
 
-The second command registers the hooks. The third runs them once to verify. Any em dash or emoji currently in the repo surfaces here and gets fixed before the first wireframe commit.
+Source of truth: `docs/prd/01_PRD_Data_Model.md` section 5.2 (Threshold calibration register seed). The 60 metrics and their green, amber, and red thresholds are locked into the seed at v1.0.0. Every intelligence layer rule reads thresholds from `threshold_calibration_register` rather than hardcoding values. Calibration edits happen through the Admin Console and audit through `audit_trail_entries`.
+
+Design rule: no tab-level code or component may embed a threshold value. If a surface renders a green, amber, or red state, the state assignment must originate from a register lookup. This is enforceable via a lint rule (`no-hardcoded-thresholds`) in M4 test strategy rev 2.
+
+The 60 metrics break down as 8 Executive and Portfolio, 10 Governance, 10 Delivery Health, 8 Financials and PnL, 6 Commercial, 8 People and Capability, 6 Risk and SLA and Client Health, 4 AI and Innovation. Ownership of calibration changes follows the role column in the seed table.
+
+### R4.3 Hub phrases locked into product copy (revision 4 additions)
+
+The revision 3 table in section 12.1 lists 5 phrases. Revision 4 adds 2 more, bringing the total to 7:
+
+| Phrase | Placement |
+|--------|-----------|
+| "Governance that does not decide is theatre" | v1_16 Governance Operating Model tab subtitle. Also the header of the Cadence Theatre Detection panel |
+| "The director sees across. The delivery manager walks each one" | v1_01 Executive tab rev 4 subtitle when rendered in Portfolio Owner or Delivery Director role. PM role still sees the rev 3 subtitle |
+
+These phrases are verbatim, never paraphrased, never re-ordered. Voice regression tests in M4 test strategy rev 2 add golden snapshots that assert the phrases appear unchanged in the product surface.
+
+### R4.4 AI governance tier visual treatment
+
+The rev 4 entity `ai_use_case.risk_tier` uses the same Green, Amber, Red chip as status-green, status-amber, status-red. No new colour tokens. Risk tier drives the visual state of the AI Use Case chip and the row-level row-strip accent on v1_18 AI Governance.
+
+One addition: the AI Governance tab uses a small 4px gold accent-gold border on the left edge of every row that has `approval_status = Pending AND risk_tier = Red`. This draws the eye to the governance-critical backlog without introducing a new colour. No other tab uses this treatment.
+
+### R4.5 Tier label rendering (per Q1 ruling)
+
+Every surface that shows an escalation tier (escalation contract panel, escalation timing chip, decision routing tooltip) reads `display_label` from `escalation_tier_config` at render time. Factory default labels ("DM", "Programme Director", "Portfolio Owner", "Sponsor", "Steerco") render until a tenant edits them through the Admin Console.
+
+Design rule: no component hardcodes a tier name. The tier number can be used internally but the display string is always a register lookup.
+
+Deactivated tiers render greyed-out in the Admin Console tier list but do not appear in escalation contract dropdowns.
+
+### R4.6 Onboarding visibility (per Q5 ruling)
+
+The First 90 Days Onboarding surface renders differently depending on caller:
+
+| Caller | View |
+|--------|------|
+| Owning user (self) | Own checklist, editable. Primary self-service view. Large week-by-week accordion |
+| Portfolio Owner | All new joiners this quarter plus progress summary. Click a user to see their checklist read-only. Can filter by programme and by DD |
+| Delivery Director | Same as Portfolio Owner but default filter is scoped to programmes the DD is accountable for |
+| HR Business Partner | Same as Portfolio Owner with an additional filter for band and geo; used for cohort pacing |
+| Programme Manager | Only new joiners allocated to the PM's programme. Read-only. Indicator of checklist completion used in 1 on 1 preparation |
+
+Voice treatment: the PO, DD, HRBP, and PM views use neutral third-person reporting voice ("Kiran has completed 12 of 30 items, on track for Week 4"). The self view uses direct second-person action voice ("Complete the Finance access request by end of week 2").
+
+### R4.7 Audit trail voice and visual treatment
+
+Audit Trail Explorer surface is monospaced-first and purpose-dense. Rows are single-line by default with hover-expand to full before/after JSON. Visual treatment: `bg-surface-subtle` row background, JetBrains Mono font for method, endpoint, and resource_id. Timestamp in local timezone with UTC hover tooltip.
+
+Voice: no intelligence-layer narrative on this surface. Audit is factual and terse. If a row needs additional context it is surfaced as a technical note on hover, not as a What/Why/Act narrative.
+
+### R4.8 Confidentiality rules (revision 4 additions)
+
+Revision 3 confidentiality rules in section 14 stand. Revision 4 adds the following entity classifications:
+
+| Entity | Classification | Notes |
+|--------|---------------|-------|
+| `dm_retention_conversation` | Restricted | Visible only to the row's Portfolio Owner and the originating DD. Note text is encrypted at rest via Postgres pgcrypto column-level encryption. Never exported |
+| `audit_trail_entries` | Confidential | Visible to AP-flag holders only. Included in exports only when the caller has AP true and the export is explicitly audit-scoped |
+| `ai_shadow_survey` | Confidential | Visible to PO with AP flag, DD with AP flag, or Risk Committee role. Not included in standard Steerco Pack export |
+| `onboarding_checklist` | Restricted per-row | Self and PO and DD and HRBP and own-programme PM only. Not exported in any standard pack |
+| `sponsor_engagement` | Internal | Sponsor names and scores visible to PO, DD, PM, FL. Not exported outside steerco pack |
+
+### R4.9 Voice samples for new tabs
+
+Three new tab-level voice samples follow. Each follows the What Why Act pattern and cites the Hub article that anchors it.
+
+#### R4.9.1 Governance Operating Model (v1_16)
+
+**What does this tell me**
+Four of ten programmes are operating with stale or theatre cadences. RACI gap percent at 12 on the portfolio. Decision latency weighted average at 7.4 days, past the 2-day target. Escalation contracts on Pegasus and Helix last validated more than 180 days ago and are effectively unenforceable.
+
+**Why is this happening**
+1. 48 percent. Monthly steerco cadence on Pegasus and Phoenix means decisions accumulate between meetings. Both crossed the Theatre threshold this quarter.
+2. 32 percent. RACI gaps concentrated in vendor handoff workstreams on Pegasus and Stellar. Three activities have no named accountable.
+3. 20 percent. Escalation contract staleness on Pegasus and Helix means tier authority defaults to steerco, lengthening resolution time.
+
+**What do I do this week**
+1. Move Pegasus and Phoenix to fortnightly steerco. Rajiv. Due Mon 27 Apr.
+2. Assign accountable owners to the 3 vendor-handoff RACI gaps on Pegasus and Stellar. Priya. Due Tue 28 Apr.
+3. Re-validate escalation contracts on Pegasus and Helix. Meera. Due Thu 30 Apr.
+
+Voice note: "Governance that does not decide is theatre." Anchored by S04P2 and S04P5. The tab exists to make theatre visible.
+
+#### R4.9.2 Capability and Supply Chain (v1_17)
+
+**What does this tell me**
+Bench headcount at 30, of which 12 are aging beyond 21 days and 3 are at risk above 45 days. Two programme-critical skill gaps on Orion and Helix with no bench-to-demand match above 60. DM succession coverage is thin on 4 of 15 DMs. Hiring funnel for 3 senior engineering roles is stalled past 90 days.
+
+**Why is this happening**
+1. 42 percent. Pegasus roll-off of 4 engineers last month created a bench cluster at senior band, but the demand is for mid-band cloud skills. Skill mismatch.
+2. 33 percent. DM succession gap on Meera, Kiran, Rajiv, and Priya is not backfilled. Single point of failure across 6 programmes.
+3. 25 percent. Senior engineering hiring in Hyderabad BFSI market is slow; time to fill above 90 days.
+
+**What do I do this week**
+1. Reskill 6 senior-band bench to cloud SRE via 3-week intensive. Priya. Due kickoff Mon 27 Apr.
+2. Open formal DM succession programme with 4 named ready candidates as successors. Rajiv. Due Wed 29 Apr.
+3. Escalate hiring vendor panel expansion to bring 2 more search firms into the senior engineering funnel. Kiran. Due Thu 30 Apr.
+
+Voice note: bench and capability are strategic, not operational. Per Portfolio Desk Part 05 and S05P1.
+
+#### R4.9.3 AI Governance (v1_18)
+
+**What does this tell me**
+200 AI use cases across 10 programmes. 20 classified Red risk tier, of which 8 are Pending approval. Shadow IT survey this quarter discovered 5 previously undisclosed tools in use on Phoenix and Helix. Quality gate pass rate is 88 percent, below the 95 percent target.
+
+**Why is this happening**
+1. 45 percent. The 8 Pending Red-tier cases lack completed bias assessments. 5 of them are customer-facing response generators on Phoenix.
+2. 35 percent. Shadow tools on Phoenix and Helix surfaced through the survey, not through proactive governance. Current onboarding of AI tools is team-initiated.
+3. 20 percent. Quality gate drift on Helix: two approved use cases have not been re-validated in 90 days.
+
+**What do I do this week**
+1. Complete bias assessments on the 8 Pending Red-tier cases. Kiran. Due Fri 02 May.
+2. Move from quarterly shadow survey to monthly, and publish the survey results to steerco. Rajiv. Due Mon 27 Apr.
+3. Re-validate the 2 stale Helix quality gates. Priya. Due Wed 29 Apr.
+
+Voice note: AI governance is distinct from AI adoption. Per S03 Parts 1 through 4 and S02P3.
+
+### R4.10 First-view treatment for Portfolio Owner and Delivery Director
+
+Per R4.3, the v1_01 Executive tab subtitle for PO and DD roles reads "The director sees across. The delivery manager walks each one." This replaces the rev 3 subtitle for those two roles only. PM role retains the rev 3 subtitle ("What has changed and what do I do this week").
+
+The v1_16 Governance Operating Model subtitle reads "Governance that does not decide is theatre." unchanged across all roles.
+
+### R4.11 Component additions for rev 4
+
+| Component | New or extended | Purpose |
+|-----------|------------------|---------|
+| Cadence Card | New | Summarises a single governance cadence (type, attendance, decisions made, state). Used on v1_16 |
+| RACI Cell | New | Single-cell renderer for the RACI matrix; colour-codes responsible, accountable, consulted, informed; gap and overlap state |
+| EVM Quartet | New | Renders CPI, SPI, TCPI, EAC in a 4-up mini-chart layout. Used on v1_02 and v1_06 |
+| Bench Aging Strip | New | Horizontal strip showing bench days distribution with 21-day and 45-day markers |
+| Risk Tier Chip (AI) | New | Green, Amber, Red chip variant applied to AI use cases. Same palette as status chip |
+| Audit Row | New | Monospaced single-line row with hover-expand to full JSON pre- and post-state |
+| Audit Permission Dot | New | 4px gold dot overlay on the role badge when AP flag is true |
+| Tier Label Display | Extended | Reads `display_label` from `escalation_tier_config` at render time |
+
+All new components inherit Inter, JetBrains Mono, 4pt spacing, and the Option D palette. No new typography or spacing tokens introduced.
+
+### R4.12 Voice hold-outs
+
+The following are NOT part of the locked Hub phrase list and can be rephrased by developers if the product voice needs to adjust at implementation time:
+
+- Intelligence layer action verbs (clear, approve, ship, close, cap, stabilise, book, commission, confirm, reskill, open, escalate, move, re-validate). Section 12 action verb taxonomy still governs.
+- Numeric thresholds shown in text (e.g. "2-day SLA", "90 days"). These derive from `threshold_calibration_register` and will update automatically when the register changes.
+- Programme names (Pegasus, Phoenix, Orion, Stellar, Helix, etc.) remain fictional and are shared across voice samples and seed data per D-009.
+
+### R4.13 Exit criteria (revision 4 addition)
+
+Revision 4 signoff requires:
+1. Adi approves the 60-metric threshold calibration register seed as locked for v1.0.0 (contents in Data Model PRD section 5.2).
+2. Adi approves the two new Hub phrases at R4.3.
+3. Adi approves the role taxonomy additions (DD, HRBP, AP flag) as named in R4.1.
+4. Adi approves the tab subtitle rendering rule (R4.10).
+5. Adi approves the three new tab voice samples at R4.9.
+6. Adi approves the confidentiality classifications at R4.8.
+
+On signoff, the next Phase 3 action writes the three new tab PRDs (v1_16, v1_17, v1_18) citing this Design Foundations revision 4 as the voice and component anchor. Phase 4 then cascades 12 existing tab PRDs to rev 4. Phase 5 and 6 author and cascade wireframes.
 
 ---
 
-## 16. Wireframe review protocol
-
-### 16.1 Review unit
-
-One wireframe at a time. Adi reviews, provides feedback, signoff or revision cycle. Next wireframe not started until the current one is approved, for the first two wireframes only (00 Index and 01 Executive). After that, batches of three wireframes reviewed together.
-
-### 16.2 Approval format
-
-Adi writes one of three signals:
-- "Approved" means ship it, move to next.
-- "Approved with notes" means ship it, but apply the listed notes before moving on.
-- "Revise" means the wireframe does not meet the bar, iterate and resubmit.
-
-### 16.3 Iteration budget
-
-Three revisions per wireframe maximum. If the fourth revision still does not meet the bar, pause and hold a design review discussion. This prevents endless tweaking.
-
-### 16.4 Delivery channel
-
-Wireframe HTML files saved to `docs/wireframes/`. Adi opens in browser (Preview in Finder or Safari). Feedback delivered in the Cowork chat session.
-
----
-
-## 17. Exit criteria for Design Foundations
-
-This document is signed off when Adi confirms:
-The colour palette, typography, spacing, and component patterns are acceptable.
-The 10 programme seed table is accepted or edited to final form.
-The 300-person pyramid is accepted.
-The 25 vendor list is accepted.
-The 12-month financial shape is accepted.
-The RAID, SLA, change, and client health distributions are accepted.
-The three intelligence layer voice samples capture Adi executive tone.
-The cross-tab link graph is approved.
-The confidentiality and legal declarations are acceptable.
-The operational readiness checklist is acceptable.
-
-Once signed off, no further design negotiation is needed for individual wireframes. They inherit from this document.
-
----
-
-*Document owner: Claude. Last updated: 2026-04-24. This file is the single source of truth for design decisions. Any deviation in a wireframe, PRD, or code file must either update this file first or be logged as an exception in DECISION_LOG.md.*
+*Revision 4 owner: Claude. Signoff: Adi (pending Phase 2 close review). Voice and visual additions cover 51 new entities, 3 new tabs, 3 cross-cutting surfaces, expanded role taxonomy, and the 60-metric threshold register.*

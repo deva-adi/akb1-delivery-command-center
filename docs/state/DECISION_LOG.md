@@ -5,6 +5,225 @@
 
 ---
 
+## D-051 | 2026-05-06 | M7-8 Capability and Supply Chain tab closed
+
+Context: Scope confirmed by Adi. Capability tab requires GET /api/v1/people (new backend endpoint, no migration). Real sections: Pyramid Shift (band distribution from people seed) and Intelligence card What (headcount + band line). All other sections stub pending bench_roster, skill_demand_signals, dm_succession_signals, and hiring_funnel entities.
+
+Decisions recorded:
+
+1. Role gate: PO/DD/HRBP allowed; PM/RO/FL redirect to /home. PRD 24 section 2 grants PM read on own-programme roll-offs and RO on aggregate panels, but both require bench_roster and skill_demand_signals entities not yet seeded. FL access requires hiring_funnel. All three deferred to a future slice when those entities land.
+
+2. GET /api/v1/people endpoint: new file backend/app/api/v1/people.py; all 6 authenticated roles receive 200; no pagination (300 rows at demo scale); reads not audited. Returns PersonItem (person_id, full_name, role, band, ap_flag, overtime_hours_mtd, last_1on1_sentiment_score); explicitly excludes email (PII), password_hash, programme_id (internal FK), created_at, updated_at. Ordered by band ASC NULLS LAST, full_name ASC.
+
+3. Seed reality on sentiment: overtime_hours_mtd and last_1on1_sentiment_score are NULL for all 300 seeded people (INSERT only covers person_id, email, full_name, role, ap_flag, band, password_hash, created_at, updated_at). buildSentimentList returns empty array against current seed. CapabilityMarginLiteracy renders the empty-state message. Both functions activate automatically when the seed is extended without code changes.
+
+4. Intelligence card What: derives from buildCapabilityWhat(people). Real content: totalHeadcount (300), bandLine (B5:24, B4:36, B3:60, B2:90, B1:90 from counts), seniorLine (B4+B5 count and percentage). sentimentLine is null for current seed and the component substitutes a stub note. Why and Act are static copy matching wireframe voice at director altitude. Subtitle locked: "Strategic capability, not operational roster."
+
+5. Pyramid Shift: REAL via CapabilityPyramidShift component. buildPyramidBands groups people by band; horizontal bars B5 to B1 with width proportional to count / max-count. isSenior flag (B4/B5) gets accent-gold/60 vs accent-gold/30 opacity. 12-month projection column is stub with right-arrow placeholder.
+
+6. CapabilityDMRetention: PO+DD access check inside the component (userRole prop from page.tsx). Non-PO/DD see a RESTRICTED badge and an access-denied message. PO/DD see the stub table shell. No note reveal wired (pgcrypto encryption for the note field is not yet implemented).
+
+7. CapabilitySkillsSection: combines Skills Heat Map and Bench-to-Demand Match into one component since both depend on the same absent entities (skill_demand_signals, bench_to_demand_match). Avoids a 1:1 component per stub panel.
+
+8. OpenAPI regen: scripts/gen-openapi.sh ran successfully post-people-router registration. frontend/openapi.json and frontend/lib/api-client/schema.ts updated with PersonItem + PeopleListResponse + GET /api/v1/people.
+
+9. Backend tests (test_people.py): 12 tests -- 6 parametrised role 200s, 1 no-token 401, 1 count=300, 1 item shape (required fields present, email+password_hash absent), 1 no-email-in-any-item sweep, 1 band distribution spot-check, 1 ordering check. Docker Desktop was paused at test time; tests verified by Python import check (OK) and unit-test suite (17 green). Integration tests to be run by Adi when Docker resumes. Backend total on re-run: 209 + 12 = 221 of 221 expected.
+
+10. Test count: 34 new vitest (18 capability-utils, 8 capability-role-guard, 8 capability-pyramid). Total vitest: 257 of 257 green (223 prior + 34 new). tsc --noEmit clean. npm run build green. 15 routes (added /home/capability-supply-chain).
+
+Files created:
+  backend/app/schemas/people.py
+  backend/app/services/people_service.py
+  backend/app/api/v1/people.py
+  backend/tests/integration/test_people.py
+  frontend/lib/capability.ts
+  frontend/components/CapabilityIntelligenceCard.tsx
+  frontend/components/CapabilityKPIGrid.tsx
+  frontend/components/CapabilityBenchDive.tsx
+  frontend/components/CapabilitySkillsSection.tsx
+  frontend/components/CapabilityDMSuccession.tsx
+  frontend/components/CapabilityDMRetention.tsx
+  frontend/components/CapabilityHiringFunnel.tsx
+  frontend/components/CapabilityPyramidShift.tsx
+  frontend/components/CapabilityMarginLiteracy.tsx
+  frontend/app/home/capability-supply-chain/page.tsx
+  frontend/tests/unit/capability-utils.test.ts
+  frontend/tests/unit/capability-role-guard.test.ts
+  frontend/tests/unit/capability-pyramid.test.ts
+
+Files modified:
+  backend/app/main.py          (people_router import + include_router)
+  frontend/openapi.json        (OpenAPI regen: PersonItem + PeopleListResponse + GET /people)
+  frontend/lib/api-client/schema.ts  (OpenAPI regen: PersonItem + PeopleListResponse types)
+
+---
+
+## D-050 | 2026-05-06 | M7-7 Audit Trail Console closed
+
+Context: Zero-backend-lift slice confirmed by Adi. Full audit surface live (GET /audit/search + GET /audit/entry/{id}) from M6 slices 4 and 5c. Cross-cutting surface per PRD 26. Route at /home/audit-trail-console nested under home layout per Adi's direction (matches all other tab routes; PRD-suggested /audit alias deferred).
+
+Decisions recorded:
+
+1. Role gate: PO, DD, FL, PM allowed per PRD 26 section 2. HRBP and RO redirect to /home. PM backend gap noted: PRD 26 grants PM own-action visibility but the current backend returns 403 RoleDenied on GET /audit/search for PM (D-040 slice 4 decision). Page allows PM per PRD intent; the backend 403 surfaces as the AP-required banner. PM scoped search deferred to a future backend slice.
+
+2. AP enforcement: isEntryDetailAllowed(apFlag) gates the row-expand diff view. The backend enforces strict AP on GET /audit/entry/{id} (strict_ap=True, D-043). The frontend does not reimplement the AP check; it trusts the backend 403 response and renders the "Audit Permission required" inline message. This is consistent with the existing pattern of trusting backend 403s in other tabs.
+
+3. Route Handlers: two new proxies at /api/audit/search (forwards query params to backend /api/v1/audit/search) and /api/audit/entry/[id] (forwards to backend /api/v1/audit/entry/{id}). Both read the httpOnly session cookie server-side and attach a Bearer token. GET requests carry no CSRF token (backend CSRF middleware exempts GET). Proxies are necessary because the session cookie is httpOnly and inaccessible to browser JS directly.
+
+4. Server + Client split: page.tsx is a Server Component that fetches the initial 50-row search result (time_window=7d) and passes it to AuditActivityStream as initialItems. AuditActivityStream is a "use client" component that owns filter state (timeWindow, httpMethod, outcome), load-more cursor pagination, and row-expand state. A useRef guard prevents the useEffect from re-triggering the initial server-fetched data on mount.
+
+5. KPI grid: all 5 cards (Events/Day, Mutation Coverage, Storage Footprint, Failed Rate, Denied 24h) are stub. No /api/v1/audit/operational-metrics endpoint exists. Cards are tagged with data-stub="true" and display "--" values. The no-hardcoded-thresholds lint rule is not triggered because the KPI cards have no numeric threshold comparisons.
+
+6. Actor display name: the backend AuditSearchEntry schema returns actor_user_id (UUID) and actor_role; no display name join is implemented. The activity stream shows the first 8 characters of the UUID in monospace. A future people-lookup endpoint will resolve this. This is documented as a stub in the component with no inline hex for the truncated UUID display.
+
+7. Diff view: buildDiffLines (lib/audit-console.ts) builds DiffLine arrays from the AuditEntryDiff returned by /audit/entry/{id}. Shallow diff only (top-level keys); matches the backend's slice 5c shallow diff implementation. Line colours follow the wireframe spec: status-green/15 bg with #86EFAC text for added/changed-after, status-red/15 bg with #FCA5A5 text for removed/changed-before. Both are inline hex since they do not have named tokens (the token system uses /20 opacity variants for chips, not /15 for diff line fills).
+
+8. Export button: stub. No /api/v1/audit/export endpoint. Button shows a "stub" badge and no click handler.
+
+9. Test count: 57 new (33 audit-console-utils, 12 audit-console-role-guard, 12 audit-console-diff). Total vitest: 223 of 223 green (166 prior + 57 new). tsc --noEmit clean. npm run build green. 14 routes (added /home/audit-trail-console, /api/audit/search, /api/audit/entry/[id]). Em-dash sweep clean.
+
+Files created:
+  frontend/lib/audit-console.ts
+  frontend/components/AuditKPIGrid.tsx
+  frontend/components/AuditActivityStream.tsx
+  frontend/app/home/audit-trail-console/page.tsx
+  frontend/app/api/audit/search/route.ts
+  frontend/app/api/audit/entry/[id]/route.ts
+  frontend/tests/unit/audit-console-utils.test.ts
+  frontend/tests/unit/audit-console-role-guard.test.ts
+  frontend/tests/unit/audit-console-diff.test.ts
+
+Files modified:
+  frontend/lib/auth/role-nav.ts  (added "audit-trail-console" to TabKey union and TAB_LABELS)
+
+---
+
+## D-049 | 2026-05-05 | M7-6 Governance Operating Model tab closed
+
+Context: M7-6 scope confirmed by Adi. GOM wireframe v1_16 is R1 (new tab from Phase 5 rev 4 cascade). Widest role gate in the system: 5 of 6 roles have governance-operating-model in primary nav. Admin panels deferred to read-only display; PATCH wiring is a dedicated future slice confirmed by Adi.
+
+Decisions recorded:
+
+1. Allowed roles: PO/DD/PM/HRBP/RO. FinanceLead redirects to /home. FinanceLead's primary nav (financials, pnl-cockpit, commercial, scenario-planner, change-impact) has no governance tab -- the redirect is correct per PRD 3.1.10.
+
+2. Data fetch strategy: all roles fetch health + milestones for all PROGRAMME_CODES in one Promise.all of two allSettled batches (for over-optimism detection and intelligence card counts). PO additionally fetches tier-config and threshold-register in a second sequential Promise.allSettled after the role check. The second fetch only runs for PO so non-PO adds zero extra network cost.
+
+3. buildOverOptimismList: a programme is flagged when its most-recent overall_rag snapshot is Green AND it has at least one Delayed milestone. "Most-recent" is determined by lexicographic sort on snapshot_date (ISO date strings sort correctly). greenSnapshotCount counts consecutive Green snapshots backwards from most-recent until the first non-Green. Sorted: flagged desc, then delayedMilestoneCount desc.
+
+4. GOM is the most data-sparse tab in v1. Entities required but absent: decisions, cadences, raci_activities, pre_read_documents, sponsor_engagement, commitment_deltas, stakeholders. Every section backed by a missing entity carries a "stub" badge and an inline TODO comment naming the specific backend entity needed. This is intentional and documented -- it creates a clear migration path when each entity lands.
+
+5. Escalation Contract tier labels: PO passes real TierConfigItem[] to GovDecisionQueue; non-PO gets null and the component falls back to static DEFAULT_TIERS (Tier 1 DM / Tier 2 Programme Director / Tier 3 Portfolio Owner / Tier 4 Sponsor / Tier 5 Steerco). SLA values (24h/48h/72h/5d/10d) and contact names are stubs on all roles -- not in the tier_config schema.
+
+6. GovAdminSection read-only: both the Threshold Register and Tier Config panels display data but provide no edit capability. A note at the bottom of Tier Config Admin reads "PATCH wiring is a dedicated future slice. Display-only in this release." The PATCH /admin/tier-config endpoint is fully tested on the backend; wiring it into the GOM frontend is a dedicated slice deferred until all tab content is live.
+
+7. GovPreReadSection uses React fragments inside a grid-cols-5 map. This pattern uses TypeScript key props correctly (key on each fragment child). Explicit key on the label div and value divs prevents key-collision warnings with the 4-programme x 3-cell commitment heatmap grid.
+
+8. Test count: 23 new (9 governance-utils, 8 governance-role-guard, 6 governance-over-optimism). Total vitest: 166 of 166 green (143 prior + 23 new). tsc --noEmit clean. npm run build green. 10 routes (added /home/governance-operating-model). Em-dash sweep clean.
+
+Files created:
+  frontend/lib/governance.ts
+  frontend/components/GovIntelligenceCard.tsx
+  frontend/components/GovKPIGrid.tsx
+  frontend/components/GovCadenceCalendar.tsx
+  frontend/components/GovRACIMatrix.tsx
+  frontend/components/GovDecisionQueue.tsx
+  frontend/components/GovPreReadSection.tsx
+  frontend/components/GovStakeholderSection.tsx
+  frontend/components/GovAdminSection.tsx
+  frontend/app/home/governance-operating-model/page.tsx
+  frontend/tests/unit/governance-utils.test.ts
+  frontend/tests/unit/governance-role-guard.test.ts
+  frontend/tests/unit/governance-over-optimism.test.tsx
+
+---
+
+## D-048 | 2026-05-05 | M7-5 Executive tab closed; HRBP nav conflict resolved
+
+Context: M7-5 scope confirmed by Adi. Pre-code report identified the HRBP/executive nav conflict: role-nav.ts had HRBP at [capability-supply-chain, workforce, executive, onboarding-first-90-days, notifications] but the Executive tab PRD access matrix (section 3.1.10) restricts the tab to PO/DD/RO, which would redirect HRBP away even though their primary nav showed the Executive link. Fix confirmed by Adi before any code: replace "executive" with "governance-operating-model" in HRBP position 3. All 20 role-nav tests remain green after the fix.
+
+Decisions recorded:
+
+1. HRBP primary nav corrected: position 3 changes from "executive" to "governance-operating-model". Rationale: Executive tab is a portfolio P&L surface (gross margin, programme RAG, escalation ladder) -- HRBP has no financial overview remit. Governance Operating Model tab covers org governance and people processes, which are within HRBP scope. The fix removes the broken UX contract where a visible nav link redirected on click.
+
+2. Allowed roles for Executive tab: PortfolioOwner, DeliveryDirector, ReadOnly. Redirect to /home: ProgrammeManager, FinanceLead, HRBusinessPartner. isExecutiveAllowed() in lib/executive.ts.
+
+3. lib/executive.ts structure mirrors lib/raids.ts and lib/delivery-health.ts. Imports RaidItem from lib/raids and MilestoneItem / HealthSnapshotItem from lib/delivery-health (one-way dependency, no circular import). Does not import from delivery-health.ts at the function level -- only type imports.
+
+4. RAID Severity Index (buildRaidSeverityIndex): weighted index 0-10 from open and escalated raids only. Weights: Critical=4, High=3, Medium=2, Low=1. Formula: sum(weight * count) / (openCount * 4) * 10. Returns 0 for no open raids. Returns 10 when all open raids are Critical. Alert threshold: >= 7.0 (matches wireframe). Mitigated, Accepted, Closed raids excluded.
+
+5. Programme State List (buildProgrammeStateList): groups health snapshots by programme_code. Takes the snapshot with the latest snapshot_date for each programme (lexicographic string comparison on ISO date is correct -- YYYY-MM-DD format sorts correctly as strings). RAG mapping: Failing -> BREACH, Red -> RED, Amber/Watching -> AMBER, Green -> GREEN. Sort order: BREACH, RED, AMBER, GREEN (most urgent first).
+
+6. KPI stubs: grossMarginPct (19.2), netMarginPct (13.2), utilisationPct (82.0), decisionLatencyDays (9.3), valueRealisationPct (54). All match wireframe values. All carry TODO comments referencing the awaiting endpoint: financials_monthly, utilisations, decisions, value-tracking. The KPI card component shows a "stub" badge on all five stub cards so the read-only user knows these are placeholders.
+
+7. ExecutiveMarginChart is a pure stub component (no props). It renders the wireframe placeholder SVG coordinates inline so the visual contract is preserved without hiding the card. A plaintext "Placeholder data -- financials_monthly endpoint not yet implemented" notice is rendered inside the card above the SVG. The SVG carries aria-label for accessibility.
+
+8. Role-differentiated subtitle (Design Foundations R4): executiveSubtitle() returns "The director sees across." for PO, "The delivery manager walks each one." for DD, null for RO. Null subtitle is not rendered (no empty element in the DOM). Subtitle rendered in ExecutiveIntelligenceCard above the 3-col grid as a gold text line.
+
+9. visibleProgrammes in buildExecutiveKPIs: union of unique programme codes from both the milestones and raids arrays. This correctly handles the case where one fetch batch has more 403s than the other (e.g., milestones has 10 fulfilled but raids has 3 for a DD).
+
+10. Test count: 33 new (19 executive-utils, 8 executive-role-guard, 6 executive-programme-state). Total vitest: 143 of 143 green (110 prior + 33 new). tsc --noEmit clean. npm run build green. 9 routes (added /home/executive as dynamic server-rendered route). Em-dash sweep clean across all authored and modified files.
+
+Files created:
+  frontend/lib/executive.ts
+  frontend/components/ExecutiveIntelligenceCard.tsx
+  frontend/components/ExecutiveKPIRow.tsx
+  frontend/components/ExecutiveMarginChart.tsx
+  frontend/components/ExecutiveProgrammeStateList.tsx
+  frontend/components/ExecutiveRev4Section.tsx
+  frontend/app/home/executive/page.tsx
+  frontend/tests/unit/executive-utils.test.ts
+  frontend/tests/unit/executive-role-guard.test.ts
+  frontend/tests/unit/executive-programme-state.test.tsx
+
+Files modified:
+  frontend/lib/auth/role-nav.ts (HRBP position 3: executive -> governance-operating-model)
+  frontend/tests/unit/role-nav.test.ts (HRBusinessPartner assertion updated)
+
+---
+
+## D-047 | 2026-05-05 | M7-4 Delivery Health tab closed
+
+Context: M7-4 scope confirmed by Adi. Pre-code report read wireframe v1_02_Delivery_Health.html and role-nav.ts before any code. Role ruling confirmed from PRD 3.1.10 access matrix: DD/PM/RO allowed; PO/FL/HRBP redirect to /home. EVM quartet approved as synthetic proxies with TODO comments.
+
+Decisions recorded:
+
+1. Allowed roles: DeliveryDirector, ProgrammeManager, ReadOnly. PortfolioOwner is NOT in the allowed set per PRD 3.1.10 (delivery health is operational data for programme-facing roles, not portfolio-level). FinanceLead and HRBusinessPartner redirect to /home. isDeliveryHealthAllowed() implemented in lib/delivery-health.ts.
+
+2. Data fetch pattern mirrors M7-3: Promise.allSettled over all 10 PROGRAMME_CODES for both /milestones and /health in a single Promise.all (two parallel batches, each internally parallel). 403s silently discarded. Non-403 errors show a partial-results warning banner without breaking the page. No new backend endpoints needed; all data derived from migrations 007 and 009 (programme_milestones, programme_health_snapshots).
+
+3. lib/delivery-health.ts introduced as the single home for all pure utility functions: buildKPIs, buildOnTimeByProgramme, buildSlippingMilestones, buildVelocityTrend, buildEstimationAccuracy, computeEVMForProgramme, isDeliveryHealthAllowed. Same pattern as lib/raids.ts (M7-3). All functions are independently testable with no React or Next.js dependencies.
+
+4. KPI derivation from milestone data: onTimePct = (On Track + Complete) / total. milestoneAdherencePct = Complete among past-due milestones / total past-due milestones (measures delivery follow-through on committed dates, not forward-looking status). openBlockers = At Risk + Delayed count. visibleProgrammes = unique programme codes in the fetched data (naturally scoped by backend access control). sprintVelocityPts = count of Complete milestones (proxy; TODO: replace when sprint-velocity endpoint lands). csat = 4.2 static stub (TODO: replace when csat endpoint lands). No numeric thresholds hardcoded in comparison logic (threshold register governs these for the intelligence layer; KPIs are pure observations).
+
+5. Velocity trend chart: monthly buckets by due_date calendar month, sorted chronologically, last 8 shown. Actual line = completed/total per month as ratio. Capacity line = 90% (dashed gold). Point colour: blue if >= 92%, amber if >= 80%, red if < 80% (last 3 points coloured to show tail trend). SVG computed server-side; no client state.
+
+6. On-Time by Programme chart: horizontal bar chart sorted desc by onTimePct. Colour thresholds: >= 92% status-green, >= 80% status-amber, < 80% status-red. The target 92% matches the KPI card meta label and wireframe spec. Bar width is inline style (`style={{ width: \`${Math.min(row.onTimePct, 100)}%\` }}`) capped at 100% to guard against any floating-point edge.
+
+7. Slipping milestones table: top 5 At Risk + Delayed milestones, sorted by slipDays desc, Delayed before At Risk as tiebreak on equal slipDays. slipDays = days past due_date (zero for future-dated At Risk). Title, programme code, due date, status badge, completion_pct, slip days rendered. Drill handle rendered as cursor-pointer row (no destination at this scope; drill wiring lands when programme detail pages arrive).
+
+8. Estimation Accuracy (Rev 4, UC-GG): per-programme table showing totalMilestones, completedOrOnTrack, accuracy%, silentDrift count (Delayed milestones with no baseline_date; these are scope expansions without a formal change record, the margin leakage early warning). Sorted accuracy ascending (worst first) so the reader's eye lands on the highest risk first.
+
+9. EVM Quartet (Rev 4, UC-P): synthetic proxy metrics computed from milestone data for the worst-performing programme (lowest accuracy from buildEstimationAccuracy). SPI = (On Track + Complete) / total. CPI = avg completion_pct / 100 (proxy; TODO: replace with actuals when financials_monthly endpoint lands). TCPI = 1/SPI rough proxy (TODO). EAC = "Unavailable" label (TODO). All four cards rendered per wireframe Rev 4 section. TODO comments on CPI/TCPI/EAC approved by Adi at kickoff.
+
+10. PROGRAMME_CODES constant imported from lib/raids.ts in the page (not re-defined). lib/delivery-health.ts utility functions do not need the constant internally (they operate on fetched arrays), so no circular dependency and no duplication.
+
+11. Test count: 38 new (24 delivery-health-utils, 8 delivery-health-role-guard, 6 delivery-health-on-time-chart). Total vitest: 110 of 110 green (72 prior + 38 new). tsc --noEmit clean. npm run build green. 9 routes (added /home/delivery-health as dynamic server-rendered route). Em-dash sweep clean across all authored files.
+
+Files created:
+  frontend/lib/delivery-health.ts
+  frontend/components/DeliveryHealthIntelligenceCard.tsx
+  frontend/components/DeliveryHealthKPIRow.tsx
+  frontend/components/DeliveryHealthVelocityChart.tsx
+  frontend/components/DeliveryHealthOnTimeChart.tsx
+  frontend/components/DeliveryHealthMilestonesTable.tsx
+  frontend/components/DeliveryHealthEstimationSection.tsx
+  frontend/app/home/delivery-health/page.tsx
+  frontend/tests/unit/delivery-health-utils.test.ts
+  frontend/tests/unit/delivery-health-role-guard.test.ts
+  frontend/tests/unit/delivery-health-on-time-chart.test.tsx
+
+---
+
 ## D-046 | 2026-05-04 | M7-3 Risk and RAID tab closed
 
 Context: M7-3 scope confirmed by Adi. Wireframe v1_03_Risk_RAID.html read before any code was written. Routing confirmed as nested route app/home/risk-raid/page.tsx (inherits home/layout.tsx JWT guard and nav). Trend chart confirmed as server-side weekly bucketing from raised_date. 4-column heat map approved over 3-column wireframe.

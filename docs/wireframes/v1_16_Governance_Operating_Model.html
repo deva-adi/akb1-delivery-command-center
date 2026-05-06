@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Governance Operating Model | AKB1 Delivery Command Center v1 | R1</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>body{font-family:'Inter',system-ui,sans-serif}.font-mono{font-family:'JetBrains Mono',monospace}.tabular{font-variant-numeric:tabular-nums}</style>
+</head>
+<body class="bg-[#242D3D] text-[#F1F5F9] min-h-screen">
+
+  <header class="border-b border-[#3A4454] bg-[#2E3849]">
+    <div class="max-w-[1440px] mx-auto px-8 py-3 flex items-center gap-4">
+      <a href="v1_00_Index.html" class="flex items-center gap-3 hover:opacity-80 transition shrink-0">
+        <div class="w-8 h-8 rounded-md bg-[#F5B800] flex items-center justify-center"><span class="text-[#242D3D] font-bold text-sm">A1</span></div>
+        <div>
+          <div class="text-[#F1F5F9] font-semibold text-sm tracking-tight">AKB1 Delivery Command Center</div>
+          <div class="text-[#A0AEC0] text-[11px]">Governance Operating Model <span class="ml-1 px-1 py-0 bg-[#10B981]/20 border border-[#10B981] rounded text-[#10B981] text-[9px] font-semibold uppercase">R1</span></div>
+        </div>
+      </a>
+      <div class="flex-1 max-w-md mx-auto">
+        <button class="w-full flex items-center gap-2 px-3 py-2 bg-[#3A4454] border border-[#4A5568] hover:border-[#F5B800] rounded-md transition text-left cursor-pointer group">
+          <svg class="w-4 h-4 text-[#A0AEC0] group-hover:text-[#F5B800] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <span class="text-[#A0AEC0] text-sm flex-1">Search decisions, cadences, RACI, stakeholders...</span>
+          <span class="flex items-center gap-0.5 text-[10px] text-[#718096] font-mono"><kbd class="px-1 py-0.5 bg-[#242D3D] border border-[#4A5568] rounded">Cmd</kbd><kbd class="px-1 py-0.5 bg-[#242D3D] border border-[#4A5568] rounded">K</kbd></span>
+        </button>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <button class="relative p-2 hover:bg-[#3A4454] rounded-md transition" title="Notifications">
+          <svg class="w-5 h-5 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2a2 2 0 01-.6 1.4L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+          <span class="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#EF4444] text-white text-[9px] font-bold flex items-center justify-center">5</span>
+        </button>
+        <button class="flex items-center gap-1.5 px-3 py-2 hover:bg-[#3A4454] rounded-md transition"><svg class="w-4 h-4 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg><span class="text-[#A0AEC0] text-sm">More</span></button>
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-[#78350F]/30 border border-[#F5B800] rounded-md relative">
+          <div class="w-2 h-2 rounded-full bg-[#F5B800]"></div>
+          <span class="text-[#F5B800] text-xs font-medium">Portfolio Owner</span>
+          <div class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#F5B800] ring-2 ring-[#2E3849]" title="Audit Permission enabled"></div>
+          <svg class="w-3 h-3 text-[#F5B800]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-[1440px] mx-auto px-8">
+      <div class="flex gap-0">
+        <a href="v1_01_Executive.html" class="px-4 py-3 text-sm text-[#A0AEC0] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#4A5568] transition">Executive</a>
+        <a class="px-4 py-3 text-sm text-[#F5B800] border-b-2 border-[#F5B800] font-medium">Governance Operating Model</a>
+        <a href="v1_05_Financials.html" class="px-4 py-3 text-sm text-[#A0AEC0] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#4A5568] transition">Financials</a>
+        <a href="v1_17_Capability_Supply_Chain.html" class="px-4 py-3 text-sm text-[#A0AEC0] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#4A5568] transition">Capability and Supply Chain</a>
+        <a href="v1_15_Client_Health_Radar.html" class="px-4 py-3 text-sm text-[#A0AEC0] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#4A5568] transition">Client Health Radar</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="border-b border-[#3A4454] bg-[#2E3849] sticky top-0 z-20">
+    <div class="max-w-[1440px] mx-auto px-8 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-[#3A4454] border border-[#4A5568] rounded-md cursor-pointer hover:border-[#F5B800] transition"><span class="text-[#A0AEC0] text-[10px] uppercase tracking-wider">Geo</span><span class="text-[#F1F5F9] text-sm">All regions</span><svg class="w-3 h-3 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div>
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-[#3A4454] border border-[#4A5568] rounded-md cursor-pointer hover:border-[#F5B800] transition"><span class="text-[#A0AEC0] text-[10px] uppercase tracking-wider">Programme</span><span class="text-[#F1F5F9] text-sm">All (10)</span><svg class="w-3 h-3 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div>
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-[#3A4454] border border-[#4A5568] rounded-md cursor-pointer hover:border-[#F5B800] transition"><span class="text-[#A0AEC0] text-[10px] uppercase tracking-wider">Decision Category</span><span class="text-[#F1F5F9] text-sm">All (5)</span><svg class="w-3 h-3 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div>
+        <div class="flex items-center bg-[#3A4454] border border-[#4A5568] rounded-md overflow-hidden"><button class="px-3 py-1.5 text-xs text-[#A0AEC0] hover:text-[#F1F5F9] transition">MTD</button><button class="px-3 py-1.5 text-xs text-[#F5B800] bg-[#2A3446] font-medium">QTD</button><button class="px-3 py-1.5 text-xs text-[#A0AEC0] hover:text-[#F1F5F9] transition">R12M</button></div>
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-[#3A4454] border border-[#4A5568] rounded-md cursor-pointer hover:border-[#F5B800] transition"><svg class="w-3.5 h-3.5 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span class="text-[#A0AEC0] text-[10px] uppercase tracking-wider">As of</span><span class="text-[#F1F5F9] text-sm">Today</span><svg class="w-3 h-3 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="flex items-center gap-2 px-3 py-1.5 bg-[#3A4454] hover:bg-[#4A5568] text-[#F1F5F9] rounded-md text-xs font-medium transition border border-[#4A5568]">Export Pre-Read Kit</button>
+        <button class="flex items-center gap-2 px-3 py-1.5 bg-[#F5B800] hover:bg-[#FFCA40] text-[#242D3D] rounded-md text-xs font-semibold transition">Export Board Pack</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="border-b border-[#3A4454] bg-[#2A3446]">
+    <div class="max-w-[1440px] mx-auto px-8 pt-5 pb-2">
+      <div class="text-[#F5B800] text-sm font-semibold tracking-tight mb-1">Governance that does not decide is theatre.</div>
+    </div>
+    <div class="max-w-[1440px] mx-auto px-8 py-5 grid grid-cols-3 gap-8">
+      <div>
+        <div class="flex items-center gap-2 mb-3"><div class="w-1.5 h-5 bg-[#F5B800] rounded-full"></div><h3 class="text-[#F5B800] text-base font-semibold tracking-tight">What does this tell me</h3></div>
+        <p class="text-[#CBD5E1] text-sm leading-relaxed">Four of ten programmes are operating with stale or theatre cadences. RACI gap percent at <span class="text-[#F1F5F9] font-semibold">12 percent</span> on the portfolio. Decision latency weighted average at <span class="text-[#F1F5F9] font-semibold">7.4 days</span>, past the 2-day target. Escalation contracts on Pegasus and Helix last validated more than 180 days ago.</p>
+      </div>
+      <div class="pl-8 border-l border-[#3A4454]">
+        <div class="flex items-center gap-2 mb-3"><div class="w-1.5 h-5 bg-[#F5B800] rounded-full"></div><h3 class="text-[#F5B800] text-base font-semibold tracking-tight">Why is this happening</h3></div>
+        <ol class="space-y-2 text-sm">
+          <li class="flex items-baseline gap-3"><span class="text-[#F1F5F9] font-mono font-semibold tabular min-w-[3ch]">48%</span><span class="text-[#CBD5E1]">Monthly steerco cadence on Pegasus and Phoenix. Decisions accumulate between meetings. Both crossed the Theatre threshold this quarter.</span></li>
+          <li class="flex items-baseline gap-3"><span class="text-[#F1F5F9] font-mono font-semibold tabular min-w-[3ch]">32%</span><span class="text-[#CBD5E1]">RACI gaps concentrated in vendor handoff workstreams on Pegasus and Stellar. Three activities have no named accountable.</span></li>
+          <li class="flex items-baseline gap-3"><span class="text-[#F1F5F9] font-mono font-semibold tabular min-w-[3ch]">20%</span><span class="text-[#CBD5E1]">Escalation contract staleness on Pegasus and Helix. Tier authority defaults to steerco, lengthening resolution.</span></li>
+        </ol>
+      </div>
+      <div class="pl-8 border-l border-[#3A4454]">
+        <div class="flex items-center gap-2 mb-3"><div class="w-1.5 h-5 bg-[#F5B800] rounded-full"></div><h3 class="text-[#F5B800] text-base font-semibold tracking-tight">What do I do this week</h3></div>
+        <div class="space-y-2">
+          <div class="bg-[#2E3849] border border-[#3A4454] rounded-md p-3 hover:border-[#4A5568] transition cursor-pointer"><p class="text-[#F1F5F9] text-sm font-medium mb-1.5 leading-snug">Move Pegasus and Phoenix to fortnightly steerco.</p><div class="flex items-center gap-3 text-[11px]"><span class="flex items-center gap-1 text-[#A0AEC0]"><span class="w-4 h-4 rounded-full bg-[#60A5FA] flex items-center justify-center text-[#242D3D] text-[9px] font-semibold">R</span>Rajiv</span><span class="text-[#F59E0B] font-medium">Due Mon 27 Apr 2026</span></div></div>
+          <div class="bg-[#2E3849] border border-[#3A4454] rounded-md p-3 hover:border-[#4A5568] transition cursor-pointer"><p class="text-[#F1F5F9] text-sm font-medium mb-1.5 leading-snug">Assign accountable owners to the 3 vendor-handoff RACI gaps on Pegasus and Stellar.</p><div class="flex items-center gap-3 text-[11px]"><span class="flex items-center gap-1 text-[#A0AEC0]"><span class="w-4 h-4 rounded-full bg-[#A78BFA] flex items-center justify-center text-[#242D3D] text-[9px] font-semibold">P</span>Priya</span><span class="text-[#F59E0B] font-medium">Due Tue 28 Apr</span></div></div>
+          <div class="bg-[#2E3849] border border-[#3A4454] rounded-md p-3 hover:border-[#4A5568] transition cursor-pointer"><p class="text-[#F1F5F9] text-sm font-medium mb-1.5 leading-snug">Re-validate escalation contracts on Pegasus and Helix.</p><div class="flex items-center gap-3 text-[11px]"><span class="flex items-center gap-1 text-[#A0AEC0]"><span class="w-4 h-4 rounded-full bg-[#F472B6] flex items-center justify-center text-[#242D3D] text-[9px] font-semibold">M</span>Meera</span><span class="text-[#F59E0B] font-medium">Due Thu 30 Apr</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="max-w-[1440px] mx-auto px-8 py-8">
+
+    <!-- 10 KPI cards in 5-by-2 -->
+    <section class="grid grid-cols-5 gap-3 mb-8">
+      <div class="bg-[#2E3849] border border-[#F59E0B]/50 rounded-md p-4"><div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-1">Decision Latency Wtd</div><div class="flex items-baseline gap-2"><span class="text-[#F1F5F9] text-2xl font-semibold tabular">7.4</span><span class="text-[#A0AEC0] text-xs">days</span></div><div class="mt-1 text-[#F59E0B] text-[11px]">Target below 2.0. Amber</div></div>
+      <div class="bg-[#2E3849] border border-[#EF4444]/50 rounded-md p-4"><div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-1">Decisions Open (Pegasus)</div><div class="flex items-baseline gap-2"><span class="text-[#F1F5F9] text-2xl font-semibold tabular">14</span><span class="text-[#A0AEC0] text-xs">7 past SLA</span></div><div class="mt-1 text-[#EF4444] text-[11px]">Target below 5. Red</div></div>
+      <div class="bg-[#2E3849] border border-[#F59E0B]/50 rounded-md p-4"><div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-1">Cadence Attendance</div><div class="flex items-baseline gap-2"><span class="text-[#F1F5F9] text-2xl font-semibold tabular">82</span><span class="text-[#A0AEC0] text-xs">percent</span></div><div class="mt-1 text-[#F59E0B] text-[11px]">Target ≥90. Amber</div></div>
+      <div class="bg-[#2E3849] border border-[#EF4444]/50 rounded-md p-4"><div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-1">Cadence Theatre</div><div class="flex items-baseline gap-2"><span class="text-[#F1F5F9] text-2xl font-semibold tabular">3</span><span class="text-[#A0AEC0] text-xs">cadences</span></div><div class="mt-1 text-[#EF4444] text-[11px]">Target 0. Red</div></div>
+      <div class="bg-[#2E3849] border border-[#EF4444]/50 rounded-md p-4"><div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-1">RACI Gap</div><div class="flex items-baseline gap-2"><span class="text-[#F1F5F9] text-2xl font-semibold tabular">12.3</span><span class="text-[#A0AEC0] text-xs">percent</span></div><div class="mt-1 text-[#EF4444] text-[11px]">Target below 5. Red</div></div>
+
+      <div class="bg-[#2E3849] border border-[#F59E0B]/50 rounded-md p-4"><div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-1">RACI Overlap</div><div class="flex items-baseline gap-2"><span class="text-[#F1F5F9] text-2xl font-semibold tabular">8.5</span><span class="text-[#A0AEC0] text-xs">percent</span></div><div class="mt-1 text-[#F59E0B] text-[11px]">Target below 8. Amber</div></div>
+      <div class="bg-[#2E3849] border border-[#EF4444]/50 rounded-md p-4"><div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-1">Contract Staleness (max)</div><div class="flex items-baseline gap-2"><span class="text-[#F1F5F9] text-2xl font-semibold tabular">210</span><span class="text-[#A0AEC0] text-xs">days</span></div><div class="mt-1 text-[#EF4444] text-[11px]">Target below 90. Red</div></div>
+      <div class="bg-[#2E3849] border border-[#F59E0B]/50 rounded-md p-4"><div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-1">Pre-Read Issuance</div><div class="flex items-baseline gap-2"><span class="text-[#F1F5F9] text-2xl font-semibold tabular">72</span><span class="text-[#A0AEC0] text-xs">percent</span></div><div class="mt-1 text-[#F59E0B] text-[11px]">Target ≥90. Amber</div></div>
+      <div class="bg-[#2E3849] border border-[#EF4444]/50 rounded-md p-4"><div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-1">Commitment Delta</div><div class="flex items-baseline gap-2"><span class="text-[#F1F5F9] text-2xl font-semibold tabular">28</span><span class="text-[#A0AEC0] text-xs">percent</span></div><div class="mt-1 text-[#EF4444] text-[11px]">Target below 10. Red</div></div>
+      <div class="bg-[#2E3849] border border-[#EF4444]/50 rounded-md p-4"><div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-1">Sponsor Engagement (min)</div><div class="flex items-baseline gap-2"><span class="text-[#F1F5F9] text-2xl font-semibold tabular">38</span><span class="text-[#A0AEC0] text-xs">score</span></div><div class="mt-1 text-[#EF4444] text-[11px]">Target ≥70. Red</div></div>
+    </section>
+
+    <!-- Cadence Calendar + RACI matrix side by side -->
+    <section class="grid grid-cols-12 gap-6 mb-8">
+
+      <div class="col-span-7 bg-[#2E3849] border border-[#3A4454] rounded-md p-5">
+        <div class="flex items-center justify-between mb-4">
+          <div><h2 class="text-[#F1F5F9] text-base font-semibold">Cadence Calendar</h2><p class="text-[#A0AEC0] text-xs mt-0.5">Rows are programmes. Columns are weeks of Q2 2026. Cells show cadence occurrences. Click any cell for attendance and decisions detail.</p></div>
+          <button class="text-[#A0AEC0] text-xs hover:text-[#F1F5F9]">Legend</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs">
+            <thead><tr class="text-[#A0AEC0]"><th class="text-left p-2 font-medium">Programme</th><th class="text-center p-1 font-mono font-normal">W14</th><th class="text-center p-1 font-mono font-normal">W15</th><th class="text-center p-1 font-mono font-normal">W16</th><th class="text-center p-1 font-mono font-normal">W17</th><th class="text-center p-1 font-mono font-normal">W18</th><th class="text-center p-1 font-mono font-normal">W19</th><th class="text-center p-1 font-mono font-normal">W20</th><th class="text-center p-1 font-mono font-normal">W21</th><th class="text-center p-1 font-mono font-normal">W22</th></tr></thead>
+            <tbody>
+              <tr class="border-t border-[#3A4454]"><td class="p-2 text-[#F1F5F9] font-medium">Pegasus</td><td class="p-1"><div class="w-full h-6 bg-[#EF4444]/40 border border-[#EF4444] rounded text-[10px] flex items-center justify-center text-[#EF4444]">Theatre</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#F59E0B]/30 border border-[#F59E0B] rounded text-[10px] flex items-center justify-center text-[#F59E0B]">Weekly</div></td><td class="p-1"><div class="w-full h-6 bg-[#EF4444]/40 border border-[#EF4444] rounded text-[10px] flex items-center justify-center text-[#EF4444]">Theatre</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#F59E0B]/30 border border-[#F59E0B] rounded text-[10px] flex items-center justify-center text-[#F59E0B]">Weekly</div></td><td class="p-1"><div class="w-full h-6 bg-[#EF4444]/40 border border-[#EF4444] rounded text-[10px] flex items-center justify-center text-[#EF4444]">Steerco</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td></tr>
+              <tr class="border-t border-[#3A4454]"><td class="p-2 text-[#F1F5F9] font-medium">Phoenix</td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#F59E0B]/30 border border-[#F59E0B] rounded text-[10px] flex items-center justify-center text-[#F59E0B]">Weekly</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#EF4444]/40 border border-[#EF4444] rounded text-[10px] flex items-center justify-center text-[#EF4444]">Theatre</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#F59E0B]/30 border border-[#F59E0B] rounded text-[10px] flex items-center justify-center text-[#F59E0B]">Weekly</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Steerco</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td></tr>
+              <tr class="border-t border-[#3A4454]"><td class="p-2 text-[#F1F5F9] font-medium">Orion</td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Weekly</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Weekly</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Steerco</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td></tr>
+              <tr class="border-t border-[#3A4454]"><td class="p-2 text-[#F1F5F9] font-medium">Stellar</td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#F59E0B]/30 border border-[#F59E0B] rounded text-[10px] flex items-center justify-center text-[#F59E0B]">Weekly</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#F59E0B]/30 border border-[#F59E0B] rounded text-[10px] flex items-center justify-center text-[#F59E0B]">Weekly</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#F59E0B]/30 border border-[#F59E0B] rounded text-[10px] flex items-center justify-center text-[#F59E0B]">Steerco</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td></tr>
+              <tr class="border-t border-[#3A4454]"><td class="p-2 text-[#F1F5F9] font-medium">Helix</td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Weekly</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Weekly</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Steerco</div></td><td class="p-1"><div class="w-full h-6 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981]">Daily</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="mt-3 flex items-center gap-4 text-[10px] text-[#A0AEC0]"><div class="flex items-center gap-1"><div class="w-3 h-3 bg-[#10B981]/30 border border-[#10B981] rounded"></div>Healthy</div><div class="flex items-center gap-1"><div class="w-3 h-3 bg-[#F59E0B]/30 border border-[#F59E0B] rounded"></div>AtRisk</div><div class="flex items-center gap-1"><div class="w-3 h-3 bg-[#EF4444]/40 border border-[#EF4444] rounded"></div>Theatre</div></div>
+      </div>
+
+      <div class="col-span-5 bg-[#2E3849] border border-[#3A4454] rounded-md p-5">
+        <div class="mb-4"><h2 class="text-[#F1F5F9] text-base font-semibold">RACI Working Matrix | Pegasus</h2><p class="text-[#A0AEC0] text-xs mt-0.5">3 red gaps, 2 amber overlaps across 60 activities. Click to edit.</p></div>
+        <div class="space-y-1.5">
+          <div class="grid grid-cols-[1fr_auto_auto_auto_auto_auto_auto] gap-1 items-center text-[11px]">
+            <div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider">Activity</div>
+            <div class="text-[#A0AEC0] text-[10px] w-8 text-center">DM</div>
+            <div class="text-[#A0AEC0] text-[10px] w-8 text-center">PD</div>
+            <div class="text-[#A0AEC0] text-[10px] w-8 text-center">PO</div>
+            <div class="text-[#A0AEC0] text-[10px] w-8 text-center">SP</div>
+            <div class="text-[#A0AEC0] text-[10px] w-8 text-center">FL</div>
+            <div class="text-[#A0AEC0] text-[10px] w-8 text-center">VD</div>
+          </div>
+          <div class="grid grid-cols-[1fr_auto_auto_auto_auto_auto_auto] gap-1 items-center text-[11px] border-t border-[#3A4454] pt-1.5">
+            <div class="text-[#F1F5F9]">Sprint planning</div>
+            <div class="w-8 h-6 bg-[#F5B800]/20 text-[#F5B800] rounded flex items-center justify-center font-mono font-semibold">A</div>
+            <div class="w-8 h-6 bg-[#60A5FA]/20 text-[#60A5FA] rounded flex items-center justify-center font-mono font-semibold">R</div>
+            <div class="w-8 h-6 bg-[#A0AEC0]/20 text-[#A0AEC0] rounded flex items-center justify-center font-mono font-semibold">C</div>
+            <div class="w-8 h-6"></div>
+            <div class="w-8 h-6 bg-[#A0AEC0]/20 text-[#A0AEC0] rounded flex items-center justify-center font-mono font-semibold">I</div>
+            <div class="w-8 h-6 bg-[#A0AEC0]/20 text-[#A0AEC0] rounded flex items-center justify-center font-mono font-semibold">I</div>
+          </div>
+          <div class="grid grid-cols-[1fr_auto_auto_auto_auto_auto_auto] gap-1 items-center text-[11px] border-t border-[#3A4454] pt-1.5 bg-[#EF4444]/10 -mx-1 px-1 rounded">
+            <div class="text-[#F1F5F9] flex items-center gap-1">Vendor A to B handoff <svg class="w-3 h-3 text-[#EF4444]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L1 21h22L12 2zm0 6l7.53 13H4.47L12 8zm-1 3v4h2v-4h-2zm0 6v2h2v-2h-2z"/></svg></div>
+            <div class="w-8 h-6"></div>
+            <div class="w-8 h-6"></div>
+            <div class="w-8 h-6"></div>
+            <div class="w-8 h-6"></div>
+            <div class="w-8 h-6 bg-[#A0AEC0]/20 text-[#A0AEC0] rounded flex items-center justify-center font-mono font-semibold">I</div>
+            <div class="w-8 h-6"></div>
+          </div>
+          <div class="grid grid-cols-[1fr_auto_auto_auto_auto_auto_auto] gap-1 items-center text-[11px] border-t border-[#3A4454] pt-1.5 bg-[#F59E0B]/10 -mx-1 px-1 rounded">
+            <div class="text-[#F1F5F9] flex items-center gap-1">Defect escalation <span class="text-[#F59E0B] text-[9px] font-semibold">OVERLAP</span></div>
+            <div class="w-8 h-6 bg-[#F5B800]/20 text-[#F5B800] rounded flex items-center justify-center font-mono font-semibold">A</div>
+            <div class="w-8 h-6 bg-[#F5B800]/20 text-[#F5B800] rounded flex items-center justify-center font-mono font-semibold">A</div>
+            <div class="w-8 h-6 bg-[#A0AEC0]/20 text-[#A0AEC0] rounded flex items-center justify-center font-mono font-semibold">C</div>
+            <div class="w-8 h-6"></div>
+            <div class="w-8 h-6"></div>
+            <div class="w-8 h-6 bg-[#60A5FA]/20 text-[#60A5FA] rounded flex items-center justify-center font-mono font-semibold">R</div>
+          </div>
+          <div class="grid grid-cols-[1fr_auto_auto_auto_auto_auto_auto] gap-1 items-center text-[11px] border-t border-[#3A4454] pt-1.5">
+            <div class="text-[#F1F5F9]">Steerco decisions</div>
+            <div class="w-8 h-6 bg-[#A0AEC0]/20 text-[#A0AEC0] rounded flex items-center justify-center font-mono font-semibold">C</div>
+            <div class="w-8 h-6 bg-[#A0AEC0]/20 text-[#A0AEC0] rounded flex items-center justify-center font-mono font-semibold">C</div>
+            <div class="w-8 h-6 bg-[#F5B800]/20 text-[#F5B800] rounded flex items-center justify-center font-mono font-semibold">A</div>
+            <div class="w-8 h-6 bg-[#60A5FA]/20 text-[#60A5FA] rounded flex items-center justify-center font-mono font-semibold">R</div>
+            <div class="w-8 h-6 bg-[#A0AEC0]/20 text-[#A0AEC0] rounded flex items-center justify-center font-mono font-semibold">I</div>
+            <div class="w-8 h-6"></div>
+          </div>
+        </div>
+        <button class="mt-3 text-[#F5B800] text-xs hover:underline">View all 60 activities</button>
+      </div>
+
+    </section>
+
+    <!-- Decision Queue extended + Escalation Contract -->
+    <section class="grid grid-cols-12 gap-6 mb-8">
+      <div class="col-span-8 bg-[#2E3849] border border-[#3A4454] rounded-md p-5">
+        <div class="flex items-center justify-between mb-4">
+          <div><h2 class="text-[#F1F5F9] text-base font-semibold">Decision Queue (extended)</h2><p class="text-[#A0AEC0] text-xs mt-0.5">4-column S04P2 format: Options, Recommendation, Impact of Deferral. Rows without pre-read flagged amber.</p></div>
+          <div class="flex items-center gap-2 text-xs"><span class="text-[#A0AEC0]">Category:</span><button class="px-2 py-1 rounded text-[#F5B800] bg-[#F5B800]/10 border border-[#F5B800]">All</button><button class="px-2 py-1 rounded text-[#A0AEC0] border border-[#3A4454]">Scope</button><button class="px-2 py-1 rounded text-[#A0AEC0] border border-[#3A4454]">Vendor</button><button class="px-2 py-1 rounded text-[#A0AEC0] border border-[#3A4454]">Resource</button><button class="px-2 py-1 rounded text-[#A0AEC0] border border-[#3A4454]">Commercial</button><button class="px-2 py-1 rounded text-[#A0AEC0] border border-[#3A4454]">Compliance</button></div>
+        </div>
+        <table class="w-full text-xs">
+          <thead><tr class="text-[#A0AEC0] border-b border-[#3A4454]"><th class="text-left p-2 font-medium">Programme</th><th class="text-left p-2 font-medium">Category</th><th class="text-left p-2 font-medium">Decision</th><th class="text-left p-2 font-medium">Age</th><th class="text-left p-2 font-medium">Options</th><th class="text-left p-2 font-medium">Recommendation</th><th class="text-left p-2 font-medium">Impact of Deferral</th><th class="text-left p-2 font-medium">Owner</th></tr></thead>
+          <tbody>
+            <tr class="border-b border-[#3A4454] hover:bg-[#3A4454]/40 transition cursor-pointer"><td class="p-2 text-[#F1F5F9]">Pegasus</td><td class="p-2"><span class="px-1.5 py-0.5 bg-[#60A5FA]/20 text-[#60A5FA] rounded text-[10px]">Scope</span></td><td class="p-2 text-[#F1F5F9]">Milestone recovery plan</td><td class="p-2"><span class="text-[#EF4444] font-mono">11d</span></td><td class="p-2 text-[#CBD5E1]">A Descope / B Extend / C Accept slip</td><td class="p-2 text-[#CBD5E1]">A Descope with Q3 add-back</td><td class="p-2 text-[#CBD5E1]">Margin minus 120 bps if 2 weeks</td><td class="p-2 text-[#A0AEC0]">Rajiv</td></tr>
+            <tr class="border-b border-[#3A4454] hover:bg-[#3A4454]/40 transition cursor-pointer"><td class="p-2 text-[#F1F5F9]">Phoenix</td><td class="p-2"><span class="px-1.5 py-0.5 bg-[#A78BFA]/20 text-[#A78BFA] rounded text-[10px]">Resource</span></td><td class="p-2 text-[#F1F5F9]">Hire backfill approval</td><td class="p-2"><span class="text-[#EF4444] font-mono">8d</span></td><td class="p-2 text-[#CBD5E1]">A Internal / B Vendor / C Defer</td><td class="p-2 text-[#CBD5E1]">A Internal from bench</td><td class="p-2 text-[#CBD5E1]">SLA miss in 14 days</td><td class="p-2 text-[#A0AEC0]">Meera</td></tr>
+            <tr class="border-b border-[#3A4454] hover:bg-[#3A4454]/40 transition cursor-pointer bg-[#F59E0B]/5"><td class="p-2 text-[#F1F5F9]">Stellar</td><td class="p-2"><span class="px-1.5 py-0.5 bg-[#F472B6]/20 text-[#F472B6] rounded text-[10px]">Commercial</span></td><td class="p-2 text-[#F1F5F9]">CR reprice Q2 scope</td><td class="p-2"><span class="text-[#EF4444] font-mono">14d</span></td><td class="p-2"><span class="text-[#F59E0B] text-[10px] italic">No pre-read</span></td><td class="p-2 text-[#A0AEC0] text-[10px]">--</td><td class="p-2 text-[#A0AEC0] text-[10px]">--</td><td class="p-2 text-[#A0AEC0]">Priya</td></tr>
+            <tr class="border-b border-[#3A4454] hover:bg-[#3A4454]/40 transition cursor-pointer"><td class="p-2 text-[#F1F5F9]">Helix</td><td class="p-2"><span class="px-1.5 py-0.5 bg-[#F59E0B]/20 text-[#F59E0B] rounded text-[10px]">Vendor</span></td><td class="p-2 text-[#F1F5F9]">Vendor B rationalisation gate</td><td class="p-2"><span class="text-[#F59E0B] font-mono">4d</span></td><td class="p-2 text-[#CBD5E1]">A Exit / B Formal notice / C Continue</td><td class="p-2 text-[#CBD5E1]">B Formal notice with 60-day</td><td class="p-2 text-[#CBD5E1]">Quality miss compounding</td><td class="p-2 text-[#A0AEC0]">Kiran</td></tr>
+            <tr class="border-b border-[#3A4454] hover:bg-[#3A4454]/40 transition cursor-pointer"><td class="p-2 text-[#F1F5F9]">Pegasus</td><td class="p-2"><span class="px-1.5 py-0.5 bg-[#EF4444]/20 text-[#EF4444] rounded text-[10px]">Compliance</span></td><td class="p-2 text-[#F1F5F9]">Audit remediation scope</td><td class="p-2"><span class="text-[#EF4444] font-mono">6d</span></td><td class="p-2 text-[#CBD5E1]">A Full / B Phased / C Accept risk</td><td class="p-2 text-[#CBD5E1]">B Phased with 45-day gate</td><td class="p-2 text-[#CBD5E1]">Regulatory fine exposure</td><td class="p-2 text-[#A0AEC0]">Rajiv</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-span-4 bg-[#2E3849] border border-[#3A4454] rounded-md p-5">
+        <div class="mb-3"><h2 class="text-[#F1F5F9] text-base font-semibold">Escalation Contract</h2><p class="text-[#A0AEC0] text-xs mt-0.5">Pegasus. Tier labels from <span class="font-mono">escalation_tier_config</span>.</p></div>
+        <div class="space-y-2 text-xs">
+          <div class="border-l-2 border-[#10B981] bg-[#10B981]/5 pl-3 py-2"><div class="flex items-center justify-between"><span class="text-[#F1F5F9] font-medium">Tier 1 DM</span><span class="font-mono text-[#A0AEC0]">24h SLA</span></div><div class="text-[#CBD5E1] text-[11px]">Rajiv Kumar</div></div>
+          <div class="border-l-2 border-[#10B981] bg-[#10B981]/5 pl-3 py-2"><div class="flex items-center justify-between"><span class="text-[#F1F5F9] font-medium">Tier 2 Programme Director</span><span class="font-mono text-[#A0AEC0]">48h SLA</span></div><div class="text-[#CBD5E1] text-[11px]">Priya Sharma</div></div>
+          <div class="border-l-2 border-[#F59E0B] bg-[#F59E0B]/5 pl-3 py-2"><div class="flex items-center justify-between"><span class="text-[#F1F5F9] font-medium">Tier 3 Portfolio Owner</span><span class="font-mono text-[#A0AEC0]">72h SLA</span></div><div class="text-[#CBD5E1] text-[11px]">Adi Kompalli</div></div>
+          <div class="border-l-2 border-[#EF4444] bg-[#EF4444]/5 pl-3 py-2"><div class="flex items-center justify-between"><span class="text-[#F1F5F9] font-medium">Tier 4 Sponsor</span><span class="font-mono text-[#A0AEC0]">5d SLA</span></div><div class="text-[#CBD5E1] text-[11px]">Client CFO</div></div>
+          <div class="border-l-2 border-[#EF4444] bg-[#EF4444]/5 pl-3 py-2"><div class="flex items-center justify-between"><span class="text-[#F1F5F9] font-medium">Tier 5 Steerco</span><span class="font-mono text-[#A0AEC0]">10d SLA</span></div><div class="text-[#CBD5E1] text-[11px]">Joint board</div></div>
+          <div class="pt-2 border-t border-[#3A4454] mt-3"><span class="text-[#EF4444] text-[11px] font-semibold">Staleness: 210 days</span><span class="text-[#A0AEC0] text-[11px] ml-2">Re-validate before next steerco</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Steerco Pre-Read + Weekly Commitment Review + Sponsor Engagement -->
+    <section class="grid grid-cols-12 gap-6 mb-8">
+      <div class="col-span-6 bg-[#2E3849] border border-[#3A4454] rounded-md p-5">
+        <div class="flex items-center justify-between mb-3"><div><h2 class="text-[#F1F5F9] text-base font-semibold">Steerco Pre-Read Kit</h2><p class="text-[#A0AEC0] text-xs mt-0.5">Upcoming: Pegasus Thu 30 Apr, Phoenix Fri 01 May</p></div><button class="px-2 py-1 text-xs bg-[#3A4454] text-[#F1F5F9] rounded hover:bg-[#4A5568]">Export Pre-Read</button></div>
+        <div class="space-y-3">
+          <div class="border border-[#3A4454] rounded-md p-3">
+            <div class="flex items-center justify-between mb-2"><div class="text-[#F1F5F9] text-sm font-medium">Pegasus steerco | Thu 30 Apr</div><span class="px-1.5 py-0.5 bg-[#10B981]/20 text-[#10B981] rounded text-[10px]">IssuedToSteerco</span></div>
+            <div class="grid grid-cols-4 gap-3 text-[11px]"><div><div class="text-[#A0AEC0] uppercase tracking-wider text-[9px] mb-0.5">Decision</div><div class="text-[#F1F5F9]">Milestone recovery</div></div><div><div class="text-[#A0AEC0] uppercase tracking-wider text-[9px] mb-0.5">Options</div><div class="text-[#CBD5E1]">Descope / Extend / Accept</div></div><div><div class="text-[#A0AEC0] uppercase tracking-wider text-[9px] mb-0.5">Recommendation</div><div class="text-[#CBD5E1]">Descope with Q3 add-back</div></div><div><div class="text-[#A0AEC0] uppercase tracking-wider text-[9px] mb-0.5">Deferral Impact</div><div class="text-[#CBD5E1]">minus 120 bps at 2 weeks</div></div></div>
+          </div>
+          <div class="border border-[#F59E0B]/40 rounded-md p-3 bg-[#F59E0B]/5">
+            <div class="flex items-center justify-between mb-2"><div class="text-[#F1F5F9] text-sm font-medium">Phoenix steerco | Fri 01 May</div><span class="px-1.5 py-0.5 bg-[#F59E0B]/20 text-[#F59E0B] rounded text-[10px]">Drafted</span></div>
+            <div class="text-[#A0AEC0] text-[11px]">Backfill hire decision pending PM review before issue.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-span-3 bg-[#2E3849] border border-[#3A4454] rounded-md p-5">
+        <h2 class="text-[#F1F5F9] text-base font-semibold mb-3">Weekly Commitment Review</h2>
+        <div class="text-[11px] text-[#A0AEC0] mb-3">Heatmap this week. Red = delta above 20 percent.</div>
+        <div class="grid grid-cols-5 gap-1.5">
+          <div class="text-[10px] text-[#A0AEC0] col-span-2 flex items-center">Pegasus</div>
+          <div class="h-7 bg-[#EF4444]/40 border border-[#EF4444] rounded text-[10px] flex items-center justify-center text-[#EF4444] font-mono">-32%</div>
+          <div class="h-7 bg-[#F59E0B]/30 border border-[#F59E0B] rounded text-[10px] flex items-center justify-center text-[#F59E0B] font-mono">-18%</div>
+          <div class="h-7 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981] font-mono">+4%</div>
+
+          <div class="text-[10px] text-[#A0AEC0] col-span-2 flex items-center">Phoenix</div>
+          <div class="h-7 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981] font-mono">-2%</div>
+          <div class="h-7 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981] font-mono">+6%</div>
+          <div class="h-7 bg-[#F59E0B]/30 border border-[#F59E0B] rounded text-[10px] flex items-center justify-center text-[#F59E0B] font-mono">-14%</div>
+
+          <div class="text-[10px] text-[#A0AEC0] col-span-2 flex items-center">Orion</div>
+          <div class="h-7 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981] font-mono">0%</div>
+          <div class="h-7 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981] font-mono">+2%</div>
+          <div class="h-7 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981] font-mono">-5%</div>
+
+          <div class="text-[10px] text-[#A0AEC0] col-span-2 flex items-center">Stellar</div>
+          <div class="h-7 bg-[#F59E0B]/30 border border-[#F59E0B] rounded text-[10px] flex items-center justify-center text-[#F59E0B] font-mono">-16%</div>
+          <div class="h-7 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981] font-mono">-4%</div>
+          <div class="h-7 bg-[#10B981]/30 border border-[#10B981] rounded text-[10px] flex items-center justify-center text-[#10B981] font-mono">+1%</div>
+        </div>
+      </div>
+
+      <div class="col-span-3 bg-[#2E3849] border border-[#3A4454] rounded-md p-5">
+        <h2 class="text-[#F1F5F9] text-base font-semibold mb-3">Sponsor Engagement</h2>
+        <div class="text-[11px] text-[#A0AEC0] mb-3">Lowest sponsor score per programme. Below 40 flagged.</div>
+        <div class="space-y-2">
+          <div class="flex items-center justify-between p-2 bg-[#EF4444]/10 border border-[#EF4444]/30 rounded"><div class="text-[#F1F5F9] text-xs">Pegasus sponsor</div><div class="flex items-center gap-2"><span class="font-mono text-[#EF4444] text-sm font-semibold">38</span><span class="px-1.5 py-0.5 bg-[#EF4444]/30 text-[#EF4444] text-[9px] rounded font-semibold">ON MUTE</span></div></div>
+          <div class="flex items-center justify-between p-2 bg-[#F59E0B]/10 border border-[#F59E0B]/30 rounded"><div class="text-[#F1F5F9] text-xs">Phoenix sponsor</div><div class="flex items-center gap-2"><span class="font-mono text-[#F59E0B] text-sm font-semibold">62</span></div></div>
+          <div class="flex items-center justify-between p-2 bg-[#10B981]/5 border border-[#10B981]/30 rounded"><div class="text-[#F1F5F9] text-xs">Orion sponsor</div><div class="flex items-center gap-2"><span class="font-mono text-[#10B981] text-sm font-semibold">72</span></div></div>
+          <div class="flex items-center justify-between p-2 bg-[#10B981]/5 border border-[#10B981]/30 rounded"><div class="text-[#F1F5F9] text-xs">Stellar sponsor</div><div class="flex items-center gap-2"><span class="font-mono text-[#10B981] text-sm font-semibold">78</span></div></div>
+          <div class="flex items-center justify-between p-2 bg-[#10B981]/5 border border-[#10B981]/30 rounded"><div class="text-[#F1F5F9] text-xs">Helix sponsor</div><div class="flex items-center gap-2"><span class="font-mono text-[#10B981] text-sm font-semibold">81</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stakeholder Influence Map + Over-Optimism Portfolio + Escalation Timing -->
+    <section class="grid grid-cols-12 gap-6 mb-8">
+      <div class="col-span-5 bg-[#2E3849] border border-[#3A4454] rounded-md p-5">
+        <h2 class="text-[#F1F5F9] text-base font-semibold mb-3">Stakeholder Influence Map</h2>
+        <div class="relative bg-[#2A3446] border border-[#3A4454] rounded aspect-[4/3] p-3">
+          <div class="absolute top-0 left-1/2 text-[9px] text-[#A0AEC0] -translate-x-1/2 mt-1">High Support</div>
+          <div class="absolute bottom-0 left-1/2 text-[9px] text-[#A0AEC0] -translate-x-1/2 mb-1">Opposing</div>
+          <div class="absolute left-0 top-1/2 text-[9px] text-[#A0AEC0] -translate-y-1/2 -rotate-90 ml-1">Low Influence</div>
+          <div class="absolute right-0 top-1/2 text-[9px] text-[#A0AEC0] -translate-y-1/2 rotate-90 mr-1">High Influence</div>
+          <div class="absolute left-1/2 top-0 bottom-0 w-px bg-[#3A4454]"></div>
+          <div class="absolute top-1/2 left-0 right-0 h-px bg-[#3A4454]"></div>
+          <!-- Bubbles -->
+          <div class="absolute w-5 h-5 rounded-full bg-[#10B981]/60 border-2 border-[#10B981]" style="top:18%;right:14%" title="Client CFO | Pegasus"></div>
+          <div class="absolute w-4 h-4 rounded-full bg-[#10B981]/60 border-2 border-[#10B981]" style="top:25%;right:28%" title="Client COO | Phoenix"></div>
+          <div class="absolute w-3 h-3 rounded-full bg-[#F59E0B]/60 border-2 border-[#F59E0B]" style="top:42%;right:32%"></div>
+          <div class="absolute w-6 h-6 rounded-full bg-[#EF4444]/60 border-2 border-[#EF4444]" style="bottom:18%;right:18%" title="Client CTO | Pegasus (opposing)"></div>
+          <div class="absolute w-3 h-3 rounded-full bg-[#EF4444]/60 border-2 border-[#EF4444]" style="bottom:30%;left:38%"></div>
+          <div class="absolute w-3 h-3 rounded-full bg-[#10B981]/60 border-2 border-[#10B981]" style="top:35%;left:30%"></div>
+          <div class="absolute w-4 h-4 rounded-full bg-[#F59E0B]/60 border-2 border-[#F59E0B]" style="bottom:40%;right:45%"></div>
+        </div>
+        <div class="mt-3 text-[11px] text-[#A0AEC0]">Size = decision maker. 2 opposing decision-makers flagged.</div>
+      </div>
+
+      <div class="col-span-4 bg-[#2E3849] border border-[#3A4454] rounded-md p-5">
+        <h2 class="text-[#F1F5F9] text-base font-semibold mb-3">Over-Optimism Portfolio</h2>
+        <div class="text-[11px] text-[#A0AEC0] mb-3">Green-on-green flag fires this quarter: <span class="text-[#EF4444] font-semibold">3 programmes</span></div>
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-xs p-2 bg-[#EF4444]/10 rounded"><span class="text-[#F1F5F9]">Pegasus</span><div class="flex items-center gap-2"><span class="font-mono text-[#A0AEC0]">9 green wks</span><span class="px-1.5 py-0.5 bg-[#EF4444]/30 text-[#EF4444] rounded text-[10px]">Flagged</span></div></div>
+          <div class="flex items-center justify-between text-xs p-2 bg-[#EF4444]/10 rounded"><span class="text-[#F1F5F9]">Stellar</span><div class="flex items-center gap-2"><span class="font-mono text-[#A0AEC0]">11 green wks</span><span class="px-1.5 py-0.5 bg-[#EF4444]/30 text-[#EF4444] rounded text-[10px]">Flagged</span></div></div>
+          <div class="flex items-center justify-between text-xs p-2 bg-[#EF4444]/10 rounded"><span class="text-[#F1F5F9]">Atlas</span><div class="flex items-center gap-2"><span class="font-mono text-[#A0AEC0]">8 green wks</span><span class="px-1.5 py-0.5 bg-[#EF4444]/30 text-[#EF4444] rounded text-[10px]">Flagged</span></div></div>
+          <div class="flex items-center justify-between text-xs p-2"><span class="text-[#F1F5F9]">Orion</span><div class="flex items-center gap-2"><span class="font-mono text-[#A0AEC0]">4 green wks</span><span class="px-1.5 py-0.5 bg-[#10B981]/20 text-[#10B981] rounded text-[10px]">OK</span></div></div>
+        </div>
+      </div>
+
+      <div class="col-span-3 bg-[#2E3849] border border-[#3A4454] rounded-md p-5">
+        <h2 class="text-[#F1F5F9] text-base font-semibold mb-3">Escalation Timing</h2>
+        <div class="text-[11px] text-[#A0AEC0] mb-3">Distribution across 30 RAIDs with escalation</div>
+        <div class="space-y-2 text-xs">
+          <div><div class="flex items-center justify-between mb-1"><span class="text-[#F1F5F9]">Early</span><span class="font-mono text-[#10B981]">8</span></div><div class="w-full h-2 bg-[#3A4454] rounded"><div class="h-2 bg-[#10B981] rounded" style="width:27%"></div></div></div>
+          <div><div class="flex items-center justify-between mb-1"><span class="text-[#F1F5F9]">OnTime</span><span class="font-mono text-[#10B981]">12</span></div><div class="w-full h-2 bg-[#3A4454] rounded"><div class="h-2 bg-[#10B981] rounded" style="width:40%"></div></div></div>
+          <div><div class="flex items-center justify-between mb-1"><span class="text-[#F1F5F9]">Late</span><span class="font-mono text-[#EF4444]">8</span></div><div class="w-full h-2 bg-[#3A4454] rounded"><div class="h-2 bg-[#EF4444] rounded" style="width:27%"></div></div></div>
+          <div><div class="flex items-center justify-between mb-1"><span class="text-[#F1F5F9]">NeverEscalated</span><span class="font-mono text-[#EF4444]">2</span></div><div class="w-full h-2 bg-[#3A4454] rounded"><div class="h-2 bg-[#EF4444] rounded" style="width:7%"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Threshold Register snapshot + Tier Config Admin -->
+    <section class="grid grid-cols-12 gap-6 mb-8">
+      <div class="col-span-7 bg-[#2E3849] border border-[#3A4454] rounded-md p-5">
+        <div class="flex items-center justify-between mb-3"><h2 class="text-[#F1F5F9] text-base font-semibold">Threshold Calibration Register</h2><span class="text-[11px] text-[#A0AEC0]">60 metrics. Edits by owning role. Audited.</span></div>
+        <table class="w-full text-xs">
+          <thead><tr class="text-[#A0AEC0] border-b border-[#3A4454]"><th class="text-left p-2 font-medium">Metric</th><th class="text-left p-2 font-medium">Direction</th><th class="text-left p-2 font-medium">Green</th><th class="text-left p-2 font-medium">Amber</th><th class="text-left p-2 font-medium">Red</th><th class="text-left p-2 font-medium">Owner</th></tr></thead>
+          <tbody>
+            <tr class="border-b border-[#3A4454] hover:bg-[#3A4454]/30"><td class="p-2 font-mono text-[11px] text-[#F1F5F9]">portfolio_margin_pct</td><td class="p-2 text-[#CBD5E1]">HigherIsBetter</td><td class="p-2 font-mono text-[#10B981]">above 28.0</td><td class="p-2 font-mono text-[#F59E0B]">25.0 to 27.99</td><td class="p-2 font-mono text-[#EF4444]">below 25.0</td><td class="p-2 text-[#A0AEC0]">FinanceLead</td></tr>
+            <tr class="border-b border-[#3A4454] hover:bg-[#3A4454]/30"><td class="p-2 font-mono text-[11px] text-[#F1F5F9]">decision_latency_days</td><td class="p-2 text-[#CBD5E1]">LowerIsBetter</td><td class="p-2 font-mono text-[#10B981]">below 2.0</td><td class="p-2 font-mono text-[#F59E0B]">2.0 to 4.99</td><td class="p-2 font-mono text-[#EF4444]">≥ 5.0</td><td class="p-2 text-[#A0AEC0]">PortfolioOwner</td></tr>
+            <tr class="border-b border-[#3A4454] hover:bg-[#3A4454]/30"><td class="p-2 font-mono text-[11px] text-[#F1F5F9]">cpi</td><td class="p-2 text-[#CBD5E1]">HigherIsBetter</td><td class="p-2 font-mono text-[#10B981]">≥ 0.95</td><td class="p-2 font-mono text-[#F59E0B]">0.85 to 0.949</td><td class="p-2 font-mono text-[#EF4444]">below 0.85</td><td class="p-2 text-[#A0AEC0]">FinanceLead</td></tr>
+            <tr class="border-b border-[#3A4454] hover:bg-[#3A4454]/30"><td class="p-2 font-mono text-[11px] text-[#F1F5F9]">raci_gap_pct</td><td class="p-2 text-[#CBD5E1]">LowerIsBetter</td><td class="p-2 font-mono text-[#10B981]">below 5.0</td><td class="p-2 font-mono text-[#F59E0B]">5.0 to 9.99</td><td class="p-2 font-mono text-[#EF4444]">≥ 10.0</td><td class="p-2 text-[#A0AEC0]">PortfolioOwner</td></tr>
+            <tr class="border-b border-[#3A4454] hover:bg-[#3A4454]/30"><td class="p-2 font-mono text-[11px] text-[#F1F5F9]">utilization_pct</td><td class="p-2 text-[#CBD5E1]">HigherIsBetter</td><td class="p-2 font-mono text-[#10B981]">≥ 80.0</td><td class="p-2 font-mono text-[#F59E0B]">72.0 to 79.99</td><td class="p-2 font-mono text-[#EF4444]">below 72.0</td><td class="p-2 text-[#A0AEC0]">FinanceLead</td></tr>
+          </tbody>
+        </table>
+        <button class="mt-3 text-[#F5B800] text-xs hover:underline">View all 60 metrics</button>
+      </div>
+
+      <div class="col-span-5 bg-[#2E3849] border border-[#F5B800]/40 rounded-md p-5">
+        <div class="flex items-center justify-between mb-3"><div><h2 class="text-[#F1F5F9] text-base font-semibold">Tier Config Admin</h2><p class="text-[#A0AEC0] text-[11px] mt-0.5">Portfolio Owner only. Rename tiers. Renames propagate everywhere.</p></div><span class="px-2 py-0.5 bg-[#F5B800]/20 text-[#F5B800] rounded text-[10px] font-semibold">PO ONLY</span></div>
+        <table class="w-full text-xs">
+          <thead><tr class="text-[#A0AEC0] border-b border-[#3A4454]"><th class="text-left p-2 font-medium">Tier</th><th class="text-left p-2 font-medium">Default Label</th><th class="text-left p-2 font-medium">Display Label (editable)</th><th class="text-left p-2 font-medium">Active</th></tr></thead>
+          <tbody>
+            <tr class="border-b border-[#3A4454]"><td class="p-2 font-mono text-[#F1F5F9]">1</td><td class="p-2 text-[#A0AEC0]">DM</td><td class="p-2"><input value="DM" class="bg-[#3A4454] border border-[#4A5568] rounded px-2 py-1 text-[#F1F5F9] text-xs w-full" /></td><td class="p-2"><span class="inline-block w-3 h-3 rounded-full bg-[#10B981]"></span></td></tr>
+            <tr class="border-b border-[#3A4454]"><td class="p-2 font-mono text-[#F1F5F9]">2</td><td class="p-2 text-[#A0AEC0]">Programme Director</td><td class="p-2"><input value="Programme Director" class="bg-[#3A4454] border border-[#4A5568] rounded px-2 py-1 text-[#F1F5F9] text-xs w-full" /></td><td class="p-2"><span class="inline-block w-3 h-3 rounded-full bg-[#10B981]"></span></td></tr>
+            <tr class="border-b border-[#3A4454]"><td class="p-2 font-mono text-[#F1F5F9]">3</td><td class="p-2 text-[#A0AEC0]">Portfolio Owner</td><td class="p-2"><input value="Portfolio Owner" class="bg-[#3A4454] border border-[#4A5568] rounded px-2 py-1 text-[#F1F5F9] text-xs w-full" /></td><td class="p-2"><span class="inline-block w-3 h-3 rounded-full bg-[#10B981]"></span></td></tr>
+            <tr class="border-b border-[#3A4454]"><td class="p-2 font-mono text-[#F1F5F9]">4</td><td class="p-2 text-[#A0AEC0]">Sponsor</td><td class="p-2"><input value="Sponsor" class="bg-[#3A4454] border border-[#4A5568] rounded px-2 py-1 text-[#F1F5F9] text-xs w-full" /></td><td class="p-2"><span class="inline-block w-3 h-3 rounded-full bg-[#10B981]"></span></td></tr>
+            <tr class="border-b border-[#3A4454]"><td class="p-2 font-mono text-[#F1F5F9]">5</td><td class="p-2 text-[#A0AEC0]">Steerco</td><td class="p-2"><input value="Steerco" class="bg-[#3A4454] border border-[#4A5568] rounded px-2 py-1 text-[#F1F5F9] text-xs w-full" /></td><td class="p-2"><span class="inline-block w-3 h-3 rounded-full bg-[#10B981]"></span></td></tr>
+          </tbody>
+        </table>
+        <button class="mt-3 px-3 py-1.5 bg-[#F5B800] text-[#242D3D] rounded text-xs font-semibold hover:bg-[#FFCA40]">Save (audited)</button>
+      </div>
+    </section>
+
+    <footer class="text-[11px] text-[#718096] text-center py-6 border-t border-[#3A4454]">
+      AKB1 Delivery Command Center v1 | Governance Operating Model | Revision 1 | 2026-04-25 | PRD 23 | UC-A, A1, A2, A3, A4, A5, A6, Y, Z, R, S, KK, OO, PP
+    </footer>
+
+  </main>
+
+</body>
+</html>

@@ -47,7 +47,7 @@ install:
 	@echo "Not yet implemented. Populated at M6 when backend and frontend exist."
 
 seed:
-	@echo "Not yet implemented. Populated at M6 when seed generator lands."
+	cd backend && PYTHONPATH=. .venv/bin/python -m app.seed.generator
 
 test:
 	@echo "Not yet implemented. Populated at M6."

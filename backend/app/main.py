@@ -10,6 +10,7 @@ from app.api.v1.admin import router as admin_router
 from app.api.v1.audit import router as audit_router
 from app.api.v1.auth import router as auth_router
 from app.api.v1.health import router as health_router
+from app.api.v1.people import router as people_router
 from app.api.v1.programmes import router as programmes_router
 from app.cache import close_redis_client, get_redis_client
 from app.config import get_settings
@@ -53,6 +54,7 @@ def create_app() -> FastAPI:
     app.include_router(auth_router, prefix=settings.api_prefix, tags=["auth"])
     app.include_router(admin_router, prefix=settings.api_prefix, tags=["admin"])
     app.include_router(audit_router, prefix=settings.api_prefix, tags=["audit"])
+    app.include_router(people_router, prefix=settings.api_prefix, tags=["people"])
     app.include_router(programmes_router, prefix=settings.api_prefix, tags=["programmes"])
 
     return app

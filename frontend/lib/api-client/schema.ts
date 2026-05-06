@@ -194,6 +194,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/people": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get People List
+         * @description Return all people. Reads not audited.
+         */
+        get: operations["get_people_list_api_v1_people_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/programmes/{code}/raids": {
         parameters: {
             query?: never;
@@ -520,6 +540,33 @@ export interface components {
             items: components["schemas"]["MilestoneItem"][];
             /** Count */
             count: number;
+        };
+        /** PeopleListResponse */
+        PeopleListResponse: {
+            /** Items */
+            items: components["schemas"]["PersonItem"][];
+            /** Count */
+            count: number;
+        };
+        /** PersonItem */
+        PersonItem: {
+            /**
+             * Person Id
+             * Format: uuid
+             */
+            person_id: string;
+            /** Full Name */
+            full_name: string;
+            /** Role */
+            role: string;
+            /** Band */
+            band: string | null;
+            /** Ap Flag */
+            ap_flag: boolean;
+            /** Overtime Hours Mtd */
+            overtime_hours_mtd: number | null;
+            /** Last 1On1 Sentiment Score */
+            last_1on1_sentiment_score: number | null;
         };
         /** RAIDItem */
         RAIDItem: {
@@ -946,6 +993,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_people_list_api_v1_people_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PeopleListResponse"];
                 };
             };
         };

@@ -8,345 +8,239 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', system-ui, sans-serif; }
-    .font-mono { font-family: 'JetBrains Mono', monospace; }
-    .tabular { font-variant-numeric: tabular-nums; }
-  </style>
+  <style>body{font-family:'Inter',system-ui,sans-serif}.font-mono{font-family:'JetBrains Mono',monospace}.tabular{font-variant-numeric:tabular-nums}</style>
 </head>
-<body class="bg-[#0B1220] text-[#F1F5F9] min-h-screen">
+<body class="bg-[#242D3D] text-[#F1F5F9] min-h-screen">
 
-  <!-- Brand header -->
-  <header class="border-b border-[#1F2937] bg-[#111827]">
+  <header class="border-b border-[#3A4454] bg-[#2E3849]">
     <div class="max-w-[1440px] mx-auto px-8 py-5 flex items-center justify-between">
       <div class="flex items-center gap-4">
-        <div class="w-10 h-10 rounded-md bg-[#F5B800] flex items-center justify-center">
-          <span class="text-[#0B1220] font-bold text-lg">A1</span>
-        </div>
+        <div class="w-10 h-10 rounded-md bg-[#F5B800] flex items-center justify-center"><span class="text-[#242D3D] font-bold text-lg">A1</span></div>
         <div>
           <div class="text-[#F1F5F9] font-semibold text-lg tracking-tight">AKB1 Delivery Command Center</div>
-          <div class="text-[#94A3B8] text-xs">Version 1 | Wireframe Library | 2026-04-24</div>
+          <div class="text-[#A0AEC0] text-xs">Version 1 | Wireframe Library | 2026-04-24 | Revision 2</div>
         </div>
       </div>
       <div class="flex items-center gap-3">
-        <span class="px-3 py-1.5 bg-[#78350F] border border-[#F5B800] rounded-md text-[#F5B800] text-xs font-medium">v0.1.0-wireframe</span>
-        <span class="text-[#64748B] text-xs">Private | Pre-launch</span>
+        <span class="px-3 py-1.5 bg-[#78350F] border border-[#F5B800] rounded-md text-[#F5B800] text-xs font-medium">v0.1.0-wireframe R2</span>
+        <span class="text-[#718096] text-xs">Private | Pre-launch</span>
       </div>
     </div>
   </header>
 
-  <!-- Hero intro -->
-  <section class="border-b border-[#1F2937] bg-[#0F172A]">
+  <section class="border-b border-[#3A4454] bg-[#2A3446]">
     <div class="max-w-[1440px] mx-auto px-8 py-10">
       <h1 class="text-4xl font-bold text-[#F1F5F9] tracking-tight mb-3">Wireframe Library</h1>
-      <p class="text-[#CBD5E1] text-lg leading-relaxed max-w-3xl">
-        Sixteen self-contained HTML wireframes covering the fourteen tabs of the AKB1 Delivery Command Center v1. Each wireframe renders the three-column intelligence layer (What does this tell me, Why is this happening, What do I do this week) plus KPI grid, charts, and drill affordances. All data is fictional.
+      <p class="text-[#CBD5E1] text-lg leading-relaxed max-w-3xl mb-6">
+        Sixteen self-contained HTML wireframes. Revision 2 cascades the self-check fixes: Option D palette, role-scoped 5-tab primary navigation per role, search command palette, notifications bell, export menu, as-of date picker for history. All data is fictional.
       </p>
-      <div class="flex gap-8 mt-8">
-        <div>
-          <div class="text-[#94A3B8] text-xs uppercase tracking-wider mb-1">Programmes</div>
-          <div class="text-[#F1F5F9] text-3xl font-semibold font-mono tabular">10</div>
-        </div>
-        <div>
-          <div class="text-[#94A3B8] text-xs uppercase tracking-wider mb-1">People</div>
-          <div class="text-[#F1F5F9] text-3xl font-semibold font-mono tabular">300</div>
-        </div>
-        <div>
-          <div class="text-[#94A3B8] text-xs uppercase tracking-wider mb-1">Vendors</div>
-          <div class="text-[#F1F5F9] text-3xl font-semibold font-mono tabular">25</div>
-        </div>
-        <div>
-          <div class="text-[#94A3B8] text-xs uppercase tracking-wider mb-1">Total TCV</div>
-          <div class="text-[#F1F5F9] text-3xl font-semibold font-mono tabular">$337M</div>
-        </div>
-        <div>
-          <div class="text-[#94A3B8] text-xs uppercase tracking-wider mb-1">Portfolio Margin</div>
-          <div class="text-[#EF4444] text-3xl font-semibold font-mono tabular">19.2%</div>
-        </div>
-        <div>
-          <div class="text-[#94A3B8] text-xs uppercase tracking-wider mb-1">Target Margin</div>
-          <div class="text-[#F5B800] text-3xl font-semibold font-mono tabular">21.0%</div>
-        </div>
+      <div class="flex gap-8">
+        <div><div class="text-[#A0AEC0] text-xs uppercase tracking-wider mb-1">Programmes</div><div class="text-[#F1F5F9] text-3xl font-semibold font-mono tabular">10</div></div>
+        <div><div class="text-[#A0AEC0] text-xs uppercase tracking-wider mb-1">People</div><div class="text-[#F1F5F9] text-3xl font-semibold font-mono tabular">300</div></div>
+        <div><div class="text-[#A0AEC0] text-xs uppercase tracking-wider mb-1">Vendors</div><div class="text-[#F1F5F9] text-3xl font-semibold font-mono tabular">25</div></div>
+        <div><div class="text-[#A0AEC0] text-xs uppercase tracking-wider mb-1">Total TCV</div><div class="text-[#F1F5F9] text-3xl font-semibold font-mono tabular">$337M</div></div>
+        <div><div class="text-[#A0AEC0] text-xs uppercase tracking-wider mb-1">Gross Margin</div><div class="text-[#EF4444] text-3xl font-semibold font-mono tabular">19.2%</div></div>
+        <div><div class="text-[#A0AEC0] text-xs uppercase tracking-wider mb-1">Target Gross</div><div class="text-[#F5B800] text-3xl font-semibold font-mono tabular">21.0%</div></div>
       </div>
     </div>
   </section>
 
-  <!-- Tab clusters -->
   <main class="max-w-[1440px] mx-auto px-8 py-10">
 
-    <!-- Leadership cluster -->
-    <section class="mb-12">
-      <div class="flex items-center gap-3 mb-6">
+    <section class="mb-10">
+      <div class="flex items-center gap-3 mb-4">
         <div class="w-1 h-6 bg-[#F5B800] rounded-full"></div>
-        <h2 class="text-[#F1F5F9] text-xl font-semibold tracking-tight">Leadership Intelligence</h2>
-        <span class="text-[#64748B] text-xs">6 tabs | Portfolio Owner, Finance Lead</span>
+        <h2 class="text-[#F1F5F9] text-xl font-semibold tracking-tight">Role-Scoped Entry Points</h2>
+        <span class="text-[#718096] text-xs">Pick a role to preview its primary 5-tab navigation</span>
       </div>
-      <div class="grid grid-cols-3 gap-4">
+      <div class="grid grid-cols-4 gap-4">
 
-        <a href="v1_01_Executive.html" class="block bg-[#111827] border border-[#1F2937] hover:border-[#F5B800] rounded-lg p-5 transition group">
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[#64748B] font-mono text-xs tabular">01</span>
-            <span class="px-2 py-0.5 bg-[#111827] border border-[#F5B800] rounded text-[#F5B800] text-[10px] font-medium uppercase">In Review</span>
-          </div>
-          <div class="text-[#F1F5F9] font-semibold mb-2 group-hover:text-[#F5B800] transition">Executive Overview</div>
-          <div class="text-[#94A3B8] text-sm leading-relaxed mb-3">Portfolio margin, utilisation, forecast accuracy, programme states at a glance. Intelligence layer narrates the month.</div>
-          <div class="flex items-center gap-2 text-xs text-[#64748B]">
-            <span>Source: v5.8 Foil A</span>
-            <span>&middot;</span>
-            <span>Role: Portfolio Owner</span>
-          </div>
-        </a>
-
-        <a href="v1_02_Delivery_Health.html" class="block bg-[#111827] border border-[#1F2937] hover:border-[#F5B800] rounded-lg p-5 transition group">
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[#64748B] font-mono text-xs tabular">02</span>
-            <span class="px-2 py-0.5 bg-[#111827] border border-[#64748B] rounded text-[#64748B] text-[10px] font-medium uppercase">Planned</span>
-          </div>
-          <div class="text-[#F1F5F9] font-semibold mb-2 group-hover:text-[#F5B800] transition">Delivery Health</div>
-          <div class="text-[#94A3B8] text-sm leading-relaxed mb-3">Velocity, sprint burn, milestone adherence, blockers, on-time percentage per programme.</div>
-          <div class="flex items-center gap-2 text-xs text-[#64748B]">
-            <span>Source: v5.8 Foil A</span>
-            <span>&middot;</span>
-            <span>Role: Portfolio Owner, PM</span>
-          </div>
-        </a>
-
-        <a href="v1_03_Risk_RAID.html" class="block bg-[#111827] border border-[#1F2937] hover:border-[#F5B800] rounded-lg p-5 transition group">
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[#64748B] font-mono text-xs tabular">03</span>
-            <span class="px-2 py-0.5 bg-[#111827] border border-[#64748B] rounded text-[#64748B] text-[10px] font-medium uppercase">Planned</span>
-          </div>
-          <div class="text-[#F1F5F9] font-semibold mb-2 group-hover:text-[#F5B800] transition">Risk and RAID</div>
-          <div class="text-[#94A3B8] text-sm leading-relaxed mb-3">RAID severity scoring, aging buckets, owner accountability, portfolio risk heat map.</div>
-          <div class="flex items-center gap-2 text-xs text-[#64748B]">
-            <span>Source: v5.8 Foil A</span>
-            <span>&middot;</span>
-            <span>Role: Portfolio Owner, PM</span>
-          </div>
-        </a>
-
-        <a href="v1_04_Workforce_Intelligence.html" class="block bg-[#111827] border border-[#1F2937] hover:border-[#F5B800] rounded-lg p-5 transition group">
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[#64748B] font-mono text-xs tabular">04</span>
-            <span class="px-2 py-0.5 bg-[#111827] border border-[#64748B] rounded text-[#64748B] text-[10px] font-medium uppercase">Planned</span>
-          </div>
-          <div class="text-[#F1F5F9] font-semibold mb-2 group-hover:text-[#F5B800] transition">Workforce Intelligence</div>
-          <div class="text-[#94A3B8] text-sm leading-relaxed mb-3">Pyramid integrity, utilisation, bench, attrition radar, skill demand-supply alignment.</div>
-          <div class="flex items-center gap-2 text-xs text-[#64748B]">
-            <span>Source: v5.8 Foil A</span>
-            <span>&middot;</span>
-            <span>Role: Portfolio Owner, PM</span>
-          </div>
-        </a>
-
-        <a href="v1_05_Financials.html" class="block bg-[#111827] border border-[#1F2937] hover:border-[#F5B800] rounded-lg p-5 transition group">
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[#64748B] font-mono text-xs tabular">05</span>
-            <span class="px-2 py-0.5 bg-[#111827] border border-[#64748B] rounded text-[#64748B] text-[10px] font-medium uppercase">Planned</span>
-          </div>
-          <div class="text-[#F1F5F9] font-semibold mb-2 group-hover:text-[#F5B800] transition">Financials</div>
-          <div class="text-[#94A3B8] text-sm leading-relaxed mb-3">Revenue booked, billed, collected. Cost breakdown. Margin delta versus target.</div>
-          <div class="flex items-center gap-2 text-xs text-[#64748B]">
-            <span>Source: v5.8 Foil A</span>
-            <span>&middot;</span>
-            <span>Role: Finance Lead</span>
-          </div>
-        </a>
-
-        <a href="v1_06_PnL_Cockpit.html" class="block bg-[#111827] border border-[#1F2937] hover:border-[#F5B800] rounded-lg p-5 transition group">
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[#64748B] font-mono text-xs tabular">06</span>
-            <span class="px-2 py-0.5 bg-[#111827] border border-[#64748B] rounded text-[#64748B] text-[10px] font-medium uppercase">Planned</span>
-          </div>
-          <div class="text-[#F1F5F9] font-semibold mb-2 group-hover:text-[#F5B800] transition">P and L Cockpit</div>
-          <div class="text-[#94A3B8] text-sm leading-relaxed mb-3">Margin waterfall, leakage attribution, unbilled WIP, DSO, pyramid weight on margin.</div>
-          <div class="flex items-center gap-2 text-xs text-[#64748B]">
-            <span>Source: v5.8 Foil A (v5.8.0 module)</span>
-            <span>&middot;</span>
-            <span>Role: Finance Lead</span>
-          </div>
-        </a>
-
-      </div>
-    </section>
-
-    <!-- Operations cluster -->
-    <section class="mb-12">
-      <div class="flex items-center gap-3 mb-6">
-        <div class="w-1 h-6 bg-[#3B82F6] rounded-full"></div>
-        <h2 class="text-[#F1F5F9] text-xl font-semibold tracking-tight">Operations</h2>
-        <span class="text-[#64748B] text-xs">6 tabs | Programme Manager, Read Only</span>
-      </div>
-      <div class="grid grid-cols-3 gap-4">
-
-        <div class="block bg-[#111827] border border-[#1F2937] rounded-lg p-5 opacity-70">
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[#64748B] font-mono text-xs tabular">07</span>
-            <span class="px-2 py-0.5 bg-[#111827] border border-[#64748B] rounded text-[#64748B] text-[10px] font-medium uppercase">Planned</span>
-          </div>
-          <div class="text-[#F1F5F9] font-semibold mb-2">Flow and Velocity</div>
-          <div class="text-[#94A3B8] text-sm leading-relaxed mb-3">Sprint cadence, cycle time, throughput, WIP limits, flow efficiency.</div>
-          <div class="flex items-center gap-2 text-xs text-[#64748B]">
-            <span>Source: v5.8 Foil B</span>
-          </div>
+        <div class="bg-[#2E3849] border-2 border-[#F5B800] rounded-lg p-5">
+          <div class="flex items-center gap-2 mb-3"><div class="w-2 h-2 rounded-full bg-[#F5B800]"></div><div class="text-[#F5B800] text-xs font-semibold uppercase tracking-wider">Portfolio Owner</div></div>
+          <div class="text-[#F1F5F9] font-semibold mb-2">Full portfolio view, steerco prep</div>
+          <div class="text-[#A0AEC0] text-xs leading-relaxed mb-4">Primary tabs: Executive, Risk and RAID, Financials, Workforce, Client Health Radar</div>
+          <a href="v1_01_Executive.html" class="inline-block text-[#F5B800] text-xs font-semibold hover:underline">Enter Portfolio Owner view &rarr;</a>
         </div>
 
-        <div class="block bg-[#111827] border border-[#1F2937] rounded-lg p-5 opacity-70">
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[#64748B] font-mono text-xs tabular">08</span>
-            <span class="px-2 py-0.5 bg-[#111827] border border-[#64748B] rounded text-[#64748B] text-[10px] font-medium uppercase">Planned</span>
-          </div>
-          <div class="text-[#F1F5F9] font-semibold mb-2">AI and Innovation</div>
-          <div class="text-[#94A3B8] text-sm leading-relaxed mb-3">AI adoption per programme, automation coverage, productivity uplift, tool inventory.</div>
-          <div class="flex items-center gap-2 text-xs text-[#64748B]">
-            <span>Source: v5.8 Foil B</span>
-          </div>
+        <div class="bg-[#2E3849] border-2 border-[#3B82F6] rounded-lg p-5">
+          <div class="flex items-center gap-2 mb-3"><div class="w-2 h-2 rounded-full bg-[#3B82F6]"></div><div class="text-[#60A5FA] text-xs font-semibold uppercase tracking-wider">Programme Manager</div></div>
+          <div class="text-[#F1F5F9] font-semibold mb-2">Single-programme deep work</div>
+          <div class="text-[#A0AEC0] text-xs leading-relaxed mb-4">Primary tabs: Delivery Health, Risk and RAID, Backlog Health, Flow and Velocity, Ops and SLA</div>
+          <a href="v1_02_Delivery_Health.html" class="inline-block text-[#60A5FA] text-xs font-semibold hover:underline">Enter Programme Manager view &rarr;</a>
         </div>
 
-        <div class="block bg-[#111827] border border-[#1F2937] rounded-lg p-5 opacity-70">
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[#64748B] font-mono text-xs tabular">09</span>
-            <span class="px-2 py-0.5 bg-[#111827] border border-[#64748B] rounded text-[#64748B] text-[10px] font-medium uppercase">Planned</span>
-          </div>
-          <div class="text-[#F1F5F9] font-semibold mb-2">Commercial Pipeline</div>
-          <div class="text-[#94A3B8] text-sm leading-relaxed mb-3">Pipeline stage, win probability, commit versus capacity heat map, renewal windows.</div>
-          <div class="flex items-center gap-2 text-xs text-[#64748B]">
-            <span>Source: v5.8 Foil B</span>
-          </div>
+        <div class="bg-[#2E3849] border-2 border-[#8B5CF6] rounded-lg p-5">
+          <div class="flex items-center gap-2 mb-3"><div class="w-2 h-2 rounded-full bg-[#8B5CF6]"></div><div class="text-[#A78BFA] text-xs font-semibold uppercase tracking-wider">Finance Lead</div></div>
+          <div class="text-[#F1F5F9] font-semibold mb-2">Revenue, margin, commercial</div>
+          <div class="text-[#A0AEC0] text-xs leading-relaxed mb-4">Primary tabs: Financials, P and L Cockpit, Commercial Pipeline, Change Impact, Scenario Planner</div>
+          <a href="v1_05_Financials.html" class="inline-block text-[#A78BFA] text-xs font-semibold hover:underline">Enter Finance Lead view &rarr;</a>
         </div>
 
-        <div class="block bg-[#111827] border border-[#1F2937] rounded-lg p-5 opacity-70">
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[#64748B] font-mono text-xs tabular">10</span>
-            <span class="px-2 py-0.5 bg-[#111827] border border-[#64748B] rounded text-[#64748B] text-[10px] font-medium uppercase">Planned</span>
-          </div>
-          <div class="text-[#F1F5F9] font-semibold mb-2">Backlog Health</div>
-          <div class="text-[#94A3B8] text-sm leading-relaxed mb-3">Backlog aging, groom cadence, definition of ready, epic readiness.</div>
-          <div class="flex items-center gap-2 text-xs text-[#64748B]">
-            <span>Source: v5.8 Foil B</span>
-          </div>
-        </div>
-
-        <div class="block bg-[#111827] border border-[#1F2937] rounded-lg p-5 opacity-70">
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[#64748B] font-mono text-xs tabular">11</span>
-            <span class="px-2 py-0.5 bg-[#111827] border border-[#64748B] rounded text-[#64748B] text-[10px] font-medium uppercase">Planned</span>
-          </div>
-          <div class="text-[#F1F5F9] font-semibold mb-2">Scenario Planner</div>
-          <div class="text-[#94A3B8] text-sm leading-relaxed mb-3">What-if modelling on margin, resourcing, scope changes. Three-scenario compare.</div>
-          <div class="flex items-center gap-2 text-xs text-[#64748B]">
-            <span>Source: v5.8 Foil B</span>
-          </div>
-        </div>
-
-        <div class="block bg-[#111827] border border-[#1F2937] rounded-lg p-5 opacity-70">
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[#64748B] font-mono text-xs tabular">12</span>
-            <span class="px-2 py-0.5 bg-[#111827] border border-[#64748B] rounded text-[#64748B] text-[10px] font-medium uppercase">Planned</span>
-          </div>
-          <div class="text-[#F1F5F9] font-semibold mb-2">Ops and SLA</div>
-          <div class="text-[#94A3B8] text-sm leading-relaxed mb-3">SLA adherence, penalty exposure in dollars, incident trends, oncall health.</div>
-          <div class="flex items-center gap-2 text-xs text-[#64748B]">
-            <span>Source: v5.8 Foil B</span>
-          </div>
+        <div class="bg-[#2E3849] border-2 border-[#718096] rounded-lg p-5">
+          <div class="flex items-center gap-2 mb-3"><div class="w-2 h-2 rounded-full bg-[#A0AEC0]"></div><div class="text-[#A0AEC0] text-xs font-semibold uppercase tracking-wider">Read Only</div></div>
+          <div class="text-[#F1F5F9] font-semibold mb-2">Visibility, no mutations</div>
+          <div class="text-[#A0AEC0] text-xs leading-relaxed mb-4">Primary tabs: Executive, Delivery Health, Financials, Risk and RAID, Ops and SLA</div>
+          <a href="v1_01_Executive.html" class="inline-block text-[#A0AEC0] text-xs font-semibold hover:underline">Enter Read Only view &rarr;</a>
         </div>
 
       </div>
     </section>
 
-    <!-- Deep Dive cluster -->
-    <section class="mb-12">
-      <div class="flex items-center gap-3 mb-6">
-        <div class="w-1 h-6 bg-[#8B5CF6] rounded-full"></div>
-        <h2 class="text-[#F1F5F9] text-xl font-semibold tracking-tight">Deep Dive</h2>
-        <span class="text-[#64748B] text-xs">3 new tabs | Portfolio Owner, Programme Manager</span>
+    <section class="mb-10">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-1 h-6 bg-[#A0AEC0] rounded-full"></div>
+        <h2 class="text-[#F1F5F9] text-xl font-semibold tracking-tight">All 15 Tabs (via More menu)</h2>
+        <span class="text-[#718096] text-xs">Three clusters. Any tab reachable from any role via secondary nav.</span>
       </div>
-      <div class="grid grid-cols-3 gap-4">
 
-        <div class="block bg-[#111827] border border-[#8B5CF6]/30 rounded-lg p-5 opacity-70">
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[#64748B] font-mono text-xs tabular">13</span>
-            <div class="flex gap-2">
-              <span class="px-2 py-0.5 bg-[#111827] border border-[#8B5CF6] rounded text-[#8B5CF6] text-[10px] font-medium uppercase">New</span>
-              <span class="px-2 py-0.5 bg-[#111827] border border-[#64748B] rounded text-[#64748B] text-[10px] font-medium uppercase">Planned</span>
-            </div>
-          </div>
-          <div class="text-[#F1F5F9] font-semibold mb-2">Multi-Vendor Scorecard</div>
-          <div class="text-[#94A3B8] text-sm leading-relaxed mb-3">Partner performance, delivery quality, SLA, cost per vendor across 25 active partners.</div>
-          <div class="flex items-center gap-2 text-xs text-[#64748B]">
-            <span>Source: New</span>
-            <span>&middot;</span>
-            <span>Solves: multi-vendor blind spots</span>
-          </div>
+      <div class="mb-6">
+        <div class="flex items-center gap-2 mb-3"><div class="w-1 h-4 bg-[#F5B800] rounded-full"></div><h3 class="text-[#F1F5F9] text-sm font-semibold uppercase tracking-wider">Leadership</h3></div>
+        <div class="grid grid-cols-6 gap-3">
+          <a href="v1_01_Executive.html" class="block bg-[#2E3849] border border-[#3A4454] hover:border-[#F5B800] rounded-md p-3 transition group">
+            <div class="text-[#718096] font-mono text-[10px] tabular mb-1">01</div>
+            <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#F5B800] transition">Executive</div>
+          </a>
+          <a href="v1_02_Delivery_Health.html" class="block bg-[#2E3849] border border-[#3A4454] hover:border-[#F5B800] rounded-md p-3 transition group">
+            <div class="text-[#718096] font-mono text-[10px] tabular mb-1">02</div>
+            <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#F5B800] transition">Delivery Health</div>
+          </a>
+          <a href="v1_03_Risk_RAID.html" class="block bg-[#2E3849] border border-[#3A4454] hover:border-[#F5B800] rounded-md p-3 transition group">
+            <div class="text-[#718096] font-mono text-[10px] tabular mb-1">03</div>
+            <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#F5B800] transition">Risk and RAID</div>
+          </a>
+          <a href="v1_04_Workforce_Intelligence.html" class="block bg-[#2E3849] border border-[#3A4454] hover:border-[#F5B800] rounded-md p-3 transition group">
+            <div class="text-[#718096] font-mono text-[10px] tabular mb-1">04</div>
+            <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#F5B800] transition">Workforce</div>
+          </a>
+          <a href="v1_05_Financials.html" class="block bg-[#2E3849] border border-[#3A4454] hover:border-[#F5B800] rounded-md p-3 transition group">
+            <div class="text-[#718096] font-mono text-[10px] tabular mb-1">05</div>
+            <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#F5B800] transition">Financials</div>
+          </a>
+          <a href="v1_06_PnL_Cockpit.html" class="block bg-[#2E3849] border border-[#3A4454] hover:border-[#F5B800] rounded-md p-3 transition group">
+            <div class="text-[#718096] font-mono text-[10px] tabular mb-1">06</div>
+            <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#F5B800] transition">P and L Cockpit</div>
+          </a>
         </div>
+      </div>
 
-        <div class="block bg-[#111827] border border-[#8B5CF6]/30 rounded-lg p-5 opacity-70">
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[#64748B] font-mono text-xs tabular">14</span>
-            <div class="flex gap-2">
-              <span class="px-2 py-0.5 bg-[#111827] border border-[#8B5CF6] rounded text-[#8B5CF6] text-[10px] font-medium uppercase">New</span>
-              <span class="px-2 py-0.5 bg-[#111827] border border-[#64748B] rounded text-[#64748B] text-[10px] font-medium uppercase">Planned</span>
-            </div>
-          </div>
-          <div class="text-[#F1F5F9] font-semibold mb-2">Change Impact</div>
-          <div class="text-[#94A3B8] text-sm leading-relaxed mb-3">Scope creep tracker. Margin before versus after each change. Unpriced scope flagging.</div>
-          <div class="flex items-center gap-2 text-xs text-[#64748B]">
-            <span>Source: New</span>
-            <span>&middot;</span>
-            <span>Solves: silent margin erosion</span>
-          </div>
+      <div class="mb-6">
+        <div class="flex items-center gap-2 mb-3"><div class="w-1 h-4 bg-[#3B82F6] rounded-full"></div><h3 class="text-[#F1F5F9] text-sm font-semibold uppercase tracking-wider">Operations</h3></div>
+        <div class="grid grid-cols-6 gap-3">
+          <a href="v1_07_Flow_Velocity.html" class="block bg-[#2E3849] border border-[#3A4454] hover:border-[#3B82F6] rounded-md p-3 transition group">
+            <div class="text-[#718096] font-mono text-[10px] tabular mb-1">07</div>
+            <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#60A5FA] transition">Flow and Velocity</div>
+          </a>
+          <a href="v1_08_AI_Innovation.html" class="block bg-[#2E3849] border border-[#3A4454] hover:border-[#3B82F6] rounded-md p-3 transition group">
+            <div class="text-[#718096] font-mono text-[10px] tabular mb-1">08</div>
+            <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#60A5FA] transition">AI and Innovation</div>
+          </a>
+          <a href="v1_09_Commercial_Pipeline.html" class="block bg-[#2E3849] border border-[#3A4454] hover:border-[#3B82F6] rounded-md p-3 transition group">
+            <div class="text-[#718096] font-mono text-[10px] tabular mb-1">09</div>
+            <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#60A5FA] transition">Commercial Pipeline</div>
+          </a>
+          <a href="v1_10_Backlog_Health.html" class="block bg-[#2E3849] border border-[#3A4454] hover:border-[#3B82F6] rounded-md p-3 transition group">
+            <div class="text-[#718096] font-mono text-[10px] tabular mb-1">10</div>
+            <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#60A5FA] transition">Backlog Health</div>
+          </a>
+          <a href="v1_11_Scenario_Planner.html" class="block bg-[#2E3849] border border-[#3A4454] hover:border-[#3B82F6] rounded-md p-3 transition group">
+            <div class="text-[#718096] font-mono text-[10px] tabular mb-1">11</div>
+            <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#60A5FA] transition">Scenario Planner</div>
+          </a>
+          <a href="v1_12_Ops_SLA.html" class="block bg-[#2E3849] border border-[#3A4454] hover:border-[#3B82F6] rounded-md p-3 transition group">
+            <div class="text-[#718096] font-mono text-[10px] tabular mb-1">12</div>
+            <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#60A5FA] transition">Ops and SLA</div>
+          </a>
         </div>
+      </div>
 
-        <div class="block bg-[#111827] border border-[#8B5CF6]/30 rounded-lg p-5 opacity-70">
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[#64748B] font-mono text-xs tabular">15</span>
-            <div class="flex gap-2">
-              <span class="px-2 py-0.5 bg-[#111827] border border-[#8B5CF6] rounded text-[#8B5CF6] text-[10px] font-medium uppercase">New</span>
-              <span class="px-2 py-0.5 bg-[#111827] border border-[#64748B] rounded text-[#64748B] text-[10px] font-medium uppercase">Planned</span>
-            </div>
-          </div>
-          <div class="text-[#F1F5F9] font-semibold mb-2">Client Health Radar</div>
-          <div class="text-[#94A3B8] text-sm leading-relaxed mb-3">Proxy NPS from escalations, missed meetings, ticket age. Early warning before formal survey.</div>
-          <div class="flex items-center gap-2 text-xs text-[#64748B]">
-            <span>Source: New</span>
-            <span>&middot;</span>
-            <span>Solves: late NPS drift visibility</span>
-          </div>
+      <div class="mb-6">
+        <div class="flex items-center gap-2 mb-3"><div class="w-1 h-4 bg-[#8B5CF6] rounded-full"></div><h3 class="text-[#F1F5F9] text-sm font-semibold uppercase tracking-wider">Deep Dive <span class="text-[#A78BFA] text-[10px] font-normal normal-case">New in v1</span></h3></div>
+        <div class="grid grid-cols-6 gap-3">
+          <a href="v1_13_Multi_Vendor_Scorecard.html" class="block bg-[#2E3849] border border-[#8B5CF6]/40 hover:border-[#8B5CF6] rounded-md p-3 transition group">
+            <div class="flex justify-between items-start mb-1"><div class="text-[#718096] font-mono text-[10px] tabular">13</div><div class="text-[#A78BFA] text-[9px] font-semibold uppercase">New</div></div>
+            <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#A78BFA] transition">Multi-Vendor Scorecard</div>
+          </a>
+          <a href="v1_14_Change_Impact.html" class="block bg-[#2E3849] border border-[#8B5CF6]/40 hover:border-[#8B5CF6] rounded-md p-3 transition group">
+            <div class="flex justify-between items-start mb-1"><div class="text-[#718096] font-mono text-[10px] tabular">14</div><div class="text-[#A78BFA] text-[9px] font-semibold uppercase">New</div></div>
+            <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#A78BFA] transition">Change Impact</div>
+          </a>
+          <a href="v1_15_Client_Health_Radar.html" class="block bg-[#2E3849] border border-[#8B5CF6]/40 hover:border-[#8B5CF6] rounded-md p-3 transition group">
+            <div class="flex justify-between items-start mb-1"><div class="text-[#718096] font-mono text-[10px] tabular">15</div><div class="text-[#A78BFA] text-[9px] font-semibold uppercase">New</div></div>
+            <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#A78BFA] transition">Client Health Radar</div>
+          </a>
         </div>
-
       </div>
     </section>
 
-    <!-- Legend -->
-    <section class="mt-16 pt-8 border-t border-[#1F2937]">
-      <div class="text-[#94A3B8] text-xs uppercase tracking-wider mb-4">Status Legend</div>
-      <div class="flex gap-6 flex-wrap">
-        <div class="flex items-center gap-2">
-          <span class="px-2 py-0.5 bg-[#111827] border border-[#F5B800] rounded text-[#F5B800] text-[10px] font-medium uppercase">In Review</span>
-          <span class="text-[#CBD5E1] text-sm">Authored, awaiting Adi signoff</span>
+    <section class="mb-10">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-1 h-6 bg-[#F5B800] rounded-full"></div>
+        <h2 class="text-[#F1F5F9] text-xl font-semibold tracking-tight">Governance Tabs</h2>
+        <span class="text-[#718096] text-xs">New primary tabs at Master PRD rev 3. Absorb 23 Hub use cases.</span>
+      </div>
+      <div class="grid grid-cols-4 gap-3">
+        <a href="v1_16_Governance_Operating_Model.html" class="block bg-[#2E3849] border border-[#F5B800]/40 hover:border-[#F5B800] rounded-md p-3 transition group">
+          <div class="flex justify-between items-start mb-1"><div class="text-[#718096] font-mono text-[10px] tabular">16</div><div class="text-[#F5B800] text-[9px] font-semibold uppercase">New R1</div></div>
+          <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#F5B800] transition">Governance Operating Model</div>
+          <div class="text-[#A0AEC0] text-[10px] mt-1">12 panels. UC-A through UC-A6, Y, Z, R, S, KK, OO, PP.</div>
+        </a>
+        <a href="v1_17_Capability_Supply_Chain.html" class="block bg-[#2E3849] border border-[#F5B800]/40 hover:border-[#F5B800] rounded-md p-3 transition group">
+          <div class="flex justify-between items-start mb-1"><div class="text-[#718096] font-mono text-[10px] tabular">17</div><div class="text-[#F5B800] text-[9px] font-semibold uppercase">New R1</div></div>
+          <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#F5B800] transition">Capability and Supply Chain</div>
+          <div class="text-[#A0AEC0] text-[10px] mt-1">8 panels. UC-B, E, E2, J, BB, T.</div>
+        </a>
+        <a href="v1_18_AI_Governance.html" class="block bg-[#2E3849] border border-[#F5B800]/40 hover:border-[#F5B800] rounded-md p-3 transition group">
+          <div class="flex justify-between items-start mb-1"><div class="text-[#718096] font-mono text-[10px] tabular">18</div><div class="text-[#F5B800] text-[9px] font-semibold uppercase">New R1</div></div>
+          <div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#F5B800] transition">AI Governance</div>
+          <div class="text-[#A0AEC0] text-[10px] mt-1">8 panels. UC-O, LL, MM. AP flag required for detail.</div>
+        </a>
+      </div>
+    </section>
+
+    <section class="mb-10">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-1 h-6 bg-[#10B981] rounded-full"></div>
+        <h2 class="text-[#F1F5F9] text-xl font-semibold tracking-tight">Cross-Cutting Surfaces</h2>
+        <span class="text-[#718096] text-xs">New in v1 per self-check. Accessible from primary nav on every tab.</span>
+      </div>
+      <div class="grid grid-cols-4 gap-3">
+        <div class="bg-[#2E3849] border border-[#3A4454] rounded-md p-4">
+          <div class="flex items-center gap-2 mb-2"><svg class="w-4 h-4 text-[#F5B800]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg><div class="text-[#F1F5F9] text-sm font-semibold">Search (Cmd-K)</div></div>
+          <div class="text-[#A0AEC0] text-xs leading-relaxed">Global palette. Programmes, RAID, CRs, vendors, scenarios.</div>
         </div>
-        <div class="flex items-center gap-2">
-          <span class="px-2 py-0.5 bg-[#111827] border border-[#64748B] rounded text-[#64748B] text-[10px] font-medium uppercase">Planned</span>
-          <span class="text-[#CBD5E1] text-sm">Not yet authored</span>
+        <div class="bg-[#2E3849] border border-[#3A4454] rounded-md p-4">
+          <div class="flex items-center gap-2 mb-2"><svg class="w-4 h-4 text-[#F5B800]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2a2 2 0 01-.6 1.4L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><div class="text-[#F1F5F9] text-sm font-semibold">Notifications</div></div>
+          <div class="text-[#A0AEC0] text-xs leading-relaxed">Bell plus daily digest. Anomaly alerts on thresholds.</div>
         </div>
-        <div class="flex items-center gap-2">
-          <span class="px-2 py-0.5 bg-[#111827] border border-[#10B981] rounded text-[#10B981] text-[10px] font-medium uppercase">Approved</span>
-          <span class="text-[#CBD5E1] text-sm">Signed off by Adi</span>
+        <div class="bg-[#2E3849] border border-[#3A4454] rounded-md p-4">
+          <div class="flex items-center gap-2 mb-2"><svg class="w-4 h-4 text-[#F5B800]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"/></svg><div class="text-[#F1F5F9] text-sm font-semibold">Exports</div></div>
+          <div class="text-[#A0AEC0] text-xs leading-relaxed">Per-chart CSV, Excel, PowerPoint. Steerco Pack generator.</div>
         </div>
-        <div class="flex items-center gap-2">
-          <span class="px-2 py-0.5 bg-[#111827] border border-[#8B5CF6] rounded text-[#8B5CF6] text-[10px] font-medium uppercase">New</span>
-          <span class="text-[#CBD5E1] text-sm">Net-new tab in v1, not in v5.8</span>
+        <div class="bg-[#2E3849] border border-[#3A4454] rounded-md p-4">
+          <div class="flex items-center gap-2 mb-2"><svg class="w-4 h-4 text-[#F5B800]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><div class="text-[#F1F5F9] text-sm font-semibold">History (As-of)</div></div>
+          <div class="text-[#A0AEC0] text-xs leading-relaxed">Point-in-time view. Weekly KPI snapshots. Diff mode.</div>
         </div>
+        <a href="v1_audit_trail_console.html" class="block bg-[#2E3849] border border-[#F5B800]/40 hover:border-[#F5B800] rounded-md p-4 transition group">
+          <div class="flex items-center gap-2 mb-2"><svg class="w-4 h-4 text-[#F5B800]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg><div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#F5B800] transition">Audit Trail Console <span class="ml-1 text-[9px] text-[#F5B800]">R1</span></div></div>
+          <div class="text-[#A0AEC0] text-xs leading-relaxed">UC-K. Full forensic visibility. AP flag required for detail.</div>
+        </a>
+        <a href="v1_board_pack_preview.html" class="block bg-[#2E3849] border border-[#F5B800]/40 hover:border-[#F5B800] rounded-md p-4 transition group">
+          <div class="flex items-center gap-2 mb-2"><svg class="w-4 h-4 text-[#F5B800]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2a4 4 0 014-4h2m4 4l-4-4m0 0l-4 4m4-4v8m-12-4a9 9 0 1118 0 9 9 0 01-18 0z"/></svg><div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#F5B800] transition">Board Pack Preview <span class="ml-1 text-[9px] text-[#F5B800]">R1</span></div></div>
+          <div class="text-[#A0AEC0] text-xs leading-relaxed">UC-G. 5-slide director-facing deck. PO and DD only.</div>
+        </a>
+        <a href="v1_onboarding_first_90_days.html" class="block bg-[#2E3849] border border-[#F5B800]/40 hover:border-[#F5B800] rounded-md p-4 transition group">
+          <div class="flex items-center gap-2 mb-2"><svg class="w-4 h-4 text-[#F5B800]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg><div class="text-[#F1F5F9] text-sm font-semibold group-hover:text-[#F5B800] transition">First 90 Days Onboarding <span class="ml-1 text-[9px] text-[#F5B800]">R1</span></div></div>
+          <div class="text-[#A0AEC0] text-xs leading-relaxed">UC-H. Self plus PO, DD, HRBP, own-programme PM read.</div>
+        </a>
       </div>
     </section>
 
   </main>
 
-  <!-- Footer -->
-  <footer class="border-t border-[#1F2937] bg-[#111827] mt-16">
-    <div class="max-w-[1440px] mx-auto px-8 py-6 flex justify-between items-center text-[#64748B] text-xs">
+  <footer class="border-t border-[#3A4454] bg-[#2E3849] mt-16">
+    <div class="max-w-[1440px] mx-auto px-8 py-6 flex justify-between items-center text-[#718096] text-xs">
       <div>Demo data. All programmes, clients, vendors, and people in this application are fictional.</div>
-      <div>Built by Adi Kompalli | AKB1 Delivery Command Center | v0.1.0-wireframe</div>
+      <div>Built by Adi Kompalli | AKB1 Delivery Command Center | v0.1.0-wireframe R2</div>
     </div>
   </footer>
 

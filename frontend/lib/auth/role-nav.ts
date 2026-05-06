@@ -40,7 +40,8 @@ export type TabKey =
   | "capability-supply-chain"
   | "ai-governance"
   | "onboarding-first-90-days"
-  | "notifications";
+  | "notifications"
+  | "audit-trail-console";
 
 export interface NavItem {
   key: TabKey;
@@ -69,6 +70,7 @@ const TAB_LABELS: Record<TabKey, string> = {
   "ai-governance": "AI Governance",
   "onboarding-first-90-days": "First 90 Days",
   notifications: "Notifications",
+  "audit-trail-console": "Audit Trail",
 };
 
 function nav(...keys: TabKey[]): NavItem[] {
@@ -111,7 +113,7 @@ export const ROLE_PRIMARY_NAV: Record<Role, NavItem[]> = {
   HRBusinessPartner: nav(
     "capability-supply-chain",
     "workforce",
-    "executive",
+    "governance-operating-model",
     "onboarding-first-90-days",
     "notifications",
   ),

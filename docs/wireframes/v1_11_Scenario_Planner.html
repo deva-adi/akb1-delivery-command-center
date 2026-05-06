@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scenario Planner | AKB1 Delivery Command Center v1</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>body{font-family:'Inter',system-ui,sans-serif}.font-mono{font-family:'JetBrains Mono',monospace}.tabular{font-variant-numeric:tabular-nums}</style>
+</head>
+<body class="bg-[#242D3D] text-[#F1F5F9] min-h-screen">
+
+  <header class="border-b border-[#3A4454] bg-[#2E3849]"><div class="max-w-[1440px] mx-auto px-8 py-4 flex items-center justify-between"><a href="v1_00_Index.html" class="flex items-center gap-3 hover:opacity-80 transition"><div class="w-8 h-8 rounded-md bg-[#F5B800] flex items-center justify-center"><span class="text-[#242D3D] font-bold text-sm">A1</span></div><div><div class="text-[#F1F5F9] font-semibold text-sm tracking-tight">AKB1 Delivery Command Center</div><div class="text-[#A0AEC0] text-[11px]">Scenario Planner <span class="ml-1 px-1 py-0 bg-[#10B981]/20 border border-[#10B981] rounded text-[#10B981] text-[9px] font-semibold uppercase">R4</span></div></div></a><div class="flex items-center gap-3"><div class="text-[#718096] text-xs font-mono tabular">2026-04-24 | 14:32 IST</div><span class="px-3 py-1.5 bg-[#78350F] border border-[#F5B800] rounded-md text-[#F5B800] text-xs font-medium">v0.1.0-wireframe R4</span></div></div></header>
+
+  <div class="border-b border-[#3A4454] bg-[#2E3849] sticky top-0 z-20"><div class="max-w-[1440px] mx-auto px-8 py-3 flex items-center justify-between"><div class="flex items-center gap-3"><div class="flex items-center gap-2 px-3 py-1.5 bg-[#3A4454] border border-[#4A5568] rounded-md cursor-pointer hover:border-[#F5B800] transition"><span class="text-[#A0AEC0] text-[10px] uppercase tracking-wider">Horizon</span><span class="text-[#F1F5F9] text-sm">12 months</span><svg class="w-3 h-3 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div><div class="flex items-center gap-2 px-3 py-1.5 bg-[#3A4454] border border-[#4A5568] rounded-md cursor-pointer hover:border-[#F5B800] transition"><span class="text-[#A0AEC0] text-[10px] uppercase tracking-wider">Programme</span><span class="text-[#F1F5F9] text-sm">Portfolio</span><svg class="w-3 h-3 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div><button class="flex items-center gap-2 px-3 py-1.5 bg-[#F5B800] hover:bg-[#FFCA40] text-[#242D3D] rounded-md text-xs font-semibold transition"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>New Scenario</button><div class="flex items-center gap-2 px-3 py-1.5 bg-[#3A4454] border border-[#4A5568] rounded-md cursor-pointer hover:border-[#F5B800] transition"><svg class="w-3.5 h-3.5 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span class="text-[#A0AEC0] text-[10px] uppercase tracking-wider">As of</span><span class="text-[#F1F5F9] text-sm">Today</span><svg class="w-3 h-3 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div></div><div class="flex items-center gap-2 px-3 py-1.5 bg-[#78350F]/30 border border-[#F5B800] rounded-md"><div class="w-2 h-2 rounded-full bg-[#F5B800]"></div><span class="text-[#F5B800] text-xs font-medium">Portfolio Owner</span><svg class="w-3 h-3 text-[#F5B800]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div></div></div>
+
+  <nav class="border-b border-[#3A4454] bg-[#2E3849]"><div class="max-w-[1440px] mx-auto px-8"><div class="flex gap-0 items-center"><a href="v1_05_Financials.html" class="px-4 py-3 text-sm text-[#A0AEC0] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#4A5568] transition">Financials</a><a href="v1_06_PnL_Cockpit.html" class="px-4 py-3 text-sm text-[#A0AEC0] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#4A5568] transition">P and L Cockpit</a><a href="v1_09_Commercial_Pipeline.html" class="px-4 py-3 text-sm text-[#A0AEC0] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#4A5568] transition">Commercial Pipeline</a><a href="v1_14_Change_Impact.html" class="px-4 py-3 text-sm text-[#A0AEC0] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#4A5568] transition">Change Impact</a><a class="px-4 py-3 text-sm text-[#F5B800] border-b-2 border-[#F5B800] font-medium">Scenario Planner</a><div class="ml-auto flex items-center gap-3"><button class="flex items-center gap-2 px-3 py-1.5 bg-[#3A4454] border border-[#4A5568] hover:border-[#F5B800] rounded-md transition cursor-pointer group"><svg class="w-3.5 h-3.5 text-[#A0AEC0] group-hover:text-[#F5B800] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg><span class="text-[#A0AEC0] text-xs">Search</span><kbd class="px-1 py-0 bg-[#242D3D] border border-[#4A5568] rounded text-[9px] text-[#718096] font-mono">&#8984;K</kbd></button><button class="relative p-1.5 hover:bg-[#3A4454] rounded-md transition" title="Notifications"><svg class="w-4 h-4 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2a2 2 0 01-.6 1.4L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><span class="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-[#EF4444] text-white text-[8px] font-bold flex items-center justify-center">3</span></button><button class="flex items-center gap-1 px-2 py-1.5 hover:bg-[#3A4454] rounded-md transition text-xs text-[#A0AEC0]" title="More tabs"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>More</button></div></div></div></nav>
+
+  <section class="border-b border-[#3A4454] bg-[#2A3446]"><div class="max-w-[1440px] mx-auto px-8 py-6 grid grid-cols-3 gap-8">
+    <div><div class="flex items-center gap-2 mb-3"><div class="w-1.5 h-5 bg-[#F5B800] rounded-full"></div><h3 class="text-[#F5B800] text-base font-semibold tracking-tight">What does this tell me</h3></div><p class="text-[#CBD5E1] text-sm leading-relaxed">Three active scenarios modelled. Base case holds at <span class="text-[#F59E0B] font-semibold">19.2 percent margin</span>. Recovery lifts by 2.1 points to <span class="text-[#10B981] font-semibold">21.3 percent</span>. Growth case requires 22 FTE hire by Q3. Choice is a steering committee decision on Thursday.</p></div>
+    <div class="pl-8 border-l border-[#3A4454]"><div class="flex items-center gap-2 mb-3"><div class="w-1.5 h-5 bg-[#F5B800] rounded-full"></div><h3 class="text-[#F5B800] text-base font-semibold tracking-tight">Why is this happening</h3></div><ol class="space-y-2 text-sm"><li class="flex items-baseline gap-3"><span class="text-[#F1F5F9] font-mono font-semibold tabular min-w-[3ch]">50%</span><span class="text-[#CBD5E1]">Recovery depends on closing Pegasus SLA breach and repricing Stellar scope changes.</span></li><li class="flex items-baseline gap-3"><span class="text-[#F1F5F9] font-mono font-semibold tabular min-w-[3ch]">30%</span><span class="text-[#CBD5E1]">Growth depends on landing 2 BFSI new logo opportunities in the pipeline.</span></li><li class="flex items-baseline gap-3"><span class="text-[#F1F5F9] font-mono font-semibold tabular min-w-[3ch]">20%</span><span class="text-[#CBD5E1]">Status quo absorbs current trajectory with a further 180 basis points margin decline.</span></li></ol></div>
+    <div class="pl-8 border-l border-[#3A4454]"><div class="flex items-center gap-2 mb-3"><div class="w-1.5 h-5 bg-[#F5B800] rounded-full"></div><h3 class="text-[#F5B800] text-base font-semibold tracking-tight">What do I do this week</h3></div><div class="space-y-2">
+      <div class="bg-[#2E3849] border border-[#3A4454] rounded-md p-3 hover:border-[#4A5568] transition cursor-pointer"><p class="text-[#F1F5F9] text-sm font-medium mb-1.5 leading-snug">Package the three scenarios with financial outcomes for steerco.</p><div class="flex items-center gap-3 text-[11px]"><span class="flex items-center gap-1 text-[#A0AEC0]"><span class="w-4 h-4 rounded-full bg-[#60A5FA] flex items-center justify-center text-[#242D3D] text-[9px] font-semibold">R</span>Rajiv</span><span class="text-[#F59E0B] font-medium">Due Thu 30 Apr</span></div></div>
+      <div class="bg-[#2E3849] border border-[#3A4454] rounded-md p-3 hover:border-[#4A5568] transition cursor-pointer"><p class="text-[#F1F5F9] text-sm font-medium mb-1.5 leading-snug">Confirm hiring plan feasibility for Growth scenario with Talent.</p><div class="flex items-center gap-3 text-[11px]"><span class="flex items-center gap-1 text-[#A0AEC0]"><span class="w-4 h-4 rounded-full bg-[#8B5CF6] flex items-center justify-center text-[#242D3D] text-[9px] font-semibold">M</span>Meera</span><span class="text-[#F59E0B] font-medium">Due Wed 29 Apr</span></div></div>
+      <div class="bg-[#2E3849] border border-[#3A4454] rounded-md p-3 hover:border-[#4A5568] transition cursor-pointer"><p class="text-[#F1F5F9] text-sm font-medium mb-1.5 leading-snug">Commit Pegasus recovery path with the delivery lead and finance.</p><div class="flex items-center gap-3 text-[11px]"><span class="flex items-center gap-1 text-[#A0AEC0]"><span class="w-4 h-4 rounded-full bg-[#F59E0B] flex items-center justify-center text-[#242D3D] text-[9px] font-semibold">P</span>Priya</span><span class="text-[#F59E0B] font-medium">Due Mon 28 Apr</span></div></div>
+    </div></div>
+  </div></section>
+
+  <section><div class="max-w-[1440px] mx-auto px-8 py-6 grid grid-cols-3 gap-4">
+
+    <div class="bg-[#2E3849] border-2 border-[#718096]/40 rounded-lg p-5 relative hover:border-[#718096] transition cursor-pointer">
+      <div class="flex items-center justify-between mb-3"><span class="px-2 py-1 bg-[#718096]/20 border border-[#718096] rounded text-[#A0AEC0] text-[10px] font-semibold uppercase tracking-wider">Scenario A</span><span class="text-[#718096] text-xs">Base / Status Quo</span></div>
+      <h3 class="text-[#F1F5F9] text-lg font-semibold mb-2">No change to course</h3>
+      <p class="text-[#A0AEC0] text-xs leading-relaxed mb-4">Continue current trajectory. Absorb scope creep, defer Pegasus milestone, no repricing.</p>
+      <div class="space-y-2 pt-4 border-t border-[#3A4454]">
+        <div class="flex justify-between text-sm"><span class="text-[#A0AEC0]">12M Margin</span><span class="text-[#EF4444] font-mono tabular font-semibold">17.4%</span></div>
+        <div class="flex justify-between text-sm"><span class="text-[#A0AEC0]">12M Revenue</span><span class="text-[#F1F5F9] font-mono tabular">$372M</span></div>
+        <div class="flex justify-between text-sm"><span class="text-[#A0AEC0]">FTE by Q4</span><span class="text-[#F1F5F9] font-mono tabular">300</span></div>
+        <div class="flex justify-between text-sm"><span class="text-[#A0AEC0]">Risk exposure</span><span class="text-[#EF4444] font-mono tabular">High</span></div>
+      </div>
+    </div>
+
+    <div class="bg-[#2E3849] border-2 border-[#10B981]/40 rounded-lg p-5 relative hover:border-[#10B981] transition cursor-pointer">
+      <div class="flex items-center justify-between mb-3"><span class="px-2 py-1 bg-[#10B981]/20 border border-[#10B981] rounded text-[#10B981] text-[10px] font-semibold uppercase tracking-wider">Scenario B</span><span class="text-[#10B981] text-xs font-semibold">Recovery / Recommended</span></div>
+      <h3 class="text-[#F1F5F9] text-lg font-semibold mb-2">Fix the three red programmes</h3>
+      <p class="text-[#A0AEC0] text-xs leading-relaxed mb-4">Close Pegasus breach, reprice Stellar scope, backfill Phoenix compliance specialists.</p>
+      <div class="space-y-2 pt-4 border-t border-[#3A4454]">
+        <div class="flex justify-between text-sm"><span class="text-[#A0AEC0]">12M Margin</span><span class="text-[#10B981] font-mono tabular font-bold">21.3%</span></div>
+        <div class="flex justify-between text-sm"><span class="text-[#A0AEC0]">12M Revenue</span><span class="text-[#F1F5F9] font-mono tabular">$384M</span></div>
+        <div class="flex justify-between text-sm"><span class="text-[#A0AEC0]">FTE by Q4</span><span class="text-[#F1F5F9] font-mono tabular">302</span></div>
+        <div class="flex justify-between text-sm"><span class="text-[#A0AEC0]">Risk exposure</span><span class="text-[#F59E0B] font-mono tabular">Medium</span></div>
+      </div>
+    </div>
+
+    <div class="bg-[#2E3849] border-2 border-[#8B5CF6]/40 rounded-lg p-5 relative hover:border-[#8B5CF6] transition cursor-pointer">
+      <div class="flex items-center justify-between mb-3"><span class="px-2 py-1 bg-[#8B5CF6]/20 border border-[#8B5CF6] rounded text-[#A78BFA] text-[10px] font-semibold uppercase tracking-wider">Scenario C</span><span class="text-[#A78BFA] text-xs">Growth / Aggressive</span></div>
+      <h3 class="text-[#F1F5F9] text-lg font-semibold mb-2">Recovery plus new logo blitz</h3>
+      <p class="text-[#A0AEC0] text-xs leading-relaxed mb-4">Scenario B plus win 2 new BFSI logos. Requires 22 FTE hire by Q3, carries execution risk.</p>
+      <div class="space-y-2 pt-4 border-t border-[#3A4454]">
+        <div class="flex justify-between text-sm"><span class="text-[#A0AEC0]">12M Margin</span><span class="text-[#10B981] font-mono tabular font-bold">22.8%</span></div>
+        <div class="flex justify-between text-sm"><span class="text-[#A0AEC0]">12M Revenue</span><span class="text-[#10B981] font-mono tabular font-bold">$428M</span></div>
+        <div class="flex justify-between text-sm"><span class="text-[#A0AEC0]">FTE by Q4</span><span class="text-[#F59E0B] font-mono tabular">322</span></div>
+        <div class="flex justify-between text-sm"><span class="text-[#A0AEC0]">Risk exposure</span><span class="text-[#F59E0B] font-mono tabular">Medium-High</span></div>
+      </div>
+    </div>
+
+  </div></section>
+
+  <section><div class="max-w-[1440px] mx-auto px-8 py-6">
+    <div class="bg-[#2E3849] border border-[#3A4454] rounded-lg p-5 relative">
+      <svg class="absolute top-5 right-5 w-4 h-4 text-[#718096] hover:text-[#F5B800] cursor-pointer transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg>
+      <div class="flex items-baseline justify-between mb-1"><h3 class="text-[#F1F5F9] font-semibold">Margin Projection by Scenario</h3><span class="text-[#718096] text-xs">Next 12 months</span></div>
+      <p class="text-[#A0AEC0] text-xs mb-4">Target band in gold. Recovery (B) is closest to target.</p>
+      <svg class="w-full h-64" viewBox="0 0 1000 260" preserveAspectRatio="none">
+        <line x1="40" y1="40" x2="990" y2="40" stroke="#3A4454"/><line x1="40" y1="90" x2="990" y2="90" stroke="#3A4454"/><line x1="40" y1="140" x2="990" y2="140" stroke="#3A4454"/><line x1="40" y1="190" x2="990" y2="190" stroke="#3A4454"/><line x1="40" y1="230" x2="990" y2="230" stroke="#4A5568"/>
+        <text x="5" y="45" fill="#718096" font-size="11" font-family="JetBrains Mono">24%</text>
+        <text x="5" y="95" fill="#718096" font-size="11" font-family="JetBrains Mono">22%</text>
+        <text x="5" y="145" fill="#718096" font-size="11" font-family="JetBrains Mono">20%</text>
+        <text x="5" y="195" fill="#718096" font-size="11" font-family="JetBrains Mono">18%</text>
+        <text x="5" y="235" fill="#718096" font-size="11" font-family="JetBrains Mono">16%</text>
+        <rect x="40" y="85" width="950" height="15" fill="#F5B800" fill-opacity="0.08"/>
+        <line x1="40" y1="92" x2="990" y2="92" stroke="#F5B800" stroke-dasharray="4 4" opacity="0.5"/>
+        <text x="920" y="82" fill="#F5B800" font-size="10">21% target</text>
+        <polyline fill="none" stroke="#718096" stroke-width="2.5" stroke-linejoin="round" points="60,155 140,160 220,165 300,170 380,175 460,180 540,186 620,192 700,198 780,205 860,212 940,218"/>
+        <polyline fill="none" stroke="#10B981" stroke-width="2.5" stroke-linejoin="round" points="60,155 140,150 220,145 300,138 380,130 460,120 540,112 620,105 700,98 780,94 860,90 940,87"/>
+        <polyline fill="none" stroke="#A78BFA" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="6 3" points="60,155 140,150 220,142 300,132 380,122 460,112 540,100 620,90 700,82 780,75 860,70 940,65"/>
+        <circle cx="940" cy="218" r="4" fill="#718096" stroke="#242D3D" stroke-width="2"/>
+        <circle cx="940" cy="87" r="5" fill="#10B981" stroke="#242D3D" stroke-width="2"/>
+        <circle cx="940" cy="65" r="4" fill="#A78BFA" stroke="#242D3D" stroke-width="2"/>
+        <text x="955" y="222" fill="#718096" font-size="10">A 17.4%</text>
+        <text x="955" y="91" fill="#10B981" font-size="10" font-weight="600">B 21.3%</text>
+        <text x="955" y="69" fill="#A78BFA" font-size="10" font-weight="600">C 22.8%</text>
+        <text x="60" y="250" fill="#F1F5F9" font-size="10" text-anchor="middle" font-weight="600">Apr 26 (today)</text>
+        <text x="460" y="250" fill="#718096" font-size="10" text-anchor="middle">Oct 26</text>
+        <text x="940" y="250" fill="#718096" font-size="10" text-anchor="middle">Apr 27</text>
+      </svg>
+      <div class="flex gap-5 text-[11px] mt-3"><span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-[#718096]"></span><span class="text-[#CBD5E1]">A Base</span></span><span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-[#10B981]"></span><span class="text-[#CBD5E1]">B Recovery (Recommended)</span></span><span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-[#A78BFA] border-dashed"></span><span class="text-[#CBD5E1]">C Growth</span></span></div>
+    </div>
+  </div></section>
+
+  <section><div class="max-w-[1440px] mx-auto px-8 py-6">
+    <div class="bg-[#2E3849] border border-[#3A4454] rounded-lg p-5 relative">
+      <svg class="absolute top-5 right-5 w-4 h-4 text-[#718096] hover:text-[#F5B800] cursor-pointer transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg>
+      <div class="flex items-baseline justify-between mb-1"><h3 class="text-[#F1F5F9] font-semibold">Scenario Inputs and Outputs Matrix</h3><span class="text-[#718096] text-xs">Side-by-side compare</span></div>
+      <p class="text-[#A0AEC0] text-xs mb-4">Click any scenario to drill into assumptions and dependencies.</p>
+      <table class="w-full text-sm">
+        <thead><tr class="text-[#A0AEC0] text-[10px] uppercase tracking-wider border-b border-[#3A4454]"><th class="text-left pb-3 font-medium">Dimension</th><th class="text-right pb-3 font-medium">A Base</th><th class="text-right pb-3 font-medium"><span class="text-[#10B981]">B Recovery</span></th><th class="text-right pb-3 font-medium"><span class="text-[#A78BFA]">C Growth</span></th></tr></thead>
+        <tbody class="divide-y divide-[#3A4454]">
+          <tr class="hover:bg-[#3A4454]/30 transition"><td class="py-2.5 text-[#A0AEC0]">Pegasus recovery</td><td class="py-2.5 text-right text-[#EF4444] font-mono">No</td><td class="py-2.5 text-right text-[#10B981] font-mono font-semibold">Yes</td><td class="py-2.5 text-right text-[#10B981] font-mono font-semibold">Yes</td></tr>
+          <tr class="hover:bg-[#3A4454]/30 transition"><td class="py-2.5 text-[#A0AEC0]">Stellar repricing</td><td class="py-2.5 text-right text-[#EF4444] font-mono">No</td><td class="py-2.5 text-right text-[#10B981] font-mono font-semibold">Yes</td><td class="py-2.5 text-right text-[#10B981] font-mono font-semibold">Yes</td></tr>
+          <tr class="hover:bg-[#3A4454]/30 transition"><td class="py-2.5 text-[#A0AEC0]">Phoenix compliance backfill</td><td class="py-2.5 text-right text-[#EF4444] font-mono">No</td><td class="py-2.5 text-right text-[#10B981] font-mono font-semibold">Yes</td><td class="py-2.5 text-right text-[#10B981] font-mono font-semibold">Yes</td></tr>
+          <tr class="hover:bg-[#3A4454]/30 transition"><td class="py-2.5 text-[#A0AEC0]">BFSI new logo wins</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono">0</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono">0</td><td class="py-2.5 text-right text-[#A78BFA] font-mono font-semibold">2</td></tr>
+          <tr class="hover:bg-[#3A4454]/30 transition"><td class="py-2.5 text-[#A0AEC0]">FTE hiring by Q3</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono">0</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono">2</td><td class="py-2.5 text-right text-[#F59E0B] font-mono font-semibold">22</td></tr>
+          <tr class="hover:bg-[#3A4454]/30 transition"><td class="py-2.5 text-[#A0AEC0]">12M revenue</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$372M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$384M</td><td class="py-2.5 text-right text-[#10B981] font-mono tabular font-semibold">$428M</td></tr>
+          <tr class="hover:bg-[#3A4454]/30 transition"><td class="py-2.5 text-[#A0AEC0]">12M gross margin</td><td class="py-2.5 text-right text-[#EF4444] font-mono tabular font-semibold">17.4%</td><td class="py-2.5 text-right text-[#10B981] font-mono tabular font-bold">21.3%</td><td class="py-2.5 text-right text-[#10B981] font-mono tabular font-bold">22.8%</td></tr>
+          <tr class="hover:bg-[#3A4454]/30 transition"><td class="py-2.5 text-[#A0AEC0]">Net margin</td><td class="py-2.5 text-right text-[#EF4444] font-mono tabular">11.6%</td><td class="py-2.5 text-right text-[#10B981] font-mono tabular font-semibold">15.1%</td><td class="py-2.5 text-right text-[#10B981] font-mono tabular font-semibold">16.4%</td></tr>
+          <tr class="hover:bg-[#3A4454]/30 transition"><td class="py-2.5 text-[#A0AEC0]">Renewal retention</td><td class="py-2.5 text-right text-[#F59E0B] font-mono">78%</td><td class="py-2.5 text-right text-[#10B981] font-mono font-semibold">92%</td><td class="py-2.5 text-right text-[#10B981] font-mono font-semibold">94%</td></tr>
+          <tr class="hover:bg-[#3A4454]/30 transition"><td class="py-2.5 text-[#A0AEC0]">Risk score</td><td class="py-2.5 text-right text-[#EF4444] font-mono">8.4</td><td class="py-2.5 text-right text-[#F59E0B] font-mono">5.2</td><td class="py-2.5 text-right text-[#F59E0B] font-mono">6.1</td></tr>
+          <tr class="hover:bg-[#3A4454]/30 transition"><td class="py-2.5 text-[#A0AEC0]">Client NPS (blended)</td><td class="py-2.5 text-right text-[#EF4444] font-mono">44</td><td class="py-2.5 text-right text-[#10B981] font-mono font-semibold">58</td><td class="py-2.5 text-right text-[#10B981] font-mono font-semibold">62</td></tr>
+          <tr class="hover:bg-[#3A4454]/30 transition"><td class="py-2.5 text-[#A0AEC0]">Execution complexity</td><td class="py-2.5 text-right text-[#10B981] font-mono">Low</td><td class="py-2.5 text-right text-[#F59E0B] font-mono">Medium</td><td class="py-2.5 text-right text-[#F59E0B] font-mono">High</td></tr>
+        </tbody>
+        <tfoot><tr class="border-t-2 border-[#4A5568]"><td class="pt-3 text-[#F1F5F9] font-semibold">Recommended</td><td class="pt-3 text-right text-[#A0AEC0]">No</td><td class="pt-3 text-right text-[#10B981] font-bold">YES</td><td class="pt-3 text-right text-[#A0AEC0]">If BFSI logos closable</td></tr></tfoot>
+      </table>
+    </div>
+  </div></section>
+
+
+  <!-- R3 NEW: PERT estimation math across scenario inputs with confidence bands. -->
+  <section><div class="max-w-[1440px] mx-auto px-8 py-6">
+    <div class="bg-[#2E3849] border border-[#3A4454] rounded-lg p-5">
+      <div class="flex items-baseline justify-between mb-3"><h3 class="text-[#F1F5F9] font-semibold">PERT Input Matrix (R3)</h3><span class="text-[#718096] text-xs">E = (O + 4M + P) / 6 | sigma = (P - O) / 6</span></div>
+      <p class="text-[#A0AEC0] text-xs mb-3">Hub: estimation without PERT is a wish, not a plan. Volatility is now an explicit decision input.</p>
+      <table class="w-full text-xs">
+        <thead class="text-[#718096] text-[10px] uppercase tracking-wider"><tr class="border-b border-[#3A4454]"><th class="text-left py-2">Dimension</th><th class="text-right py-2">Optimistic</th><th class="text-right py-2">Most Likely</th><th class="text-right py-2">Pessimistic</th><th class="text-right py-2">Expected (E)</th><th class="text-right py-2">Sigma</th><th class="text-right py-2">95% Band</th></tr></thead>
+        <tbody class="text-[#CBD5E1]">
+          <tr class="border-b border-[#3A4454]/50"><td class="py-2 text-[#F1F5F9] font-medium">Revenue base</td><td class="text-right font-mono tabular">USD 385M</td><td class="text-right font-mono tabular">USD 372M</td><td class="text-right font-mono tabular">USD 355M</td><td class="text-right text-[#10B981] font-mono tabular font-semibold">USD 371.3M</td><td class="text-right font-mono tabular">5.0</td><td class="text-right font-mono tabular">[361.5, 381.1]</td></tr>
+          <tr class="border-b border-[#3A4454]/50"><td class="py-2 text-[#F1F5F9] font-medium">Rate card uplift</td><td class="text-right font-mono tabular">6%</td><td class="text-right font-mono tabular">4%</td><td class="text-right font-mono tabular">1%</td><td class="text-right text-[#F59E0B] font-mono tabular font-semibold">3.83%</td><td class="text-right font-mono tabular">0.83</td><td class="text-right font-mono tabular">[2.2%, 5.5%]</td></tr>
+          <tr class="border-b border-[#3A4454]/50"><td class="py-2 text-[#F1F5F9] font-medium">Attrition (ann.)</td><td class="text-right font-mono tabular">12%</td><td class="text-right font-mono tabular">16%</td><td class="text-right font-mono tabular">22%</td><td class="text-right text-[#EF4444] font-mono tabular font-semibold">16.3%</td><td class="text-right font-mono tabular">1.67</td><td class="text-right font-mono tabular">[13.0%, 19.6%]</td></tr>
+          <tr class="border-b border-[#3A4454]/50"><td class="py-2 text-[#F1F5F9] font-medium">Hiring velocity</td><td class="text-right font-mono tabular">28/mo</td><td class="text-right font-mono tabular">22/mo</td><td class="text-right font-mono tabular">15/mo</td><td class="text-right text-[#F59E0B] font-mono tabular font-semibold">21.8/mo</td><td class="text-right font-mono tabular">2.17</td><td class="text-right font-mono tabular">[17.5, 26.0]</td></tr>
+          <tr><td class="py-2 text-[#A0AEC0]" colspan="7">7 more dimensions captured with O M P triples. Drill to sensitivity.</td></tr>
+        </tbody>
+      </table>
+      <div class="mt-4 p-3 bg-[#10B981]/10 border border-[#10B981]/30 rounded text-xs">
+        <div class="text-[#10B981] font-semibold mb-1">Recovery scenario 95 percent confidence</div>
+        <div class="text-[#CBD5E1]">Projected 12M margin expected <span class="font-mono tabular text-[#F1F5F9]">21.2%</span>, sigma <span class="font-mono tabular text-[#F1F5F9]">0.65</span>, band <span class="font-mono tabular text-[#F1F5F9]">[19.9%, 22.5%]</span>. Tight band means decision-safe commit.</div>
+      </div>
+    </div>
+  </div></section>
+
+  <section><div class="max-w-[1440px] mx-auto px-8 py-6"><div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-3 font-medium">Related tabs</div><div class="flex gap-3 flex-wrap"><a href="v1_05_Financials.html" class="px-4 py-2 bg-[#2E3849] border border-[#3A4454] hover:border-[#F5B800] rounded-md text-[#F5B800] text-sm transition cursor-pointer flex items-center gap-2">Financials <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></a><a href="v1_09_Commercial_Pipeline.html" class="px-4 py-2 bg-[#2E3849] border border-[#3A4454] hover:border-[#F5B800] rounded-md text-[#F5B800] text-sm transition cursor-pointer flex items-center gap-2">Commercial Pipeline <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></a><a href="v1_03_Risk_RAID.html" class="px-4 py-2 bg-[#2E3849] border border-[#3A4454] hover:border-[#F5B800] rounded-md text-[#F5B800] text-sm transition cursor-pointer flex items-center gap-2">Risk and RAID <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></a></div></div></section>
+
+  <section class="border-t-2 border-[#F5B800] bg-[#2A3446] mt-8">
+    <div class="max-w-[1440px] mx-auto px-8 py-6">
+      <div class="flex items-center gap-3 mb-4"><div class="px-2 py-1 bg-[#F5B800] text-[#242D3D] rounded text-[10px] font-bold tracking-wider">REVISION 4</div><h2 class="text-[#F1F5F9] text-lg font-semibold">Rev 4 additions per PRD 14 rev 4</h2><span class="text-[#A0AEC0] text-xs">UC-F Baseline Forecast mode plus UC-F2 Friday Forecast Call</span></div>
+      <div class="bg-[#3A4454] border border-[#4A5568] rounded-md p-2 mb-5 inline-flex gap-1"><button class="px-3 py-1.5 text-xs text-[#A0AEC0] rounded">What-if (rev 3)</button><button class="px-3 py-1.5 text-xs text-[#F5B800] bg-[#F5B800]/10 rounded font-semibold">Baseline Forecast (NEW)</button></div>
+      <div class="grid grid-cols-12 gap-4">
+        <div class="col-span-7 bg-[#2E3849] border border-[#3A4454] rounded-md p-4">
+          <h3 class="text-[#F1F5F9] text-sm font-semibold mb-2">Baseline Forecast (UC-F)</h3>
+          <p class="text-[#A0AEC0] text-[11px] mb-3">Portfolio revenue weekly. p95 fan chart. Confidence trend tightening.</p>
+          <div class="relative h-44 bg-[#2A3446] border border-[#3A4454] rounded p-3">
+            <svg viewBox="0 0 400 160" class="w-full h-full">
+              <polygon points="20,40 60,38 100,36 140,33 180,30 220,28 260,26 300,25 340,24 380,23 380,140 340,138 300,135 260,131 220,127 180,123 140,118 100,114 60,110 20,105" fill="#F5B800" fill-opacity="0.10"/>
+              <polyline points="20,40 60,38 100,36 140,33 180,30 220,28 260,26 300,25 340,24 380,23" stroke="#F5B800" stroke-width="1" stroke-dasharray="3,2" fill="none"/>
+              <polyline points="20,72 60,70 100,68 140,65 180,62 220,58 260,55 300,52 340,49 380,46" stroke="#F5B800" stroke-width="2" fill="none"/>
+              <polyline points="20,105 60,110 100,114 140,118 180,123 220,127 260,131 300,135 340,138 380,140" stroke="#F5B800" stroke-width="1" stroke-dasharray="3,2" fill="none"/>
+              <text x="385" y="25" fill="#A0AEC0" class="text-[9px]">p95 upper</text>
+              <text x="385" y="50" fill="#F5B800" class="text-[9px]">expected</text>
+              <text x="385" y="143" fill="#A0AEC0" class="text-[9px]">p95 lower</text>
+            </svg>
+          </div>
+          <div class="grid grid-cols-4 gap-2 mt-3 text-xs"><div><div class="text-[10px] text-[#A0AEC0]">p95 spread</div><div class="font-mono text-[#F59E0B]">22%</div></div><div><div class="text-[10px] text-[#A0AEC0]">expected</div><div class="font-mono text-[#F1F5F9]">$13.4M</div></div><div><div class="text-[10px] text-[#A0AEC0]">sigma</div><div class="font-mono text-[#F1F5F9]">$0.42M</div></div><div><div class="text-[10px] text-[#A0AEC0]">trend</div><div class="font-mono text-[#10B981]">Tightening</div></div></div>
+        </div>
+        <div class="col-span-5 bg-[#2E3849] border border-[#3A4454] rounded-md p-4">
+          <h3 class="text-[#F1F5F9] text-sm font-semibold mb-2">Friday Forecast Call (UC-F2)</h3>
+          <table class="w-full text-xs">
+            <thead><tr class="text-[#A0AEC0] border-b border-[#3A4454]"><th class="text-left p-1.5">Programme</th><th class="text-left p-1.5">Confidence</th><th class="text-left p-1.5">Variance</th><th class="text-left p-1.5">Flag</th></tr></thead>
+            <tbody>
+              <tr class="border-b border-[#3A4454]"><td class="p-1.5 text-[#F1F5F9]">Pegasus</td><td class="p-1.5 font-mono text-[#F59E0B]">62</td><td class="p-1.5 font-mono text-[#EF4444]">-8.2%</td><td class="p-1.5"><span class="px-1.5 py-0.5 bg-[#EF4444]/20 text-[#EF4444] rounded text-[10px]">Overrun</span></td></tr>
+              <tr class="border-b border-[#3A4454]"><td class="p-1.5 text-[#F1F5F9]">Phoenix</td><td class="p-1.5 font-mono text-[#10B981]">82</td><td class="p-1.5 font-mono text-[#10B981]">+1.4%</td><td class="p-1.5 text-[#A0AEC0] text-[10px]">--</td></tr>
+              <tr class="border-b border-[#3A4454] bg-[#F59E0B]/5"><td class="p-1.5 text-[#F1F5F9]">Stellar</td><td class="p-1.5 text-[#F59E0B] text-[10px] italic">missing</td><td class="p-1.5 text-[#A0AEC0] text-[10px]">--</td><td class="p-1.5"><span class="px-1.5 py-0.5 bg-[#F59E0B]/20 text-[#F59E0B] rounded text-[10px]">Submit</span></td></tr>
+              <tr class="border-b border-[#3A4454]"><td class="p-1.5 text-[#F1F5F9]">Orion</td><td class="p-1.5 font-mono text-[#10B981]">88</td><td class="p-1.5 font-mono text-[#10B981]">+2.1%</td><td class="p-1.5 text-[#A0AEC0] text-[10px]">--</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t border-[#3A4454] bg-[#2E3849]"><div class="max-w-[1440px] mx-auto px-8 py-5 flex justify-between items-center text-[#718096] text-xs"><div>Demo data. All programmes, clients, vendors, and people in this application are fictional.</div><div>Built by Adi Kompalli | AKB1 Delivery Command Center | v0.1.0-wireframe R4</div></div></footer>
+
+</body>
+</html>

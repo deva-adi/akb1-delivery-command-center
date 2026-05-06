@@ -50,7 +50,7 @@ describe("role-nav map per Master PRD R3.3", () => {
     expect(ROLE_PRIMARY_NAV.HRBusinessPartner.map((i) => i.key)).toEqual([
       "capability-supply-chain",
       "workforce",
-      "executive",
+      "governance-operating-model",
       "onboarding-first-90-days",
       "notifications",
     ]);

@@ -1,73 +1,81 @@
 # AKB1 Delivery Command Center v1
 # Local development stack
-# Placeholder authored 2026-04-24. Real compose file populated at M6 when backend and frontend exist.
+# Slice 2.2 (M6): db plus redis plus backend
+# Frontend service lands at M7
 #
-# Usage (once populated):
-#   docker compose up -d
-#   Navigate to http://localhost:3000
+# Quick start:
+#   cp .env.example .env       # only on first run
+#   docker compose up -d db redis
+#   docker compose ps          # confirm both healthy
 #
-# Services planned:
-#   frontend (Next.js 14) on port 3000
-#   backend (FastAPI) on port 8000
-#   postgres on port 5432
-#   redis on port 6379
-#   caddy (reverse proxy, optional) on port 80
+# Notes:
+#   docker-compose.yml at the project root is the single source of truth.
+#   docker-compose.prod.yml ships in a later slice with TLS via Caddy.
 
-version: "3.9"
+name: akb1-dcc
 
 services:
-  # Postgres database
-  postgres:
+  db:
     image: postgres:16-alpine
-    container_name: akb1_dcc_postgres
+    container_name: akb1_dcc_db
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-akb1}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-akb1_dev_password}
+      POSTGRES_USER: ${POSTGRES_BOOTSTRAP_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_BOOTSTRAP_PASSWORD:-akb1_bootstrap_password}
       POSTGRES_DB: ${POSTGRES_DB:-akb1_dcc}
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - akb1_dcc_postgres_data:/var/lib/postgresql/data
+      - ./infra/postgres/init:/docker-entrypoint-initdb.d:ro
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-akb1}"]
-      interval: 10s
+      test:
+        - "CMD-SHELL"
+        - "pg_isready -U ${POSTGRES_BOOTSTRAP_USER:-postgres} -d ${POSTGRES_DB:-akb1_dcc}"
+      interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
 
-  # Redis cache and session store
   redis:
     image: redis:7-alpine
     container_name: akb1_dcc_redis
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - akb1_dcc_redis_data:/data
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT:-6379}:6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 5s
+    restart: unless-stopped
 
-  # Backend FastAPI (populated at M6)
-  # backend:
-  #   build: ./backend
-  #   container_name: akb1_dcc_backend
-  #   env_file: .env
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
-  #     redis:
-  #       condition: service_healthy
-  #   ports:
-  #     - "8000:8000"
-
-  # Frontend Next.js (populated at M7)
-  # frontend:
-  #   build: ./frontend
-  #   container_name: akb1_dcc_frontend
-  #   env_file: .env
-  #   depends_on:
-  #     - backend
-  #   ports:
-  #     - "3000:3000"
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: akb1_dcc_backend
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: ${DATABASE_URL_DOCKER:-postgresql+asyncpg://akb1_app:akb1_app_password@db:5432/akb1_dcc}
+      DATABASE_URL_MIGRATIONS: ${DATABASE_URL_MIGRATIONS_DOCKER:-postgresql+asyncpg://akb1_owner:akb1_owner_password@db:5432/akb1_dcc}
+      REDIS_URL: ${REDIS_URL_DOCKER:-redis://redis:6379/0}
+      JWT_SECRET: ${JWT_SECRET:-replace_with_long_random_string_before_deploy}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      LOG_FORMAT: ${LOG_FORMAT:-json}
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    restart: unless-stopped
 
 volumes:
-  postgres-data:
+  akb1_dcc_postgres_data:
+    name: akb1_dcc_postgres_data
+  akb1_dcc_redis_data:
+    name: akb1_dcc_redis_data

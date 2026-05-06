@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>P and L Cockpit | AKB1 Delivery Command Center v1</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>body{font-family:'Inter',system-ui,sans-serif}.font-mono{font-family:'JetBrains Mono',monospace}.tabular{font-variant-numeric:tabular-nums}</style>
+</head>
+<body class="bg-[#242D3D] text-[#F1F5F9] min-h-screen">
+
+  <header class="border-b border-[#3A4454] bg-[#2E3849]">
+    <div class="max-w-[1440px] mx-auto px-8 py-4 flex items-center justify-between">
+      <a href="v1_00_Index.html" class="flex items-center gap-3 hover:opacity-80 transition"><div class="w-8 h-8 rounded-md bg-[#F5B800] flex items-center justify-center"><span class="text-[#242D3D] font-bold text-sm">A1</span></div><div><div class="text-[#F1F5F9] font-semibold text-sm tracking-tight">AKB1 Delivery Command Center</div><div class="text-[#A0AEC0] text-[11px]">P and L Cockpit <span class="ml-1 px-1 py-0 bg-[#10B981]/20 border border-[#10B981] rounded text-[#10B981] text-[9px] font-semibold uppercase">R4</span></div></div></a>
+      <div class="flex items-center gap-3"><div class="text-[#718096] text-xs font-mono tabular">2026-04-24 | 14:32 IST</div><span class="px-3 py-1.5 bg-[#78350F] border border-[#F5B800] rounded-md text-[#F5B800] text-xs font-medium">v0.1.0-wireframe R4</span></div>
+    </div>
+  </header>
+
+  <div class="border-b border-[#3A4454] bg-[#2E3849] sticky top-0 z-20">
+    <div class="max-w-[1440px] mx-auto px-8 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-[#3A4454] border border-[#4A5568] rounded-md cursor-pointer hover:border-[#F5B800] transition"><span class="text-[#A0AEC0] text-[10px] uppercase tracking-wider">Geo</span><span class="text-[#F1F5F9] text-sm">All regions</span><svg class="w-3 h-3 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div>
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-[#3A4454] border border-[#4A5568] rounded-md cursor-pointer hover:border-[#F5B800] transition"><span class="text-[#A0AEC0] text-[10px] uppercase tracking-wider">Programme</span><span class="text-[#F1F5F9] text-sm">All (10)</span><svg class="w-3 h-3 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div>
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-[#3A4454] border border-[#4A5568] rounded-md cursor-pointer hover:border-[#F5B800] transition"><span class="text-[#A0AEC0] text-[10px] uppercase tracking-wider">Currency</span><span class="text-[#F1F5F9] text-sm">USD</span><svg class="w-3 h-3 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div>
+        <div class="flex items-center bg-[#3A4454] border border-[#4A5568] rounded-md overflow-hidden"><button class="px-3 py-1.5 text-xs text-[#A0AEC0] hover:text-[#F1F5F9] transition">MTD</button><button class="px-3 py-1.5 text-xs text-[#F5B800] bg-[#2A3446] font-medium">QTD</button><button class="px-3 py-1.5 text-xs text-[#A0AEC0] hover:text-[#F1F5F9] transition">YTD</button><button class="px-3 py-1.5 text-xs text-[#A0AEC0] hover:text-[#F1F5F9] transition">R12M</button></div><div class="flex items-center gap-2 px-3 py-1.5 bg-[#3A4454] border border-[#4A5568] rounded-md cursor-pointer hover:border-[#F5B800] transition"><svg class="w-3.5 h-3.5 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span class="text-[#A0AEC0] text-[10px] uppercase tracking-wider">As of</span><span class="text-[#F1F5F9] text-sm">Today</span><svg class="w-3 h-3 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div>
+      </div>
+      <div class="flex items-center gap-2 px-3 py-1.5 bg-[#581C87]/30 border border-[#8B5CF6] rounded-md"><div class="w-2 h-2 rounded-full bg-[#8B5CF6]"></div><span class="text-[#A78BFA] text-xs font-medium">Finance Lead</span><svg class="w-3 h-3 text-[#8B5CF6]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div>
+    </div>
+  </div>
+
+  <nav class="border-b border-[#3A4454] bg-[#2E3849]"><div class="max-w-[1440px] mx-auto px-8"><div class="flex gap-0 items-center"><a href="v1_05_Financials.html" class="px-4 py-3 text-sm text-[#A0AEC0] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#4A5568] transition">Financials</a><a class="px-4 py-3 text-sm text-[#F5B800] border-b-2 border-[#F5B800] font-medium">P and L Cockpit</a><a href="v1_09_Commercial_Pipeline.html" class="px-4 py-3 text-sm text-[#A0AEC0] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#4A5568] transition">Commercial Pipeline</a><a href="v1_14_Change_Impact.html" class="px-4 py-3 text-sm text-[#A0AEC0] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#4A5568] transition">Change Impact</a><a href="v1_11_Scenario_Planner.html" class="px-4 py-3 text-sm text-[#A0AEC0] border-b-2 border-transparent hover:text-[#F1F5F9] hover:border-[#4A5568] transition">Scenario Planner</a><div class="ml-auto flex items-center gap-3"><button class="flex items-center gap-2 px-3 py-1.5 bg-[#3A4454] border border-[#4A5568] hover:border-[#F5B800] rounded-md transition cursor-pointer group"><svg class="w-3.5 h-3.5 text-[#A0AEC0] group-hover:text-[#F5B800] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg><span class="text-[#A0AEC0] text-xs">Search</span><kbd class="px-1 py-0 bg-[#242D3D] border border-[#4A5568] rounded text-[9px] text-[#718096] font-mono">&#8984;K</kbd></button><button class="relative p-1.5 hover:bg-[#3A4454] rounded-md transition" title="Notifications"><svg class="w-4 h-4 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2a2 2 0 01-.6 1.4L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><span class="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-[#EF4444] text-white text-[8px] font-bold flex items-center justify-center">3</span></button><button class="flex items-center gap-1 px-2 py-1.5 hover:bg-[#3A4454] rounded-md transition text-xs text-[#A0AEC0]" title="More tabs"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>More</button></div></div></div></nav>
+
+  <section class="border-b border-[#3A4454] bg-[#2A3446]">
+    <div class="max-w-[1440px] mx-auto px-8 py-6 grid grid-cols-3 gap-8">
+      <div>
+        <div class="flex items-center gap-2 mb-3"><div class="w-1.5 h-5 bg-[#F5B800] rounded-full"></div><h3 class="text-[#F5B800] text-base font-semibold tracking-tight">What does this tell me</h3></div>
+        <p class="text-[#CBD5E1] text-sm leading-relaxed">Gross margin this month at <span class="text-[#EF4444] font-semibold">19.2 percent</span>, down 60 basis points from last month and <span class="text-[#EF4444] font-semibold">460 basis points</span> from the trailing high 12 months ago. Revenue is stable. Cost is rising faster than revenue. Margin waterfall shows leakage concentrated in four drivers.</p>
+      </div>
+      <div class="pl-8 border-l border-[#3A4454]">
+        <div class="flex items-center gap-2 mb-3"><div class="w-1.5 h-5 bg-[#F5B800] rounded-full"></div><h3 class="text-[#F5B800] text-base font-semibold tracking-tight">Why is this happening</h3></div>
+        <ol class="space-y-2 text-sm">
+          <li class="flex items-baseline gap-3"><span class="text-[#F1F5F9] font-mono font-semibold tabular min-w-[3ch]">48%</span><span class="text-[#CBD5E1]">Direct cost grew 3.1 percent month on month due to replacement hires at higher blended rates.</span></li>
+          <li class="flex items-baseline gap-3"><span class="text-[#F1F5F9] font-mono font-semibold tabular min-w-[3ch]">29%</span><span class="text-[#CBD5E1]">Unbilled WIP rose to USD 2.8M, up from 1.9M last month, due to milestone slips.</span></li>
+          <li class="flex items-baseline gap-3"><span class="text-[#F1F5F9] font-mono font-semibold tabular min-w-[3ch]">23%</span><span class="text-[#CBD5E1]">Non-billable training and bench days rose 17 percent as bench hit 10 percent.</span></li>
+        </ol>
+      </div>
+      <div class="pl-8 border-l border-[#3A4454]">
+        <div class="flex items-center gap-2 mb-3"><div class="w-1.5 h-5 bg-[#F5B800] rounded-full"></div><h3 class="text-[#F5B800] text-base font-semibold tracking-tight">What do I do this week</h3></div>
+        <div class="space-y-2">
+          <div class="bg-[#2E3849] border border-[#3A4454] rounded-md p-3 hover:border-[#4A5568] transition cursor-pointer"><p class="text-[#F1F5F9] text-sm font-medium mb-1.5 leading-snug">Clear the USD 2.8M unbilled WIP with client sign-off on delayed milestones by Friday.</p><div class="flex items-center gap-3 text-[11px]"><span class="flex items-center gap-1 text-[#A0AEC0]"><span class="w-4 h-4 rounded-full bg-[#60A5FA] flex items-center justify-center text-[#242D3D] text-[9px] font-semibold">R</span>Rajiv</span><span class="text-[#F59E0B] font-medium">Due Thu 30 Apr</span></div></div>
+          <div class="bg-[#2E3849] border border-[#3A4454] rounded-md p-3 hover:border-[#4A5568] transition cursor-pointer"><p class="text-[#F1F5F9] text-sm font-medium mb-1.5 leading-snug">Shift 30 percent of bench resources to two new commercial opportunities.</p><div class="flex items-center gap-3 text-[11px]"><span class="flex items-center gap-1 text-[#A0AEC0]"><span class="w-4 h-4 rounded-full bg-[#F59E0B] flex items-center justify-center text-[#242D3D] text-[9px] font-semibold">P</span>Priya</span><span class="text-[#F59E0B] font-medium">Due Wed 29 Apr</span></div></div>
+          <div class="bg-[#2E3849] border border-[#3A4454] rounded-md p-3 hover:border-[#4A5568] transition cursor-pointer"><p class="text-[#F1F5F9] text-sm font-medium mb-1.5 leading-snug">Enforce blended rate ceiling on replacement hires across India geo.</p><div class="flex items-center gap-3 text-[11px]"><span class="flex items-center gap-1 text-[#A0AEC0]"><span class="w-4 h-4 rounded-full bg-[#8B5CF6] flex items-center justify-center text-[#242D3D] text-[9px] font-semibold">M</span>Meera</span><span class="text-[#F59E0B] font-medium">Due Thu 30 Apr</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="max-w-[1440px] mx-auto px-8 py-6 grid grid-cols-5 gap-4">
+      <div class="bg-[#2E3849] border border-[#3A4454] rounded-lg p-5 relative hover:border-[#4A5568] transition cursor-pointer group"><svg class="absolute top-4 right-4 w-4 h-4 text-[#718096] group-hover:text-[#F5B800] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg><div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-2 font-medium">Gross Margin</div><div class="text-[#F1F5F9] text-4xl font-semibold font-mono tabular">19.2<span class="text-xl text-[#A0AEC0]">%</span></div><div class="flex items-center gap-2 mt-2 text-xs"><span class="text-[#EF4444] font-medium">&#9660; 0.6pp</span><span class="text-[#718096]">target 21%</span></div></div>
+      <div class="bg-[#2E3849] border border-[#3A4454] rounded-lg p-5 relative hover:border-[#4A5568] transition cursor-pointer group"><svg class="absolute top-4 right-4 w-4 h-4 text-[#718096] group-hover:text-[#F5B800] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg><div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-2 font-medium">Net Margin</div><div class="text-[#F1F5F9] text-4xl font-semibold font-mono tabular">13.2<span class="text-xl text-[#A0AEC0]">%</span></div><div class="flex items-center gap-2 mt-2 text-xs"><span class="text-[#EF4444] font-medium">&#9660; 0.3pp</span><span class="text-[#718096]">target 15%</span></div></div>
+      <div class="bg-[#2E3849] border border-[#3A4454] rounded-lg p-5 relative hover:border-[#4A5568] transition cursor-pointer group"><svg class="absolute top-4 right-4 w-4 h-4 text-[#718096] group-hover:text-[#F5B800] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg><div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-2 font-medium">DSO</div><div class="text-[#F1F5F9] text-4xl font-semibold font-mono tabular">47<span class="text-xl text-[#A0AEC0]"> days</span></div><div class="flex items-center gap-2 mt-2 text-xs"><span class="text-[#EF4444] font-medium">&#9650; 5d</span><span class="text-[#718096]">alert &gt;45</span></div></div>
+      <div class="bg-[#2E3849] border border-[#3A4454] rounded-lg p-5 relative hover:border-[#4A5568] transition cursor-pointer group"><svg class="absolute top-4 right-4 w-4 h-4 text-[#718096] group-hover:text-[#F5B800] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg><div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-2 font-medium">Unbilled WIP</div><div class="text-[#F1F5F9] text-4xl font-semibold font-mono tabular">$2.8<span class="text-xl text-[#A0AEC0]">M</span></div><div class="flex items-center gap-2 mt-2 text-xs"><span class="text-[#EF4444] font-medium">&#9650; $0.9M</span><span class="text-[#718096]">alert &gt;$2M</span></div></div>
+      <div class="bg-[#2E3849] border border-[#3A4454] rounded-lg p-5 relative hover:border-[#4A5568] transition cursor-pointer group"><svg class="absolute top-4 right-4 w-4 h-4 text-[#718096] group-hover:text-[#F5B800] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg><div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-2 font-medium">Leakage MTD</div><div class="text-[#F1F5F9] text-4xl font-semibold font-mono tabular">$1.7<span class="text-xl text-[#A0AEC0]">M</span></div><div class="flex items-center gap-2 mt-2 text-xs"><span class="text-[#EF4444] font-medium">&#9650; $0.4M</span><span class="text-[#718096]">4 drivers</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="max-w-[1440px] mx-auto px-8 py-6 grid grid-cols-2 gap-6">
+
+      <div class="bg-[#2E3849] border border-[#3A4454] rounded-lg p-5 relative">
+        <svg class="absolute top-5 right-5 w-4 h-4 text-[#718096] hover:text-[#F5B800] cursor-pointer transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg>
+        <div class="flex items-baseline justify-between mb-1"><h3 class="text-[#F1F5F9] font-semibold">Margin Waterfall</h3><span class="text-[#718096] text-xs">MTD compression from 19.8 to 19.2</span></div>
+        <p class="text-[#A0AEC0] text-xs mb-4">Bridge from last month to this month in basis points.</p>
+        <svg class="w-full h-64" viewBox="0 0 600 260" preserveAspectRatio="xMidYMid meet">
+          <line x1="30" y1="30" x2="590" y2="30" stroke="#3A4454"/>
+          <line x1="30" y1="90" x2="590" y2="90" stroke="#3A4454"/>
+          <line x1="30" y1="150" x2="590" y2="150" stroke="#3A4454"/>
+          <line x1="30" y1="210" x2="590" y2="210" stroke="#4A5568"/>
+          <text x="2" y="34" fill="#718096" font-size="10" font-family="JetBrains Mono">20.0</text>
+          <text x="2" y="94" fill="#718096" font-size="10" font-family="JetBrains Mono">19.6</text>
+          <text x="2" y="154" fill="#718096" font-size="10" font-family="JetBrains Mono">19.2</text>
+          <text x="2" y="214" fill="#718096" font-size="10" font-family="JetBrains Mono">18.8</text>
+          <!-- Start bar: 19.8 -->
+          <rect x="60" y="60" width="70" height="150" fill="#60A5FA"/>
+          <text x="95" y="55" fill="#F1F5F9" font-size="11" text-anchor="middle" font-weight="600">19.8%</text>
+          <text x="95" y="230" fill="#A0AEC0" font-size="10" text-anchor="middle">Last M</text>
+          <!-- Pegasus slip: -30bps -->
+          <rect x="150" y="60" width="70" height="45" fill="#EF4444" fill-opacity="0.8"/>
+          <text x="185" y="55" fill="#EF4444" font-size="11" text-anchor="middle" font-weight="600">-30bps</text>
+          <text x="185" y="230" fill="#A0AEC0" font-size="10" text-anchor="middle">Pegasus</text>
+          <!-- Hire rate: -19bps -->
+          <rect x="240" y="105" width="70" height="30" fill="#EF4444" fill-opacity="0.7"/>
+          <text x="275" y="100" fill="#EF4444" font-size="11" text-anchor="middle" font-weight="600">-19bps</text>
+          <text x="275" y="230" fill="#A0AEC0" font-size="10" text-anchor="middle">Hire rate</text>
+          <!-- Stellar: -14bps -->
+          <rect x="330" y="135" width="70" height="20" fill="#EF4444" fill-opacity="0.6"/>
+          <text x="365" y="130" fill="#EF4444" font-size="11" text-anchor="middle" font-weight="600">-14bps</text>
+          <text x="365" y="230" fill="#A0AEC0" font-size="10" text-anchor="middle">Stellar</text>
+          <!-- Bench: +10bps recovered -->
+          <rect x="420" y="140" width="70" height="15" fill="#10B981" fill-opacity="0.7"/>
+          <text x="455" y="135" fill="#10B981" font-size="11" text-anchor="middle" font-weight="600">+3bps</text>
+          <text x="455" y="230" fill="#A0AEC0" font-size="10" text-anchor="middle">Nova upsell</text>
+          <!-- End: 19.2 -->
+          <rect x="510" y="150" width="70" height="60" fill="#F5B800"/>
+          <text x="545" y="145" fill="#F5B800" font-size="11" text-anchor="middle" font-weight="600">19.2%</text>
+          <text x="545" y="230" fill="#F1F5F9" font-size="10" text-anchor="middle" font-weight="600">This M</text>
+          <!-- Connector lines -->
+          <line x1="130" y1="60" x2="150" y2="60" stroke="#4A5568" stroke-dasharray="2 2"/>
+          <line x1="220" y1="105" x2="240" y2="105" stroke="#4A5568" stroke-dasharray="2 2"/>
+          <line x1="310" y1="135" x2="330" y2="135" stroke="#4A5568" stroke-dasharray="2 2"/>
+          <line x1="400" y1="155" x2="420" y2="155" stroke="#4A5568" stroke-dasharray="2 2"/>
+          <line x1="490" y1="150" x2="510" y2="150" stroke="#4A5568" stroke-dasharray="2 2"/>
+        </svg>
+      </div>
+
+      <div class="bg-[#2E3849] border border-[#3A4454] rounded-lg p-5 relative">
+        <svg class="absolute top-5 right-5 w-4 h-4 text-[#718096] hover:text-[#F5B800] cursor-pointer transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg>
+        <div class="flex items-baseline justify-between mb-1"><h3 class="text-[#F1F5F9] font-semibold">Leakage Attribution</h3><span class="text-[#718096] text-xs">USD 1.7M MTD across 4 drivers</span></div>
+        <p class="text-[#A0AEC0] text-xs mb-4">Where the gross margin compression is coming from.</p>
+        <div class="space-y-3 mt-4">
+          <div><div class="flex justify-between mb-1"><span class="text-[#F1F5F9] text-sm font-medium">Direct cost (replacement hires)</span><span class="text-[#F1F5F9] font-mono tabular font-semibold">$820K (48%)</span></div><div class="h-3 bg-[#3A4454] rounded"><div class="h-3 bg-[#EF4444] rounded" style="width:48%"></div></div></div>
+          <div><div class="flex justify-between mb-1"><span class="text-[#F1F5F9] text-sm font-medium">Unbilled WIP (milestone slips)</span><span class="text-[#F1F5F9] font-mono tabular font-semibold">$493K (29%)</span></div><div class="h-3 bg-[#3A4454] rounded"><div class="h-3 bg-[#F87171] rounded" style="width:29%"></div></div></div>
+          <div><div class="flex justify-between mb-1"><span class="text-[#F1F5F9] text-sm font-medium">Non-billable (bench + training)</span><span class="text-[#F1F5F9] font-mono tabular font-semibold">$391K (23%)</span></div><div class="h-3 bg-[#3A4454] rounded"><div class="h-3 bg-[#F59E0B] rounded" style="width:23%"></div></div></div>
+          <div><div class="flex justify-between mb-1"><span class="text-[#A0AEC0] text-sm">Other (T and E, infra)</span><span class="text-[#A0AEC0] font-mono tabular">$0 (0%)</span></div><div class="h-3 bg-[#3A4454] rounded"></div></div>
+        </div>
+        <div class="mt-6 pt-4 border-t border-[#3A4454]">
+          <div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-2">Top contributing programmes</div>
+          <div class="flex gap-2 flex-wrap">
+            <span class="px-2 py-1 bg-[#EF4444]/10 border border-[#EF4444]/40 rounded text-[#EF4444] text-[11px] font-medium">Pegasus $580K</span>
+            <span class="px-2 py-1 bg-[#EF4444]/10 border border-[#EF4444]/40 rounded text-[#EF4444] text-[11px] font-medium">Phoenix $420K</span>
+            <span class="px-2 py-1 bg-[#EF4444]/10 border border-[#EF4444]/40 rounded text-[#EF4444] text-[11px] font-medium">Stellar $380K</span>
+            <span class="px-2 py-1 bg-[#F59E0B]/10 border border-[#F59E0B]/40 rounded text-[#F59E0B] text-[11px] font-medium">Orion $240K</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="max-w-[1440px] mx-auto px-8 py-6">
+      <div class="bg-[#2E3849] border border-[#3A4454] rounded-lg p-5 relative">
+        <svg class="absolute top-5 right-5 w-4 h-4 text-[#718096] hover:text-[#F5B800] cursor-pointer transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17l10-10M7 7h10v10"/></svg>
+        <div class="flex items-baseline justify-between mb-1"><h3 class="text-[#F1F5F9] font-semibold">Programme P and L</h3><span class="text-[#718096] text-xs">Gross and net margin by programme</span></div>
+        <p class="text-[#A0AEC0] text-xs mb-4">Click any row to drill to programme-level waterfall.</p>
+        <table class="w-full text-sm">
+          <thead><tr class="text-[#A0AEC0] text-[10px] uppercase tracking-wider border-b border-[#3A4454]"><th class="text-left pb-3 font-medium">Programme</th><th class="text-right pb-3 font-medium">Revenue</th><th class="text-right pb-3 font-medium">Direct Cost</th><th class="text-right pb-3 font-medium">Indirect</th><th class="text-right pb-3 font-medium">Gross $</th><th class="text-right pb-3 font-medium">Gross %</th><th class="text-right pb-3 font-medium">Net %</th><th class="text-right pb-3 font-medium">Target Delta</th></tr></thead>
+          <tbody class="divide-y divide-[#3A4454]">
+            <tr class="hover:bg-[#3A4454]/30 transition cursor-pointer"><td class="py-2.5 text-[#F1F5F9]">Pegasus Healthcare</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$5.8M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$4.4M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.7M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.7M</td><td class="py-2.5 text-right text-[#EF4444] font-mono tabular font-semibold">11.2%</td><td class="py-2.5 text-right text-[#EF4444] font-mono tabular">7.1%</td><td class="py-2.5 text-right text-[#EF4444] font-mono tabular font-semibold">-9.8pp</td></tr>
+            <tr class="hover:bg-[#3A4454]/30 transition cursor-pointer"><td class="py-2.5 text-[#F1F5F9]">Stellar Logistics</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$3.1M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$2.3M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.4M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.4M</td><td class="py-2.5 text-right text-[#EF4444] font-mono tabular font-semibold">14.7%</td><td class="py-2.5 text-right text-[#EF4444] font-mono tabular">9.8%</td><td class="py-2.5 text-right text-[#EF4444] font-mono tabular font-semibold">-6.3pp</td></tr>
+            <tr class="hover:bg-[#3A4454]/30 transition cursor-pointer"><td class="py-2.5 text-[#F1F5F9]">Phoenix Pharma</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$4.9M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$3.4M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.7M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.8M</td><td class="py-2.5 text-right text-[#EF4444] font-mono tabular font-semibold">16.4%</td><td class="py-2.5 text-right text-[#EF4444] font-mono tabular">11.5%</td><td class="py-2.5 text-right text-[#EF4444] font-mono tabular font-semibold">-4.6pp</td></tr>
+            <tr class="hover:bg-[#3A4454]/30 transition cursor-pointer"><td class="py-2.5 text-[#F1F5F9]">Orion Insurance</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$3.8M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$2.6M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.5M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.7M</td><td class="py-2.5 text-right text-[#F59E0B] font-mono tabular font-semibold">17.8%</td><td class="py-2.5 text-right text-[#F59E0B] font-mono tabular">12.9%</td><td class="py-2.5 text-right text-[#F59E0B] font-mono tabular font-semibold">-3.2pp</td></tr>
+            <tr class="hover:bg-[#3A4454]/30 transition cursor-pointer"><td class="py-2.5 text-[#F1F5F9]">Lyra Airlines</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$1.8M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$1.2M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.3M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.3M</td><td class="py-2.5 text-right text-[#F59E0B] font-mono tabular font-semibold">18.2%</td><td class="py-2.5 text-right text-[#F59E0B] font-mono tabular">13.4%</td><td class="py-2.5 text-right text-[#F59E0B] font-mono tabular">-2.8pp</td></tr>
+            <tr class="hover:bg-[#3A4454]/30 transition cursor-pointer"><td class="py-2.5 text-[#F1F5F9]">Atlas Banking</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$4.2M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$2.8M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.6M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.8M</td><td class="py-2.5 text-right text-[#F59E0B] font-mono tabular">18.9%</td><td class="py-2.5 text-right text-[#F59E0B] font-mono tabular">13.8%</td><td class="py-2.5 text-right text-[#F59E0B] font-mono tabular">-2.1pp</td></tr>
+            <tr class="hover:bg-[#3A4454]/30 transition cursor-pointer"><td class="py-2.5 text-[#F1F5F9]">Vega Energy</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$2.9M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$1.9M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.4M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.6M</td><td class="py-2.5 text-right text-[#F59E0B] font-mono tabular">19.4%</td><td class="py-2.5 text-right text-[#F59E0B] font-mono tabular">14.2%</td><td class="py-2.5 text-right text-[#F59E0B] font-mono tabular">-1.6pp</td></tr>
+            <tr class="hover:bg-[#3A4454]/30 transition cursor-pointer"><td class="py-2.5 text-[#F1F5F9]">Quantum Mfg</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$1.0M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.7M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.1M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.2M</td><td class="py-2.5 text-right text-[#10B981] font-mono tabular">24.3%</td><td class="py-2.5 text-right text-[#10B981] font-mono tabular">18.2%</td><td class="py-2.5 text-right text-[#10B981] font-mono tabular">+3.3pp</td></tr>
+            <tr class="hover:bg-[#3A4454]/30 transition cursor-pointer"><td class="py-2.5 text-[#F1F5F9]">Helix Retail</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$2.3M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$1.5M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.2M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.6M</td><td class="py-2.5 text-right text-[#10B981] font-mono tabular font-semibold">26.1%</td><td class="py-2.5 text-right text-[#10B981] font-mono tabular">20.4%</td><td class="py-2.5 text-right text-[#10B981] font-mono tabular font-semibold">+5.1pp</td></tr>
+            <tr class="hover:bg-[#3A4454]/30 transition cursor-pointer"><td class="py-2.5 text-[#F1F5F9]">Nova Telecom</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$1.4M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.9M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.1M</td><td class="py-2.5 text-right text-[#F1F5F9] font-mono tabular">$0.4M</td><td class="py-2.5 text-right text-[#10B981] font-mono tabular font-semibold">28.1%</td><td class="py-2.5 text-right text-[#10B981] font-mono tabular">22.4%</td><td class="py-2.5 text-right text-[#10B981] font-mono tabular font-semibold">+7.1pp</td></tr>
+          </tbody>
+          <tfoot><tr class="border-t-2 border-[#4A5568]"><td class="pt-3 text-[#F1F5F9] font-semibold">Portfolio total</td><td class="pt-3 text-right text-[#F1F5F9] font-mono tabular font-bold">$31.2M</td><td class="pt-3 text-right text-[#F1F5F9] font-mono tabular font-bold">$21.7M</td><td class="pt-3 text-right text-[#F1F5F9] font-mono tabular font-bold">$3.6M</td><td class="pt-3 text-right text-[#F1F5F9] font-mono tabular font-bold">$5.9M</td><td class="pt-3 text-right text-[#F59E0B] font-mono tabular font-bold">19.2%</td><td class="pt-3 text-right text-[#F59E0B] font-mono tabular font-bold">13.2%</td><td class="pt-3 text-right text-[#F59E0B] font-mono tabular font-bold">-1.8pp</td></tr></tfoot>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="max-w-[1440px] mx-auto px-8 py-6">
+      <div class="text-[#A0AEC0] text-[10px] uppercase tracking-wider mb-3 font-medium">Related tabs</div>
+      <div class="flex gap-3 flex-wrap">
+        <a href="v1_05_Financials.html" class="px-4 py-2 bg-[#2E3849] border border-[#3A4454] hover:border-[#F5B800] rounded-md text-[#F5B800] text-sm transition cursor-pointer flex items-center gap-2">Financials <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></a>
+        <a class="px-4 py-2 bg-[#2E3849] border border-[#3A4454] hover:border-[#F5B800] rounded-md text-[#F5B800] text-sm transition cursor-pointer flex items-center gap-2">Commercial Pipeline <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></a>
+        <a class="px-4 py-2 bg-[#2E3849] border border-[#3A4454] hover:border-[#F5B800] rounded-md text-[#F5B800] text-sm transition cursor-pointer flex items-center gap-2">Change Impact <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- R3 NEW: 5-driver Margin Waterfall with Bench Tax as explicit driver. -->
+  <section><div class="max-w-[1440px] mx-auto px-8 py-6">
+    <div class="bg-[#2E3849] border border-[#3A4454] rounded-lg p-5">
+      <div class="flex items-baseline justify-between mb-3"><h3 class="text-[#F1F5F9] font-semibold">Margin Waterfall (R3: 5 Leakage Drivers)</h3><span class="text-[#718096] text-xs">Last month 14.1% Net to this month 12.6%</span></div>
+      <p class="text-[#A0AEC0] text-xs mb-3">Bench tax now separated from indirect cost so the decision owner is obvious.</p>
+      <svg class="w-full h-56" viewBox="0 0 800 220">
+        <line x1="40" y1="180" x2="790" y2="180" stroke="#4A5568"/>
+        <rect x="60" y="60" width="70" height="120" fill="#10B981" fill-opacity="0.6" stroke="#10B981"/>
+        <text x="95" y="55" fill="#10B981" font-size="11" text-anchor="middle" font-weight="600">14.1%</text>
+        <text x="95" y="200" fill="#A0AEC0" font-size="10" text-anchor="middle">Last mo Net</text>
+        <rect x="160" y="55" width="70" height="5" fill="#10B981" fill-opacity="0.4" stroke="#10B981"/>
+        <text x="195" y="48" fill="#10B981" font-size="10" text-anchor="middle">+0.2</text>
+        <text x="195" y="200" fill="#A0AEC0" font-size="10" text-anchor="middle">Revenue</text>
+        <rect x="250" y="60" width="70" height="12" fill="#EF4444" fill-opacity="0.5" stroke="#EF4444"/>
+        <text x="285" y="55" fill="#EF4444" font-size="10" text-anchor="middle">-0.4</text>
+        <text x="285" y="200" fill="#A0AEC0" font-size="10" text-anchor="middle">CR Absorbed</text>
+        <rect x="340" y="72" width="70" height="10" fill="#EF4444" fill-opacity="0.5" stroke="#EF4444"/>
+        <text x="375" y="68" fill="#EF4444" font-size="10" text-anchor="middle">-0.3</text>
+        <text x="375" y="200" fill="#A0AEC0" font-size="10" text-anchor="middle">Scope Debt</text>
+        <rect x="430" y="82" width="70" height="15" fill="#F5B800" fill-opacity="0.5" stroke="#F5B800"/>
+        <text x="465" y="78" fill="#F5B800" font-size="10" text-anchor="middle" font-weight="600">-0.4</text>
+        <text x="465" y="200" fill="#F5B800" font-size="10" text-anchor="middle" font-weight="600">Bench Tax</text>
+        <rect x="520" y="97" width="70" height="9" fill="#EF4444" fill-opacity="0.5" stroke="#EF4444"/>
+        <text x="555" y="93" fill="#EF4444" font-size="10" text-anchor="middle">-0.3</text>
+        <text x="555" y="200" fill="#A0AEC0" font-size="10" text-anchor="middle">Vendor Overrun</text>
+        <rect x="610" y="106" width="70" height="14" fill="#EF4444" fill-opacity="0.5" stroke="#EF4444"/>
+        <text x="645" y="102" fill="#EF4444" font-size="10" text-anchor="middle">-0.3</text>
+        <text x="645" y="200" fill="#A0AEC0" font-size="10" text-anchor="middle">Est. Drift</text>
+        <rect x="700" y="70" width="70" height="110" fill="#F59E0B" fill-opacity="0.6" stroke="#F59E0B"/>
+        <text x="735" y="65" fill="#F59E0B" font-size="11" text-anchor="middle" font-weight="600">12.6%</text>
+        <text x="735" y="200" fill="#A0AEC0" font-size="10" text-anchor="middle">This mo Net</text>
+      </svg>
+      <div class="mt-4 pt-3 border-t border-[#3A4454] text-xs text-[#F5B800] italic">Hub: bench is a decision, not an accident. Bench Tax is now the third-largest driver.</div>
+    </div>
+  </div></section>
+
+  <section class="border-t-2 border-[#F5B800] bg-[#2A3446] mt-8">
+    <div class="max-w-[1440px] mx-auto px-8 py-6">
+      <div class="flex items-center gap-3 mb-4"><div class="px-2 py-1 bg-[#F5B800] text-[#242D3D] rounded text-[10px] font-bold tracking-wider">REVISION 4</div><h2 class="text-[#F1F5F9] text-lg font-semibold">Rev 4 additions per PRD 09 rev 4</h2><span class="text-[#A0AEC0] text-xs">UC-NN Five-Leak relabel plus UC-P EVM cross-surface</span></div>
+      <div class="grid grid-cols-12 gap-4">
+        <div class="col-span-7 bg-[#2E3849] border border-[#3A4454] rounded-md p-4">
+          <h3 class="text-[#F1F5F9] text-sm font-semibold mb-3">Five-Leak Anatomy (Hub-aligned labels, Pegasus)</h3>
+          <p class="text-[#A0AEC0] text-[11px] mb-3">410 bps total. Per S04P4 the 810 bps compression pattern.</p>
+          <div class="space-y-2 text-xs">
+            <div class="flex items-center gap-3"><div class="w-56 text-[#F1F5F9]">Rate Card vs Blended Actual</div><div class="flex-1 h-6 bg-[#3A4454] rounded overflow-hidden"><div class="h-6 bg-[#EF4444]/70" style="width:90%"></div></div><div class="font-mono text-[#EF4444] w-16 text-right">155 bps</div></div>
+            <div class="flex items-center gap-3"><div class="w-56 text-[#F1F5F9]">Scope Absorbed Silently</div><div class="flex-1 h-6 bg-[#3A4454] rounded overflow-hidden"><div class="h-6 bg-[#F59E0B]/70" style="width:60%"></div></div><div class="font-mono text-[#F59E0B] w-16 text-right">98 bps</div></div>
+            <div class="flex items-center gap-3"><div class="w-56 text-[#F1F5F9]">Vendor Overrun Unmapped</div><div class="flex-1 h-6 bg-[#3A4454] rounded overflow-hidden"><div class="h-6 bg-[#F59E0B]/70" style="width:45%"></div></div><div class="font-mono text-[#F59E0B] w-16 text-right">72 bps</div></div>
+            <div class="flex items-center gap-3"><div class="w-56 text-[#F1F5F9]">Attrition Not Rehired at Band</div><div class="flex-1 h-6 bg-[#3A4454] rounded overflow-hidden"><div class="h-6 bg-[#A0AEC0]/50" style="width:32%"></div></div><div class="font-mono text-[#A0AEC0] w-16 text-right">52 bps</div></div>
+            <div class="flex items-center gap-3"><div class="w-56 text-[#F1F5F9]">License Renewal Unbudgeted</div><div class="flex-1 h-6 bg-[#3A4454] rounded overflow-hidden"><div class="h-6 bg-[#A0AEC0]/50" style="width:20%"></div></div><div class="font-mono text-[#A0AEC0] w-16 text-right">33 bps</div></div>
+          </div>
+        </div>
+        <div class="col-span-5 bg-[#2E3849] border border-[#3A4454] rounded-md p-4">
+          <h3 class="text-[#F1F5F9] text-sm font-semibold mb-3">EVM Cross-Surface (UC-P)</h3>
+          <p class="text-[#A0AEC0] text-[11px] mb-3">Per S08P6 CPI is the 3-month early indicator of margin failure.</p>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="bg-[#3A4454] border border-[#F59E0B]/40 rounded p-3"><div class="text-[#A0AEC0] text-[9px] uppercase">CPI</div><div class="text-[#F1F5F9] text-xl font-mono font-semibold">0.92</div></div>
+            <div class="bg-[#3A4454] border border-[#F59E0B]/40 rounded p-3"><div class="text-[#A0AEC0] text-[9px] uppercase">SPI</div><div class="text-[#F1F5F9] text-xl font-mono font-semibold">0.88</div></div>
+            <div class="bg-[#3A4454] border border-[#10B981]/40 rounded p-3"><div class="text-[#A0AEC0] text-[9px] uppercase">TCPI</div><div class="text-[#F1F5F9] text-xl font-mono font-semibold">1.04</div></div>
+            <div class="bg-[#3A4454] border border-[#EF4444]/40 rounded p-3"><div class="text-[#A0AEC0] text-[9px] uppercase">EAC</div><div class="text-[#F1F5F9] text-xl font-mono font-semibold">$8.7M</div></div>
+          </div>
+          <a href="v1_02_Delivery_Health.html" class="mt-3 inline-block text-[10px] text-[#F5B800] hover:underline">Programme detail on v1_02 |&gt;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t border-[#3A4454] bg-[#2E3849]"><div class="max-w-[1440px] mx-auto px-8 py-5 flex justify-between items-center text-[#718096] text-xs"><div>Demo data. All programmes, clients, vendors, and people in this application are fictional.</div><div>Built by Adi Kompalli | AKB1 Delivery Command Center | v0.1.0-wireframe R4</div></div></footer>
+
+</body>
+</html>

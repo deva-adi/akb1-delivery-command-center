@@ -5,6 +5,84 @@
 
 ---
 
+## D-053 | 2026-05-10 | M7-10 Flow and Velocity tab closed
+
+Context: Scope confirmed by Adi. Flow and Velocity tab (PRD 10 rev 2) is PM's primary operational tab for sprint throughput, WIP, cycle time, and DORA metrics. No sprint-level entities seeded (sprint_velocity_log, flow_metrics, wip_limits, dora_metrics); KPIs and charts derive from milestone proxy where possible.
+
+Decisions recorded:
+
+1. Role gate: PO/DD/PM/RO allowed; FL/HRBP redirect to /home. PRD 10 section 2 lists PO (Full), PM (Primary, scoped), RO (Full read), FL (No). DD is not listed. DD included by Adi's explicit confirmation at session start, consistent with the operational parity pattern used by Delivery Health (DD/PM/RO). FL excluded per PRD. HRBP has no relevance to sprint flow metrics. FLOW_ALLOWED_ROLES.size = 4.
+
+2. WIP proxy: At Risk and On Track milestone count per programme used as WIP proxy. Static WIP_LIMITS constant map in lib/flow-velocity.ts sourced from wireframe v1_07 WIP vs Limit panel (PEGASUS=20, PHOENIX=18, ORION=16, STELLAR=15, HELIX=14, ATLAS=14, DRACO=12, LYRA=12, VEGA=10, ANDROMEDA=8). Default 15 for any programme not in the map. Approach A selected by Adi: hardcode with TODO to replace when wip_limits entity lands. Breaching flag true when wip > limit (strict greater-than; at-limit is not breaching).
+
+3. Re-export of delivery-health.ts types: MilestoneItem, MilestoneListResponse, HealthSnapshotItem, HealthListResponse, MilestoneStatus, RAGStatus all re-exported from lib/flow-velocity.ts via export type { } from. No new interface definitions for types already established in M7-4. FlowSprintTable.tsx imports HealthSnapshotItem directly from lib/delivery-health.ts (avoids indirect re-export chain through flow-velocity.ts for unused-import TS6196 risk).
+
+4. Sprint window table: Monthly due_date buckets per programme (same approach as buildVelocityTrend in delivery-health.ts). Last 3 non-empty monthly buckets used as proxy sprint windows. Trend compares window3 vs window1 count (up/flat/down). Requires minimum 3 distinct months with Complete milestones to produce a non-zero w3; sparse data correctly resolves to w3=0 and trends down relative to any positive w1. Test fix: trend-up test uses 4 milestones across Jan/Feb/Apr (3 distinct months) to ensure all 3 windows are populated.
+
+5. DORA section: All 4 DORA KPIs (Deployment Frequency, Lead Time for Changes, Change Failure Rate, MTTR) and the per-programme band grid are stubs. dora_metrics entity not yet seeded. Rev 2 gold border + REVISION 2 badge applied per the standard R2 treatment. 5 programmes shown in the band grid (PEGASUS, PHOENIX, ORION, ATLAS, HELIX) matching the wireframe sample. All cells show "n/a" pending data.
+
+6. CFD chart: Stub SVG shell with 4-band colour legend (Done/Review/In Progress/Backlog matching wireframe) and a placeholder box with stub badge. The wireframe showed a complex stacked-polygon SVG; not replicated as stub since the data contract (sprint-bucketed story state) does not exist yet.
+
+7. Test count: 39 new vitest (23 flow-velocity-utils, 8 flow-velocity-role-guard, 8 flow-velocity-wip). One test required 3 distinct months not 2 (sparse 2-month case resolves w3=0, making trend detection unreliable for the trend-up case). 336 of 336 total vitest green. tsc clean. npm run build green (17 routes). Em-dash sweep clean.
+
+8. Backend: Zero new backend. Milestones (20 per programme) and health snapshots (4 per programme) from M7-2 are reused. Promise.allSettled over all PROGRAMME_CODES for both; 403s silently discarded so PM sees only their assigned programme via existing require_programme_access backend logic.
+
+Files created:
+  frontend/lib/flow-velocity.ts
+  frontend/components/FlowIntelligenceCard.tsx
+  frontend/components/FlowKPIGrid.tsx
+  frontend/components/FlowCFDChart.tsx
+  frontend/components/FlowWIPBars.tsx
+  frontend/components/FlowSprintTable.tsx
+  frontend/components/FlowDORASection.tsx
+  frontend/app/home/flow-velocity/page.tsx
+  frontend/tests/unit/flow-velocity-utils.test.ts
+  frontend/tests/unit/flow-velocity-role-guard.test.ts
+  frontend/tests/unit/flow-velocity-wip.test.ts
+
+---
+
+## D-052 | 2026-05-06 | M7-9 Workforce Intelligence tab closed
+
+Context: Scope confirmed by Adi. Workforce tab is the HRBP-primary operational twin of Capability (which covers the strategic layer). Zero new backend: GET /api/v1/people already live from M7-8. Same audience (PO, DD, HRBP) per PRD 07 section 2 intent plus rev 4 HRBP role expansion.
+
+Decisions recorded:
+
+1. Role gate: PO/DD/HRBP allowed; PM/RO/FL redirect to /home. PRD 07 section 2 was written pre-HRBP role expansion and lists PO as primary with PM scoped and FL headline. At rev 4 HRBP became the primary nav holder (workforce = HRBP pos 2 in role-nav.ts). PO retained because PRD grants Full access. DD included because operational headcount data is directly relevant to delivery directors. PM/RO/FL partial access deferred: all three scoped views require allocations, attrition, or utilization entities not yet seeded. WORKFORCE_ALLOWED_ROLES.size = 3, mirrors CAPABILITY_ALLOWED_ROLES identically.
+
+2. lib/capability.ts reuse: buildPyramidBands and PersonItem imported directly into lib/workforce.ts. Same data source (GET /api/v1/people), same grouping logic. No new abstraction, no duplication. The Workforce pyramid component (WorkforcePyramid) is distinct from CapabilityPyramidShift in layout, band labels, and attrition column stub.
+
+3. BAND_LABELS: display-layer constants in lib/workforce.ts. B5=Principal/Architect, B4=Senior Manager/Architect, B3=Manager/Tech Lead, B2=Senior Engineer, B1=Engineer/Consultant. Sourced from wireframe v1_04 Pyramid by Band section. Not stored in seed; bars render real count data, labels are static. Confirmed correct approach by Adi before code.
+
+4. Seed reality: overtime_hours_mtd and last_1on1_sentiment_score NULL for all 300 seeded people (same finding as M7-8 Capability). buildWorkforceWhat produces null overtimeLine and null sentimentLine for current seed; components render stub notes. Both activate automatically when seed is extended.
+
+5. Real sections: Headcount KPI (people.length = 300), Pyramid by Band (buildPyramidBands from people data; bar width proportional to count/max-count; BAND_LABELS for row titles), Intelligence card What (totalHeadcount + bandLine + seniorLine; null OT and sentiment lines substituted with stub notes).
+
+6. Stub sections (9): 7 KPI cards (Utilisation, Bench, Attrition, Pyramid Integrity, Bus Factor, Overtime MTD, Team Health Index), Team Sustainability Matrix (needs team_sustainability_signals), AI Impact Pyramid Overlay (needs ai_tool_usage), Attrition Radar chart (needs attrition events), Attrition Watchlist (needs flight_risk_signals), Rev 4 Utilization Reconciliation (needs utilization_reconciliation). All tagged data-stub="true" with TODO entity comments.
+
+7. WorkforceUtilizationReconciliation: Rev 4 section per PRD 07 R4.2 and wireframe R4 panel. Rendered as a full-width section with gold border and REVISION 4 badge matching the wireframe treatment. Includes cross-link banner to /home/capability-supply-chain. All data stub pending utilization_reconciliation entity.
+
+8. Test count: 40 new vitest (24 workforce-utils, 8 workforce-role-guard, 8 workforce-pyramid). Total vitest: 297 of 297 green (257 prior + 40 new). tsc --noEmit clean. npm run build green. 16 routes (added /home/workforce). Em-dash sweep clean.
+
+9. Commit status: Workforce files exist in working tree but are not yet committed. Prior commit b9261cc covers M7-4 through M7-8. Workforce (M7-9) to be committed separately.
+
+Files created:
+  frontend/lib/workforce.ts
+  frontend/components/WorkforceIntelligenceCard.tsx
+  frontend/components/WorkforceKPIGrid.tsx
+  frontend/components/WorkforcePyramid.tsx
+  frontend/components/WorkforceSustainabilityMatrix.tsx
+  frontend/components/WorkforceAIOverlay.tsx
+  frontend/components/WorkforceAttritionRadar.tsx
+  frontend/components/WorkforceAttritionWatchlist.tsx
+  frontend/components/WorkforceUtilizationReconciliation.tsx
+  frontend/app/home/workforce/page.tsx
+  frontend/tests/unit/workforce-utils.test.ts
+  frontend/tests/unit/workforce-role-guard.test.ts
+  frontend/tests/unit/workforce-pyramid.test.ts
+
+---
+
 ## D-051 | 2026-05-06 | M7-8 Capability and Supply Chain tab closed
 
 Context: Scope confirmed by Adi. Capability tab requires GET /api/v1/people (new backend endpoint, no migration). Real sections: Pyramid Shift (band distribution from people seed) and Intelligence card What (headcount + band line). All other sections stub pending bench_roster, skill_demand_signals, dm_succession_signals, and hiring_funnel entities.

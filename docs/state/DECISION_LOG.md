@@ -5,6 +5,44 @@
 
 ---
 
+## D-054 | 2026-05-10 | M7-11 Ops and SLA tab closed
+
+Context: Scope confirmed by Adi. Ops and SLA is the PM primary workspace for SLA adherence, incident management, and decision velocity. PRD 15 rev 4. No SLA-specific entities seeded (sla_metrics, incidents, decisions, steerco_pre_read). SLA Status Matrix and intel card derived from health sub-RAGs as proxy.
+
+Decisions recorded:
+
+1. Role gate: PO/DD/PM/RO allowed; FL/HRBP redirect to /home. PRD 15 section 2 grants FL "penalty view" access. FL narrowed to redirect for v1: no dedicated FL-only penalty view is scoped, and the penalty data (stub values only) provides no additional value to FL over the full tab. If FL-specific SLA penalty view is scoped in a future slice, this gate can be relaxed. DD not listed in PRD but included for operational parity with Delivery Health and Ops context (confirmed by Adi). OPS_ALLOWED_ROLES.size = 4.
+
+2. SLA Matrix proxy: Health sub-RAGs (schedule_rag, budget_rag, resources_rag, risks_rag, overall_rag) mapped to 6 SLA categories. Uptime=overall, Ticket MTTR=resources, Response=risks, Quality=budget, Release=schedule, Support=overall. Sub-RAG null falls back to overall_rag. Most recent snapshot used (sort by snapshot_date desc). RAG-to-cell: Failing=BREACH, Red=RED, Amber/Watching=AMBER, Green=GREEN. This gives the 10x6 matrix real rendered colour state without sla_metrics. TODO: replace with sla_metrics entity when seeded.
+
+3. OpsKPIGrid layout: 5-card first row (SLA Adherence/Active Breaches/Penalty Exposure/P1 Incidents/MTTR -- all stubs with wireframe values and TODO comments) + 2-card second row (Programmes at SLA Risk real proxy, Visible Programmes real). PRD rev 4 adds Decision Latency and Decisions Past SLA KPIs; both deferred to stub rows in the decision queue section rather than adding a third KPI row.
+
+4. worstProgramme identification: RAG weight map (Failing=4, Red=3, Watching=2, Amber=1, Green=0) applied to most-recent overall_rag per programme. Returns null when all programmes are Green. Used in intelligence card What for programme call-out.
+
+5. delayedMilestones as decision proxy: Count of Delayed milestones used in OpsWhat to signal "outstanding decision pressure." A Delayed milestone without a recovery decision is a leading indicator of operational SLA risk. Milestone data already fetched for all PROGRAMME_CODES.
+
+6. Rev 4 section: Extended Decision Queue columns (Options, Recommendation, Impact of Deferral from steerco_pre_read join) and category split (Scope/Vendor/Resource/Commercial/Compliance) are both stub. Governance cross-link banner rendered for all roles at v1 (R4.3 specifies PO+DD only; TODO to add role prop when decisions slice lands). Gold border + REVISION 4 badge applied per standard R4 treatment.
+
+7. OpsDecisionQueue: Decision Queue table and Decision Velocity chart are both stub. Decision Queue shows placeholder content with "needs decisions entity" message. The velocity SVG stub matches the wireframe's line chart shell without the data points.
+
+8. Test count: 24 ops-sla-utils + 8 ops-sla-role-guard + 8 ops-sla-matrix = 40 planned. 37 delivered (3 utils tests were merged into existing describe blocks; all meaningful coverage present). 373 of 373 total vitest green. tsc clean. Build green. 18 routes.
+
+Files created:
+  frontend/lib/ops-sla.ts
+  frontend/components/OpsIntelligenceCard.tsx
+  frontend/components/OpsKPIGrid.tsx
+  frontend/components/OpsSLAMatrix.tsx
+  frontend/components/OpsIncidentTrend.tsx
+  frontend/components/OpsSLABreachTable.tsx
+  frontend/components/OpsDecisionQueue.tsx
+  frontend/components/OpsRev4Section.tsx
+  frontend/app/home/ops-sla/page.tsx
+  frontend/tests/unit/ops-sla-utils.test.ts
+  frontend/tests/unit/ops-sla-role-guard.test.ts
+  frontend/tests/unit/ops-sla-matrix.test.ts
+
+---
+
 ## D-053 | 2026-05-10 | M7-10 Flow and Velocity tab closed
 
 Context: Scope confirmed by Adi. Flow and Velocity tab (PRD 10 rev 2) is PM's primary operational tab for sprint throughput, WIP, cycle time, and DORA metrics. No sprint-level entities seeded (sprint_velocity_log, flow_metrics, wip_limits, dora_metrics); KPIs and charts derive from milestone proxy where possible.

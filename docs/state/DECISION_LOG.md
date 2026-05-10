@@ -5,6 +5,43 @@
 
 ---
 
+## D-055 | 2026-05-10 | M7-12 Financials tab closed
+
+Context: Scope confirmed by Adi. Financials tab (PRD 08 rev 4) is the Finance Lead primary workspace. financials_monthly entity not seeded at v1 scaffold. Tab delivers real financial state signals derived from health RAG; all dollar metrics are static stubs.
+
+Decisions recorded:
+
+1. Role gate: PO/PM/FL/RO allowed; DD/HRBP redirect. This is the first tab in M7 where DD is explicitly excluded. PRD 08 section 2 lists PO (Full), PM (Scoped), FL (Full, primary), RO (Full read). DD is absent. Financials is finance-primary; DD's operational access pattern does not extend here. FINANCIALS_ALLOWED_ROLES.size = 4.
+
+2. PM scoping deferred: PRD grants PM "scoped" access (own programme's financials). Since financials_monthly is not seeded, PM sees the same stub content as all other allowed roles. The scoping logic (filter per-programme rows to PM's assigned programmes) is deferred to a future slice when financials_monthly lands. Code comment documents this as a D-055 deferral.
+
+3. ragToFinancialState: Same RAG classification as ragToCell in ops-sla.ts (Failing=BREACH, Red=RED, Amber/Watching=AMBER, Green=GREEN) but implemented locally in financials.ts to avoid cross-lib coupling. Also handles null and undefined safely (returns GREEN) since snapshot sub-RAGs can be null. Tested with 7 cases including null and undefined.
+
+4. Real surface: Revenue by Programme table State column uses health RAG as a financial health signal proxy. Rationale: Red/Failing health RAG correlates with margin risk (blocked milestones = unbilled WIP, resource churn = cost overrun). Label "derived from health snapshot RAG" in table subtitle. All dollar columns show "n/a" with TODO.
+
+5. Stub philosophy: FinancialsKPIGrid shows wireframe example values (31.2M, 95%, 47d, 2.8M, 19.2%, 480K) as static stubs with data-stub="true" and TODO comments rather than "n/a" values. This gives a realistic visual while the entity is absent. Same approach as Executive gross margin stub (D-048). Dollar figures are NOT hardcoded thresholds -- they are display stubs for the tab chrome, not intelligence rule inputs.
+
+6. FinancialsProgrammeTable iterates PROGRAMME_CODES in seed order (PEGASUS, PHOENIX, ORION, STELLAR, HELIX, ATLAS, DRACO, LYRA, VEGA, ANDROMEDA). State column uses buildProgrammeFinancialStates result via Map lookup; programmes with no health data default to GREEN (no data = no known issues).
+
+7. Rev 4 section: Revenue Leakage 5-Mechanism Audit (UC-DD, S08P7) is stub. Mechanisms rendered as static bars matching wireframe proportions (Rate Card vs Blended 45%, Scope Absorbed 23%, Vendor Overrun 16%, Attrition Not Rehired 12%, License Renewal 5%). All values are structural placeholders; revenue_leakage_mechanism entity not seeded.
+
+8. Test count: 28 financials-utils (7 isFinancialsAllowed, 7 ragToFinancialState, 8 buildFinancialsWhat, 6 buildProgrammeFinancialStates) + 8 financials-role-guard = 36 new tests. 409 of 409 total vitest green. tsc clean. Build green. 19 routes.
+
+Files created:
+  frontend/lib/financials.ts
+  frontend/components/FinancialsIntelligenceCard.tsx
+  frontend/components/FinancialsKPIGrid.tsx
+  frontend/components/FinancialsRevenueStack.tsx
+  frontend/components/FinancialsCostBreakdown.tsx
+  frontend/components/FinancialsProgrammeTable.tsx
+  frontend/components/FinancialsBenchTax.tsx
+  frontend/components/FinancialsRev4Section.tsx
+  frontend/app/home/financials/page.tsx
+  frontend/tests/unit/financials-utils.test.ts
+  frontend/tests/unit/financials-role-guard.test.ts
+
+---
+
 ## D-054 | 2026-05-10 | M7-11 Ops and SLA tab closed
 
 Context: Scope confirmed by Adi. Ops and SLA is the PM primary workspace for SLA adherence, incident management, and decision velocity. PRD 15 rev 4. No SLA-specific entities seeded (sla_metrics, incidents, decisions, steerco_pre_read). SLA Status Matrix and intel card derived from health sub-RAGs as proxy.

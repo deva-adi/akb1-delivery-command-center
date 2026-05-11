@@ -5,6 +5,37 @@
 
 ---
 
+## D-059 | 2026-05-11 | M8-1 Playwright scaffold and E2E spec files
+
+Context: M8 begins. First step is Playwright infrastructure and 5 spec files covering auth, role gating, tab smoke, data smoke, and AP-flag gating.
+
+Decisions recorded:
+
+1. Target: localhost:3000 baseURL. Specs authored and tsc-verified. Not executed in Claude Code session. Adi runs npx playwright test --project=chromium against live stack.
+
+2. Cookie stub auth helper pattern: the real backend JWT requires HS256 signing with JWT_SECRET. Re-implementing signing in test helpers would couple tests to the signing algorithm. Instead, loginAs sets a base64url-encoded JSON stub cookie. The stub token fails jwtVerify and redirects to /login server-side. When PLAYWRIGHT_USE_REAL_AUTH=true and the stack is running, loginAs POSTs to /api/auth/login instead. This decouples test authoring from stack availability.
+
+3. Spec coverage scope for M8-1: 5 files covering the critical paths. auth.spec.ts (session boundary), role_gate.spec.ts (role-nav + AP-flag), home.spec.ts (tab-level smoke), data_smoke.spec.ts (proxy data flow), ap_flag.spec.ts (FULL_AP vs AGGREGATE boundary). Per-tab deep specs (data assertions, drill paths, rev4 sections) deferred to M8-2.
+
+4. @playwright/test installed as devDependency: not in package.json before M8-1. Required for tsc to resolve types. All 511 existing vitest tests remain green after install.
+
+5. fullyParallel: false in playwright.config.ts. Role-switching tests must run serially to avoid cookie interference between test contexts sharing browser state. Each test uses a fresh page context, but the config-level setting prevents parallel file execution.
+
+6. Data smoke assertions target data-testid locators established in M7 components. Five tests: executive-kpi-row digit check, workforce-pyramid row count, ops-decision-queue visibility, client-signal-matrix tbody row count, backlog-programme-table tbody row count. All rely on real proxy data from the backend health + milestone endpoints.
+
+7. Missing data-testid gaps (flagged for M8-2): ExecutiveProgrammeStateList does not have a data-testid (used getByText fallback). OpsDecisionQueue tbody rows not individually testable without a data-testid on each row. These are low-severity -- the parent testid asserts component presence; row-level drill deferred.
+
+Files created:
+  frontend/playwright.config.ts
+  frontend/tests/e2e/helpers/auth.ts
+  frontend/tests/e2e/auth.spec.ts
+  frontend/tests/e2e/role_gate.spec.ts
+  frontend/tests/e2e/home.spec.ts
+  frontend/tests/e2e/data_smoke.spec.ts
+  frontend/tests/e2e/ap_flag.spec.ts
+
+---
+
 ## D-058 | 2026-05-11 | M7-15 AI Governance tab closed
 
 Context: Scope confirmed per brief. AI Governance tab is the first tab in M7 with zero data fetches -- all ai_* entities are absent. Only server-side operation is session decode to read role and ap_flag for access-level derivation. AP-flag gating introduces a new pattern not seen in earlier tabs.

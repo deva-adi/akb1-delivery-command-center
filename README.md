@@ -1,7 +1,7 @@
 # AKB1 Delivery Command Center
 ### Governance is a revenue lever, not overhead. Delivery excellence is the retention argument. On-time on-budget is necessary but not sufficient.
 
-> Open-source portfolio intelligence platform for delivery leaders. Fifteen role-gated tabs. Intelligence layer on every tab. Self-hostable in one `docker compose up`. AGPL-3 licensed.
+> Open-source portfolio intelligence platform for delivery leaders. Fourteen role-gated tabs. Intelligence layer on every tab. Self-hostable in one `docker compose up`. AGPL-3 licensed.
 
 ---
 
@@ -13,9 +13,9 @@ Every tab converts raw metrics into a prescriptive weekly action list with named
 
 ## Status
 
-**Private development. v0.1.0-wireframe. Revision 3.**
+**v1.0.0 | Public release | 2026-05-11**
 
-Flips public at the v1.0.0 tag with a coordinated LinkedIn launch on or about 2026-06-10.
+814 tests green (252 backend pytest, 511 Vitest, 51 Playwright). Zero critical CVEs. All 14 tabs role-gated and rendering real seed data. Self-hostable with one `docker compose up`.
 
 ## Why this exists
 
@@ -31,15 +31,11 @@ Next.js 14 App Router. FastAPI. Postgres 16. Redis 7. Docker and Docker Compose.
 
 Ten programmes. Three hundred people. Twenty-five vendors. Twelve months of financials. Deterministic seed generator. Any contributor who clones and runs `make seed` gets byte-identical demo data.
 
-## Fifteen tabs plus four cross-cutting surfaces
+## Fourteen tabs at v1.0.0
 
-Leadership cluster: Executive, Delivery Health, Risk and RAID, Workforce Intelligence, Financials, P and L Cockpit.
+Built and role-gated: Executive, Delivery Health, Risk and RAID, Workforce Intelligence, Financials, Flow and Velocity, Ops and SLA, Client Health, Governance Operating Model, Capability and Supply Chain, AI Governance, Audit Trail Console, Backlog Health, home shell.
 
-Operations cluster: Flow and Velocity, AI and Innovation, Commercial Pipeline, Backlog Health, Scenario Planner, Ops and SLA.
-
-Deep Dive (new in v1): Multi-Vendor Scorecard, Change Impact, Client Health Radar.
-
-Cross-cutting surfaces on every tab: search command palette (Cmd-K), notifications bell, exports (CSV, Excel, PowerPoint Steerco Pack), history (point-in-time as-of date).
+Deferred to v1.1 (wireframes exist, not yet built): P and L Cockpit, AI Innovation, Commercial Pipeline, Scenario Planner, Multi-Vendor Scorecard, Change Impact.
 
 ## Hub voice in the product
 
@@ -69,6 +65,19 @@ AGPL-3 at v1.0.0.
 
 Adi Kompalli (deva.adi@gmail.com). Built as an open-source demonstration of the AKB1 delivery operating model. Architect: Claude.
 
+## Quick start
+
+```bash
+git clone https://github.com/<your-handle>/akb1-delivery-command-center.git
+cd akb1-delivery-command-center
+cp backend/.env.example backend/.env
+docker compose up -d
+# in a second terminal
+cd backend && python -m app.seed.generator
+```
+
+Navigate to `http://localhost:3000`. Login with the seeded demo account (see `backend/app/seed/generator.py` for credentials).
+
 ---
 
-*Revision 1 owner: Claude. Signoff: Adi. Full public-launch README replaces this file at M9.*
+*v1.0.0 | Author: Adi Kompalli | Architect: Claude*

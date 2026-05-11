@@ -164,21 +164,26 @@ def require_audit_access(
         user_agent = request.headers.get("user-agent")
 
         if user.role not in allowed:
-            await write_audit_entry(
-                session,
-                actor_user_id=user.user_id,
-                actor_role=user.role,
-                endpoint=request.url.path,
-                http_method=request.method,
-                resource_type=resource_type,
-                resource_id=None,
-                before_json=None,
-                after_json={"reason": "role_not_allowed", "allowed": sorted(allowed)},
-                outcome="RoleDenied",
-                ip_address=ip_address,
-                user_agent=user_agent,
-            )
-            await session.commit()
+            # Best-effort audit write. An IntegrityError (e.g. actor_user_id FK
+            # not in people) must never swallow the 403 -- roll back and proceed.
+            try:
+                await write_audit_entry(
+                    session,
+                    actor_user_id=user.user_id,
+                    actor_role=user.role,
+                    endpoint=request.url.path,
+                    http_method=request.method,
+                    resource_type=resource_type,
+                    resource_id=None,
+                    before_json=None,
+                    after_json={"reason": "role_not_allowed", "allowed": sorted(allowed)},
+                    outcome="RoleDenied",
+                    ip_address=ip_address,
+                    user_agent=user_agent,
+                )
+                await session.commit()
+            except Exception:
+                await session.rollback()
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail=(
@@ -192,21 +197,24 @@ def require_audit_access(
         # Strict mode: every allowed role needs ap_flag, including PortfolioOwner.
         po_carve_out = (not strict_ap) and user.role == PO_ALLOWED_WITHOUT_AP
         if not po_carve_out and not user.ap_flag:
-            await write_audit_entry(
-                session,
-                actor_user_id=user.user_id,
-                actor_role=user.role,
-                endpoint=request.url.path,
-                http_method=request.method,
-                resource_type=resource_type,
-                resource_id=None,
-                before_json=None,
-                after_json={"reason": "ap_flag_required"},
-                outcome="ApFlagDenied",
-                ip_address=ip_address,
-                user_agent=user_agent,
-            )
-            await session.commit()
+            try:
+                await write_audit_entry(
+                    session,
+                    actor_user_id=user.user_id,
+                    actor_role=user.role,
+                    endpoint=request.url.path,
+                    http_method=request.method,
+                    resource_type=resource_type,
+                    resource_id=None,
+                    before_json=None,
+                    after_json={"reason": "ap_flag_required"},
+                    outcome="ApFlagDenied",
+                    ip_address=ip_address,
+                    user_agent=user_agent,
+                )
+                await session.commit()
+            except Exception:
+                await session.rollback()
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Audit Permission required",

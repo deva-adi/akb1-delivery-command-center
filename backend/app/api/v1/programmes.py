@@ -52,7 +52,13 @@ _SCOPED_ROLES = frozenset({"DeliveryDirector", "ProgrammeManager", "FinanceLead"
 _UNRESTRICTED_ROLES = frozenset({"PortfolioOwner", "HRBusinessPartner", "ReadOnly"})
 
 
-def _code_path(code: str = Path(..., description="Programme code, e.g. PEGASUS")) -> str:
+def _code_path(
+    code: str = Path(
+        ...,
+        description="Programme code, e.g. PEGASUS",
+        pattern=r"^[A-Za-z0-9_-]{1,64}$",
+    ),
+) -> str:
     return code.upper()
 
 

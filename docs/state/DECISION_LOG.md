@@ -5,6 +5,46 @@
 
 ---
 
+## D-056 | 2026-05-11 | M7-13 Client Health tab closed
+
+Context: Scope confirmed per brief. Client Health tab (PRD 18 rev 4) covers client relationship health, escalation signals, and stakeholder influence. client_signals, clients, value_realisation, qbr_records, and stakeholder_influence entities are not seeded at v1 scaffold. Tab delivers real state signals from health snapshot RAG proxy; all client-specific signals are stubs.
+
+Decisions recorded:
+
+1. Role gate: PO/PM/FL/RO allowed; DD/HRBP redirect. PRD 18 section 2 lists PO, PM (Scoped), FL, RO. DD is absent. Client Health is a relationship and commercial tab; DD's operational access pattern does not extend here. Same exclusion reasoning as D-055 (Financials). CLIENT_HEALTH_ALLOWED_ROLES.size = 4.
+
+2. PM scoping deferred: PRD grants PM scoped access (own programme). Since client_signals is not seeded, PM sees the same proxy content as other allowed roles. Scoping deferred to a future slice when client_signals lands. Same deferral pattern as D-055 ruling 2.
+
+3. Composite state proxy: health snapshot overall_rag mapped to CompositeState (Failing/Red -> INTERVENE, Watching/Amber -> WATCH, Green/null -> HEALTHY). Rationale: same proxy chain as D-054 (Ops) and D-055 (Financials). No client_signals entity at v1; health RAG is the best available signal for client relationship risk.
+
+4. Blended portfolio score: weighted average across all programme states using RAG_WEIGHT (Failing=20, Red=35, Watching=55, Amber=65, Green=85). Returns null when no snapshots. Rounded to nearest integer. Scale 0-100 where 85 is fully healthy. Matches brief specification exactly.
+
+5. buildClientHealthProxy receives a Map<string, HealthSnapshotItem[]> (not Record) to maintain PROGRAMME_CODES seed order. Function iterates PROGRAMME_CODES array and returns 10 rows regardless of which programmes have snapshots, defaulting missing programmes to HEALTHY.
+
+6. KPI stub values: Escalations 90d=27, Missed Exec Meetings=7, Last Formal NPS=54 are static wireframe values with data-stub="true". Same approach as D-055 ruling 5. Visual chrome only, not intelligence rule inputs.
+
+7. Intervention Playbook: 4 static cards from wireframe (Pegasus Healthcare, Phoenix Pharma, Stellar Logistics, Orion Insurance) with data-stub="true". Tags reference specific issue types. TODO to replace with live endpoint when client_signals lands.
+
+8. Rev 4 section: Stakeholder Influence quadrant stub SVG with 4 quadrant labels. Cross-link banner to /home/governance-operating-model is real (static href). Opposition Stakeholders KPI is stub. Action prompt ("book 1-on-1 within 14 days") is static wireframe text.
+
+9. buildClientHealthProxy takes Map not Record: page.tsx builds Map<string, HealthSnapshotItem[]> from health results (same shape as proxy function signature). This preserves PROGRAMME_CODES order and avoids Object.entries ordering uncertainty.
+
+10. Test count: 25 client-health-utils (7 isClientHealthAllowed + 1 size + 2 RAG_WEIGHT + 8 buildClientHealthProxy + 8 buildClientHealthWhat -- one fewer than planned 25+; all coverage met) + 8 client-health-role-guard = 33 new tests. 444 of 444 total vitest green. tsc clean. Build green. 20 routes.
+
+Files created:
+  frontend/lib/client-health.ts
+  frontend/components/ClientHealthIntelligenceCard.tsx
+  frontend/components/ClientHealthKPIGrid.tsx
+  frontend/components/ClientSignalMatrix.tsx
+  frontend/components/ClientHealthRadar.tsx
+  frontend/components/ClientInterventionPlaybook.tsx
+  frontend/components/ClientHealthRev4Section.tsx
+  frontend/app/home/client-health/page.tsx
+  frontend/tests/unit/client-health-utils.test.ts
+  frontend/tests/unit/client-health-role-guard.test.ts
+
+---
+
 ## D-055 | 2026-05-10 | M7-12 Financials tab closed
 
 Context: Scope confirmed by Adi. Financials tab (PRD 08 rev 4) is the Finance Lead primary workspace. financials_monthly entity not seeded at v1 scaffold. Tab delivers real financial state signals derived from health RAG; all dollar metrics are static stubs.

@@ -19,6 +19,11 @@
 import { test, expect } from "@playwright/test";
 import { loginAs } from "./helpers/auth";
 
+// Data-heavy tests: each page fans out to 10 programme endpoints before
+// rendering per-code rows. 5000ms (default) is too tight under 5-worker
+// concurrency. 15s gives the SSR fetch chain room to complete.
+test.use({ actionTimeout: 15000 });
+
 // ---------------------------------------------------------------------------
 // down: programme codes present in section rows
 // ---------------------------------------------------------------------------

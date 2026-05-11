@@ -5,6 +5,18 @@
 
 ---
 
+## D-060 | 2026-05-11 | Admin bootstrap user: adi.kompalli@akb1.demo
+
+Context: Demo login needed for full Portfolio Owner access with AP flag for LinkedIn launch testing.
+
+Decision: Add adi.kompalli@akb1.demo as a permanent admin bootstrap user. Role: PortfolioOwner. ap_flag: TRUE. Band: B5. Password: AKB1@Admin2026. UUID: deterministic uuid5(NAMESPACE_DNS, email) = c56300b2-ae61-5e9f-a295-b34babb7480c.
+
+Rationale: Kept outside the 300-user seed loop so compute_seed_hash() and all determinism assertions remain unchanged. seed_admin_user() is a separate function called after seed() in main(). The function is idempotent (skips if email already exists). Integration tests call seed() only, not seed_admin_user(), so all count assertions (people == 300, PortfolioOwner == 1, ap_flag == 3) stay intact. Direct INSERT into the running database required since schema is already seeded.
+
+Impact: generator.py gains ADMIN_USER_EMAIL, ADMIN_USER_FULL_NAME, ADMIN_USER_PASSWORD, ADMIN_USER_PASSWORD_HASH constants and seed_admin_user() function. main() calls seed_admin_user() after seed(). No test file changes. Live database requires one manual INSERT via psql command.
+
+---
+
 ## D-059 | 2026-05-11 | M8-1 Playwright scaffold and E2E spec files
 
 Context: M8 begins. First step is Playwright infrastructure and 5 spec files covering auth, role gating, tab smoke, data smoke, and AP-flag gating.

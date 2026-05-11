@@ -60,6 +60,15 @@ SEED_TIMESTAMP = datetime.datetime(2026, 4, 24, 0, 0, 0, tzinfo=datetime.timezon
 SEED_PASSWORD = "akb1_demo_password"
 SEED_PASSWORD_HASH = "$2b$04$jGEwv4dPdI1uSWo/.1RhteSSxQkfXEATlZBS55BkfZ7W9kgsV0tQq"
 
+# Admin bootstrap user. Inserted by seed_admin_user() AFTER seed() so the
+# 300-user determinism hash and all row-count assertions remain unchanged.
+# This account is NOT included in compute_seed_hash(). Do not add it to the
+# 300-user loop; doing so would break the locked seed SHA-256.
+ADMIN_USER_EMAIL = "adi.kompalli@akb1.demo"
+ADMIN_USER_FULL_NAME = "Adi Kompalli"
+ADMIN_USER_PASSWORD = "AKB1@Admin2026"
+ADMIN_USER_PASSWORD_HASH = "$2b$04$rOSwW0VVJ4t0XVqWFKir.ODswomcCkEweli2uoAvFoh4tn5EHsP3q"
+
 
 # ---------------------------------------------------------------------------
 # Locked seed inputs (sourced from slice 2.4 conversation, see DECISION_LOG)
@@ -594,6 +603,39 @@ async def compute_seed_hash(conn: asyncpg.Connection) -> str:
     return h.hexdigest()
 
 
+async def seed_admin_user(conn: asyncpg.Connection) -> None:
+    """Insert the canonical admin bootstrap user.
+
+    Called by main() after seed(). Kept separate so compute_seed_hash()
+    and the 300-user determinism test are not affected. Safe to call on an
+    already-seeded schema; skips the insert if the email already exists.
+    """
+    existing = await conn.fetchval(
+        "SELECT person_id FROM people WHERE email = $1",
+        ADMIN_USER_EMAIL,
+    )
+    if existing:
+        return
+
+    admin_id = uuid.uuid5(uuid.NAMESPACE_DNS, ADMIN_USER_EMAIL)
+    await conn.execute(
+        """
+        INSERT INTO people (
+            person_id, email, full_name, role, ap_flag, band,
+            password_hash, created_at, updated_at
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $8)
+        """,
+        admin_id,
+        ADMIN_USER_EMAIL,
+        ADMIN_USER_FULL_NAME,
+        "PortfolioOwner",
+        True,
+        "B5",
+        ADMIN_USER_PASSWORD_HASH,
+        SEED_TIMESTAMP,
+    )
+
+
 async def main() -> None:
     """CLI entry: seed against the configured migration DSN.
 
@@ -606,6 +648,7 @@ async def main() -> None:
     conn = await asyncpg.connect(dsn)
     try:
         await seed(conn)
+        await seed_admin_user(conn)
         digest = await compute_seed_hash(conn)
         counts = {
             "programmes": await conn.fetchval("SELECT COUNT(*) FROM programmes"),

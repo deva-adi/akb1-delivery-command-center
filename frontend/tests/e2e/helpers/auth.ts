@@ -1,24 +1,22 @@
 /**
  * Auth helpers for Playwright E2E tests.
  *
- * Cookie stub approach: the real backend JWT requires HS256 signing with
- * JWT_SECRET. Instead of re-implementing signing in test helpers, we set a
- * base64url-encoded JSON payload in the akb1_session cookie. The Next.js
- * decodeSessionToken will fail verification on unsigned tokens and return null,
- * redirecting to /login.
+ * Live-stack mode (default): mints a real HS256 JWT signed with the same
+ * JWT_SECRET the Next.js process uses. This lets middleware.ts verify the token
+ * and pass the request through to /home without needing a real users table or
+ * a running login endpoint.
  *
- * For tests against a live stack: start the backend and call the real login
- * endpoint (POST /api/auth/login) to obtain a signed token. The loginAs
- * function below falls back to the real endpoint when PLAYWRIGHT_USE_REAL_AUTH
- * env var is set to "true".
- *
- * Without a live stack (tsc-only CI), this file compiles and exports cleanly.
+ * Real-auth mode (PLAYWRIGHT_USE_REAL_AUTH=true): POSTs credentials to the
+ * backend /api/v1/auth/login endpoint and uses the returned signed cookie.
  */
 
 import type { Page } from "@playwright/test";
+import { SignJWT } from "jose";
 
 const SESSION_COOKIE = "akb1_session";
 const BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
+const JWT_SECRET =
+  process.env.JWT_SECRET ?? "replace_with_long_random_string_before_deploy";
 
 const ROLE_CREDENTIALS: Record<string, { email: string; password: string }> = {
   PortfolioOwner:    { email: "po@akb1.test",   password: "test-secret" },
@@ -29,13 +27,26 @@ const ROLE_CREDENTIALS: Record<string, { email: string; password: string }> = {
   ReadOnly:          { email: "ro@akb1.test",   password: "test-secret" },
 };
 
-/**
- * Log in as the given role. When PLAYWRIGHT_USE_REAL_AUTH=true and the stack
- * is running, POSTs to /api/auth/login and lets the backend plant a real signed
- * JWT cookie. Otherwise sets a cookie stub (unsigned) that keeps the browser
- * session state consistent across test steps even though the token cannot be
- * verified server-side.
- */
+const ROLE_SUBS: Record<string, string> = {
+  PortfolioOwner:    "user-po-001",
+  DeliveryDirector:  "user-dd-001",
+  ProgrammeManager:  "user-pm-001",
+  FinanceLead:       "user-fl-001",
+  HRBusinessPartner: "user-hrbp-001",
+  ReadOnly:          "user-ro-001",
+};
+
+async function mintToken(role: string, apFlag: boolean): Promise<string> {
+  const secret = new TextEncoder().encode(JWT_SECRET);
+  const sub = ROLE_SUBS[role] ?? `user-${role.toLowerCase()}-001`;
+  return new SignJWT({ role, ap_flag: apFlag })
+    .setProtectedHeader({ alg: "HS256" })
+    .setSubject(sub)
+    .setIssuedAt()
+    .setExpirationTime("1h")
+    .sign(secret);
+}
+
 export async function loginAs(
   page: Page,
   role: string,
@@ -46,7 +57,6 @@ export async function loginAs(
   if (useRealAuth) {
     const creds = ROLE_CREDENTIALS[role];
     if (!creds) throw new Error(`No test credentials for role: ${role}`);
-
     await page.goto(`${BASE_URL}/login`);
     await page.getByLabel("Email").fill(creds.email);
     await page.getByLabel("Password").fill(creds.password);
@@ -55,14 +65,12 @@ export async function loginAs(
     return;
   }
 
-  const payload = { role, ap_flag: apFlag };
-  const encoded = Buffer.from(JSON.stringify(payload)).toString("base64url");
-  const stubToken = `stub.${encoded}.stub`;
+  const token = await mintToken(role, apFlag);
 
   await page.context().addCookies([
     {
       name: SESSION_COOKIE,
-      value: stubToken,
+      value: token,
       url: BASE_URL,
       httpOnly: true,
       sameSite: "Strict",
@@ -70,9 +78,6 @@ export async function loginAs(
   ]);
 }
 
-/**
- * Clear the session cookie to simulate logout.
- */
 export async function logout(page: Page): Promise<void> {
   await page.context().clearCookies();
 }

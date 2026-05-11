@@ -25,7 +25,7 @@ test("workforce pyramid renders visible bar rows", async ({ page }) => {
   await page.goto("/home/workforce");
   const pyramid = page.locator('[data-testid="workforce-pyramid"]');
   await expect(pyramid).toBeVisible();
-  const rows = pyramid.locator("tr, [role='row'], .band-row");
+  const rows = pyramid.locator("[data-band]");
   expect(await rows.count()).toBeGreaterThan(0);
 });
 

@@ -22,7 +22,7 @@ test("PO with AP sees pending red backlog table", async ({ page }) => {
 test("PO without AP sees locked message instead of pending backlog detail", async ({ page }) => {
   await loginAs(page, "PortfolioOwner", false);
   await page.goto("/home/ai-governance");
-  await expect(page.getByText("Audit Permission required")).toBeVisible();
+  await expect(page.getByText("Audit Permission required").first()).toBeVisible();
   await expect(
     page.getByText("Audit Permission required to view pending Red-tier backlog.")
   ).toBeVisible();

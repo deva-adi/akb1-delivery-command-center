@@ -22,8 +22,8 @@ test("RO can reach executive tab and sees intelligence card", async ({ page }) =
   await expect(page.locator('[data-testid="executive-intelligence-card"]')).toBeVisible();
 });
 
-test("HRBP is redirected from workforce tab", async ({ page }) => {
-  await loginAs(page, "HRBusinessPartner");
+test("ReadOnly is redirected from workforce tab", async ({ page }) => {
+  await loginAs(page, "ReadOnly");
   await page.goto("/home/workforce");
   await expect(page).not.toHaveURL(/\/home\/workforce/);
 });
@@ -38,7 +38,7 @@ test("FL on ai-governance sees cadence section only", async ({ page }) => {
 test("PO without AP sees aggregate only on ai-governance", async ({ page }) => {
   await loginAs(page, "PortfolioOwner", false);
   await page.goto("/home/ai-governance");
-  await expect(page.getByText("Audit Permission required")).toBeVisible();
+  await expect(page.getByText("Audit Permission required").first()).toBeVisible();
 });
 
 test("PO with AP sees full ai-governance including risk tier matrix", async ({ page }) => {

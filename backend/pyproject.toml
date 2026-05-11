@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "akb1-dcc-backend"
-version = "0.3.0-backend"
+version = "1.0.0"
 description = "AKB1 Delivery Command Center v1 backend service"
 # Pinned to Python 3.12 for v1.0.0. See backend/README.md for the rationale
 # (pydantic-core PyO3 max 3.13, greenlet has no arm64 3.14 wheel yet).

@@ -1,6 +1,6 @@
 {
   "name": "akb1-dcc-frontend",
-  "version": "0.4.0-frontend-scaffold",
+  "version": "1.0.0",
   "private": true,
   "description": "AKB1 Delivery Command Center v1 frontend (M7 scaffold). Next.js 14 App Router, TypeScript strict, Tailwind on Option D Executive Mid palette tokens. Backend OpenAPI consumed via openapi-typescript codegen.",
   "scripts": {

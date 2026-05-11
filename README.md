@@ -68,7 +68,7 @@ Adi Kompalli (deva.adi@gmail.com). Built as an open-source demonstration of the 
 ## Quick start
 
 ```bash
-git clone https://github.com/<your-handle>/akb1-delivery-command-center.git
+git clone https://github.com/deva-adi/akb1-delivery-command-center.git
 cd akb1-delivery-command-center
 cp backend/.env.example backend/.env
 docker compose up -d

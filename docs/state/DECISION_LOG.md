@@ -5,6 +5,60 @@
 
 ---
 
+## D-065 | 2026-05-11 | M8-6 Security scan: python-jose CRITICAL CVE removed; Next.js HIGH accepted
+
+Context: trivy fs scan found CRITICAL CVE-2024-33663 in python-jose 3.3.0 (ECDSA algorithm confusion) plus 4 HIGH CVEs (2 python-multipart, 2 Next.js 14.2.35).
+
+Decisions:
+1. Migrate python-jose 3.3.0 to PyJWT 2.12.1. python-jose is effectively unmaintained; no patched version exists. PyJWT is the canonical JWT library in the Python ecosystem. API surface is almost identical (jwt.encode/jwt.decode). All 252 pytest pass after migration. jose import replaced with pyjwt in tokens.py and dependencies.py. requirements.txt updated.
+2. Upgrade python-multipart 0.0.20 to 0.0.28. Fixes CVE-2026-24486 (path traversal) and CVE-2026-42561 (DoS via unbounded headers). Drop-in upgrade with no code changes required.
+3. Accept Next.js HIGH CVEs (GHSA-h25m-26qc-wcjf, GHSA-q4gf-8mx6-v5v3) for v1.0.0. Both CVEs are DoS-only (no data exfiltration). Fix requires Next.js 15+, a major version upgrade out of scope for v1.0.0. Documented in .trivyignore with review date 2026-05-11 and rationale. Target fix: v1.1 dependency update.
+4. bandit scan: 0 HIGH findings, 1 MEDIUM in seed/generator.py:218 (string-based query in test-only code, not production risk). Accepted.
+
+Final scan result: CRITICAL=0, HIGH=0 (with .trivyignore), bandit HIGH=0.
+
+---
+
+## D-064 | 2026-05-11 | M8-5 Locust benchmark gate protocol
+
+Context: Profile B (500 concurrent) failed with 42% failure rate -- all 429s from the rate limiter. At 500 concurrent users with wait_time between 0.5-2.0s, the backend receives ~365 req/s, exceeding RATE_LIMIT_DEFAULT_REQUESTS=120/min (2 req/s effective). Even with 10000/min, 500 concurrent at 362 req/s exceeds the limit.
+
+Decision: benchmark runs require RATE_LIMIT_DEFAULT_REQUESTS=10000000 (effectively disabled) at backend start. The rate limiter is a deliberate production guard, not a performance ceiling. Profile A (100 concurrent at ~74 req/s) stays within 10000/min but profiles B and C do not. Accepted as a known limitation. Documented in locustfile.py header and commit message. The benchmark is measuring raw backend processing capacity, not rate limiting behavior.
+
+Results locked: A=GREEN p95 24ms, B=GREEN p95 140ms, C=AMBER p95 380ms. All within SLA thresholds from 05_Performance_Benchmarks.md.
+
+---
+
+## D-063 | 2026-05-11 | M8-4 Contract tests: two production bugs found by schemathesis
+
+Context: schemathesis parametrized tests (no-5xx conformance, PO and RO tokens, 5 examples per endpoint) found two 500s not covered by existing integration tests.
+
+Bug 1: require_audit_access returns 500 when actor_user_id FK not in people table. The audit_trail_entries table has a FK constraint on actor_user_id referencing people.person_id. When RoleDenied or ApFlagDenied write_audit_entry is called with a user UUID that does not exist in people (e.g. any test user, or any production user whose JWT was issued before they were added to people), the INSERT fails with IntegrityError. The error propagated as 500 instead of the intended 403.
+Fix: wrap both write_audit_entry + session.commit() calls in try/except in require_audit_access. On any exception, rollback and proceed to raise HTTPException(403). The audit write is best-effort; the denial response is authoritative.
+
+Bug 2: null byte in {code} path parameter causes 500. Schemathesis generated %00 as a programme code. After URL-decoding, \x00 is passed to the SQL query as a VARCHAR parameter. PostgreSQL raises "invalid byte sequence for encoding UTF8: 0x00" which propagated as 500.
+Fix: add pattern=r"^[A-Za-z0-9_-]{1,64}$" to the _code_path Path() dependency. Invalid codes now return 422 before reaching the database.
+
+---
+
+## D-062 | 2026-05-11 | M8 test gate protocol: pytest before Playwright
+
+Context: running pytest and Playwright simultaneously caused a PostgreSQL deadlock. pytest's seeded_for_mutation fixture calls Alembic to reset schema (DDL, exclusive lock). Simultaneously, Playwright tests trigger live backend reads against the same database. The two processes deadlocked on AccessExclusiveLock vs AccessShareLock.
+
+Decision: the test gate runs pytest to completion first, then vitest + Playwright in parallel. Vitest has no database dependency and can always run in parallel with either suite. This protocol is documented in session logs and commit messages. It is not yet enforced by CI (M9 work).
+
+---
+
+## D-061 | 2026-05-11 | M8 E2E auth: JWT sub must be valid UUID
+
+Context: E2E auth helper initially used non-UUID strings as sub claims (e.g. "user-po-001"). The backend's get_current_user calls uuid.UUID(payload["sub"]) which raises ValueError on non-UUID input, returning 401. All authenticated E2E tests silently received 0 data (backend calls failed, pages rendered with empty state).
+
+Decision: ROLE_SUBS in tests/e2e/helpers/auth.ts uses deterministic UUIDs in the 000...001 through 000...006 range. These are synthetic test identities not present in the people table. This triggers the audit FK bug described in D-063 for AP-gated endpoints when the wrong role is used -- both bugs discovered together.
+
+Also noted: the default JWT_SECRET in the frontend dev process was not loaded (no .env.local). Created frontend/.env.local with JWT_SECRET=replace_with_long_random_string_before_deploy so Next.js middleware can verify the test tokens.
+
+---
+
 ## D-060 | 2026-05-11 | Admin bootstrap user: adi.kompalli@akb1.demo
 
 Context: Demo login needed for full Portfolio Owner access with AP flag for LinkedIn launch testing.

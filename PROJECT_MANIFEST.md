@@ -13,7 +13,7 @@
 | Public title | AKB1 Delivery Command Center |
 | Repo slug | AKB1_Delivery_Command_Center |
 | Short code | AKB1-DCC |
-| Version (current) | v0.3.0-backend (M6 slice 5b closed; 138 tests green) |
+| Version (current) | v0.9.0-rc (M8 closed; 814 tests green; M9 release prep next) |
 | Version (target for public launch) | v1.0.0 |
 | Owner | Adi Kompalli |
 | Email | deva.adi@gmail.com |
@@ -33,7 +33,7 @@
 
 ## 3. Current Phase
 
-**Phase 3 of 4: Backend build (M6 in progress, slice 5b of N closed).** Phases 1 and 2 (wireframes, PRDs/architecture/test-strategy) closed. v1.0.0 launch target 2026-06-10. Current state: 138 backend tests green, 5 migrations applied (head: 005_http_method_get), 3 mutating + 4 read endpoints, AP flag enforcement live for the first AP-gated endpoint (GET /audit/search), auth perimeter complete (Redis-backed per-email lockout, per-IP rate limit middleware, stateless double-submit CSRF middleware) and ready for M7 frontend kickoff. See docs/state/BUILD_STATE.md and docs/state/SESSION_LOG.md.
+**Phase 4 of 4: Release preparation (M9).** Phases 1 through 3 closed. M8 Integration and QA CLOSED 2026-05-11. v1.0.0 launch target 2026-06-10. Current state: 814 tests green (252 pytest, 511 vitest, 51 Playwright), zero baseline failures, all M8 gates met. Remaining work: v1.0.0 tag, GitHub repo creation and flip to public, LinkedIn launch kit, release notes. See docs/state/BUILD_STATE.md.
 
 **Original Phase 1 of 4: Wireframe design (CLOSED 2026-04-25 at rev 4).**
 

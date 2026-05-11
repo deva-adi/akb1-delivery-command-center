@@ -9,7 +9,7 @@ from __future__ import annotations
 import time
 import uuid
 
-from jose import jwt
+import jwt as pyjwt
 
 from app.config import get_settings
 
@@ -31,4 +31,4 @@ def mint_token(
         "iat": now,
         "exp": now + expires_in_seconds,
     }
-    return jwt.encode(payload, settings.jwt_secret, algorithm=settings.jwt_algorithm)
+    return pyjwt.encode(payload, settings.jwt_secret, algorithm=settings.jwt_algorithm)

@@ -24,7 +24,8 @@ import uuid
 
 from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from jose import JWTError, jwt
+import jwt as pyjwt
+from jwt.exceptions import InvalidTokenError as JWTError
 from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -54,7 +55,7 @@ async def get_current_user(
 
     settings = get_settings()
     try:
-        payload = jwt.decode(
+        payload = pyjwt.decode(
             credentials.credentials,
             settings.jwt_secret,
             algorithms=[settings.jwt_algorithm],

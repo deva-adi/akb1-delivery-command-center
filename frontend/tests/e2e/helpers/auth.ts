@@ -27,13 +27,15 @@ const ROLE_CREDENTIALS: Record<string, { email: string; password: string }> = {
   ReadOnly:          { email: "ro@akb1.test",   password: "test-secret" },
 };
 
+// UUIDs must be valid RFC 4122 values -- backend does uuid.UUID(payload["sub"])
+// and rejects the token with 401 if the value is not a valid UUID.
 const ROLE_SUBS: Record<string, string> = {
-  PortfolioOwner:    "user-po-001",
-  DeliveryDirector:  "user-dd-001",
-  ProgrammeManager:  "user-pm-001",
-  FinanceLead:       "user-fl-001",
-  HRBusinessPartner: "user-hrbp-001",
-  ReadOnly:          "user-ro-001",
+  PortfolioOwner:    "00000000-0000-0000-0000-000000000001",
+  DeliveryDirector:  "00000000-0000-0000-0000-000000000002",
+  ProgrammeManager:  "00000000-0000-0000-0000-000000000003",
+  FinanceLead:       "00000000-0000-0000-0000-000000000004",
+  HRBusinessPartner: "00000000-0000-0000-0000-000000000005",
+  ReadOnly:          "00000000-0000-0000-0000-000000000006",
 };
 
 async function mintToken(role: string, apFlag: boolean): Promise<string> {

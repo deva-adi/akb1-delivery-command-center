@@ -5,6 +5,44 @@
 
 ---
 
+## D-058 | 2026-05-11 | M7-15 AI Governance tab closed
+
+Context: Scope confirmed per brief. AI Governance tab is the first tab in M7 with zero data fetches -- all ai_* entities are absent. Only server-side operation is session decode to read role and ap_flag for access-level derivation. AP-flag gating introduces a new pattern not seen in earlier tabs.
+
+Decisions recorded:
+
+1. Role gate: PO/DD/FL/PM/RO allowed; HRBP redirect. HRBP explicitly "No" per PRD section 2. AI Governance is a delivery and technology risk domain; HRBP has no operational context here. AI_GOVERNANCE_ALLOWED_ROLES.size = 5.
+
+2. FL CADENCE_ONLY hides all panels: FL receives CADENCE_ONLY access level. All panels except IntelligenceCard and Cadence are not rendered. This is "hide" not "lock" -- FL came for governance reporting cadence only. PRD section 2 is explicit: Finance Lead read on AI Governance Cadence only. No blocked overlays for FL; content simply does not appear.
+
+3. Non-AP PO/DD shows all panels with inline locked state: AGGREGATE access level (PO/DD without apFlag) renders all 9 panels. Detail-gated panels (QualityGates, PendingBacklog) show inline AP-required message rather than being hidden. AP is a grantable privilege, not a structural limit. The panel chrome is visible; the data is locked. This is architecturally different from FL CADENCE_ONLY.
+
+4. Zero data fetch: all ai_use_case, ai_quality_gate, ai_governance_cadence, ai_shadow_survey, ai_five_unsolvable, ai_delivery_speed_gap entities are absent. page.tsx has no Promise.allSettled. Only session cookie decode. This is the first tab in M7 with this pattern.
+
+5. AP gating implemented and tested against all 5 access levels: canSeeDetail returns true only for PO/DD with apFlag=true. getAccessLevel covers all 5 roles plus safe default. 7 canSeeDetail tests + 7 getAccessLevel tests cover the matrix completely.
+
+6. CADENCE_ROWS as static constant: ai_governance_cadence entity does not exist. The 4 cadence entries (Weekly DM, Monthly Steerco, Quarterly Risk Committee, Annual Board) are hard-coded in CADENCE_ROWS. Next dates from wireframe. Last report dates are stub "n/a" cells. This is structural display only.
+
+7. AIGovCharts exports 3 named exports from a single file: ShadowInventoryChart, FiveUnsolvableChart, DeliverySpeedGapChart. Single-file consolidation per brief spec. All stubs. FiveUnsolvableChart uses horizontal bar approximation (no SVG radar polygon) since no real data exists to drive polygon coordinates.
+
+8. Test count: 24 ai-governance-utils + 8 ai-governance-role-guard = 32 new tests (within target). 511 of 511 total vitest green. tsc clean. Build green. 22 routes.
+
+Files created:
+  frontend/lib/ai-governance.ts
+  frontend/components/AIGovIntelligenceCard.tsx
+  frontend/components/AIGovKPIGrid.tsx
+  frontend/components/AIGovSurfacedCounts.tsx
+  frontend/components/AIGovRiskTierMatrix.tsx
+  frontend/components/AIGovQualityGates.tsx
+  frontend/components/AIGovCadence.tsx
+  frontend/components/AIGovCharts.tsx
+  frontend/components/AIGovPendingBacklog.tsx
+  frontend/app/home/ai-governance/page.tsx
+  frontend/tests/unit/ai-governance-utils.test.ts
+  frontend/tests/unit/ai-governance-role-guard.test.ts
+
+---
+
 ## D-057 | 2026-05-11 | M7-14 Backlog Health tab closed
 
 Context: Scope confirmed per brief. Backlog Health tab is the smallest role gate in M7 (3 roles). backlog_items entity does not exist at v1 scaffold. Tab delivers real state from health RAG proxy and milestone delay counts as grooming pressure signal.

@@ -5,6 +5,39 @@
 
 ---
 
+## D-057 | 2026-05-11 | M7-14 Backlog Health tab closed
+
+Context: Scope confirmed per brief. Backlog Health tab is the smallest role gate in M7 (3 roles). backlog_items entity does not exist at v1 scaffold. Tab delivers real state from health RAG proxy and milestone delay counts as grooming pressure signal.
+
+Decisions recorded:
+
+1. Role gate: PO/PM/RO allowed; FL/DD/HRBP redirect. FL is explicitly "No" per PRD section 2 (noted as unusual; FL has financial line-of-sight but backlog grooming is a delivery and product domain). DD not listed. HRBP not listed. BACKLOG_HEALTH_ALLOWED_ROLES.size = 3.
+
+2. BacklogHealthState vocabulary: CRITICAL/RED/AMBER/GREEN. CRITICAL replaces BREACH (used in Financials/Ops) to signal a backlog that has broken down rather than financially breached. Mapping: Failing=CRITICAL, Red=RED, Watching/Amber=AMBER, Green/null=GREEN. Consistent with client-health INTERVENE vocabulary -- each tab uses the most contextually appropriate term.
+
+3. Milestone delay count as groom pressure proxy: delayedCount per programme (Delayed milestone status count) is used as a proxy for missed groom cadence. Rationale: delayed milestones indicate delivery drag which correlates with backlog refinement debt -- the team is likely firefighting rather than grooming. atRiskCount included for completeness. Both replace backlog_items signals until that entity lands.
+
+4. buildBacklogProxy signature: Map inputs (same pattern as buildClientHealthProxy from D-056). Both snapshotsByProgramme and milestonesByProgramme are Maps, not Records, to maintain PROGRAMME_CODES iteration order and allow per-programme milestone grouping without Object.entries ordering uncertainty.
+
+5. Stub philosophy: KPI wireframe values (1,847 total / 312 aging / 68% DoR / 7.1/10 epic readiness) rendered as static stubs with data-stub="true". BacklogAgingHistogram uses proportional bar widths (53/30/10/7%) from wireframe. BacklogDoRBars uses 10 ranked rows from wireframe with target 85% dashed reference line. All carry TODO: backlog_items entity.
+
+6. worstProgramme test bug identified and fixed: test had HELIX=RED (index 0) and PEGASUS=CRITICAL (index 1) but expected "HELIX". Correct expected is "PEGASUS" (CRITICAL beats RED regardless of position via find). Test renamed "returns CRITICAL over RED regardless of array order" and expectation corrected.
+
+7. Test count: 26 backlog-health-utils + 9 backlog-health-role-guard = 35 new tests. 479 of 479 total vitest green. tsc clean. Build green. 21 routes.
+
+Files created:
+  frontend/lib/backlog-health.ts
+  frontend/components/BacklogIntelligenceCard.tsx
+  frontend/components/BacklogKPIGrid.tsx
+  frontend/components/BacklogAgingHistogram.tsx
+  frontend/components/BacklogDoRBars.tsx
+  frontend/components/BacklogProgrammeTable.tsx
+  frontend/app/home/backlog-health/page.tsx
+  frontend/tests/unit/backlog-health-utils.test.ts
+  frontend/tests/unit/backlog-health-role-guard.test.ts
+
+---
+
 ## D-056 | 2026-05-11 | M7-13 Client Health tab closed
 
 Context: Scope confirmed per brief. Client Health tab (PRD 18 rev 4) covers client relationship health, escalation signals, and stakeholder influence. client_signals, clients, value_realisation, qbr_records, and stakeholder_influence entities are not seeded at v1 scaffold. Tab delivers real state signals from health snapshot RAG proxy; all client-specific signals are stubs.

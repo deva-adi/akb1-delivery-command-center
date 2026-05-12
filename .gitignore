@@ -116,3 +116,4 @@ memory/
 
 # Separate sibling project, not part of this repo
 AKB1_LinkedIn_Hub/
+frontend/playwright-results/

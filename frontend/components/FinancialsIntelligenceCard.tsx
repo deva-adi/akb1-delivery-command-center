@@ -2,21 +2,26 @@ import type { FinancialsWhat } from "@/lib/financials";
 
 interface Props {
   intel: FinancialsWhat;
+  activeProgamme: string | null;
 }
 
-export function FinancialsIntelligenceCard({ intel }: Props) {
+export function FinancialsIntelligenceCard({ intel, activeProgamme }: Props) {
   const riskLine =
-    intel.atRiskProgrammes > 0
+    activeProgamme !== null
+      ? intel.atRiskProgrammes > 0
+        ? `${activeProgamme} is at financial health risk.`
+        : `${activeProgamme} is within health thresholds.`
+      : intel.atRiskProgrammes > 0
       ? `${intel.atRiskProgrammes} of ${intel.visibleProgrammes} programmes show financial health risk.`
       : `All ${intel.visibleProgrammes} programmes within health thresholds.`;
 
   const wipLine =
     intel.delayedMilestones > 0
-      ? `${intel.delayedMilestones} delayed milestones signal unbilled WIP exposure.`
+      ? `${intel.delayedMilestones} delayed milestone${intel.delayedMilestones !== 1 ? "s" : ""} signal unbilled WIP exposure.`
       : "No delayed milestones.";
 
   const worstLine =
-    intel.worstProgramme !== null
+    activeProgamme === null && intel.worstProgramme !== null
       ? `${intel.worstProgramme} is the primary margin risk.`
       : "";
 
@@ -25,6 +30,11 @@ export function FinancialsIntelligenceCard({ intel }: Props) {
       className="border-b border-border-subtle bg-bg-surface-subtle -mx-8 px-8 py-6"
       data-testid="financials-intelligence-card"
     >
+      {activeProgamme !== null && (
+        <p className="text-accent-gold text-xs font-medium mb-4 tracking-wide">
+          Programme view: {activeProgamme}
+        </p>
+      )}
       <div className="grid grid-cols-3 gap-8">
 
         <div>

@@ -5,6 +5,54 @@
 
 ---
 
+## D-068 | 2026-05-12 | M10-2 Executive and Financials drill complete
+
+Context: First two tabs wired with full drill interactivity.
+
+Decisions:
+1. Server-side filtering pattern adopted: page.tsx reads searchParams, filters data before passing to components. Client Components receive pre-filtered props. Every URL change triggers a server re-render with new filtered data.
+2. `ExecutiveProgrammeStateList` and `FinancialsProgrammeTable` converted to "use client". Both receive `activeProgamme` and `activeHealth` from server. Client-side only needs click handlers and URL push.
+3. `Breadcrumb` wrapped in `<Suspense>` in layout (on top of the existing filter bar Suspense). Both `useSearchParams()` Client Components are now in Suspense, preventing the Next.js CSR bailout that caused Client Components further in the tree to defer to client-only rendering.
+4. Health filter chips on Executive rows set `?health=RAG` directly; clearing is via breadcrumb "Show all programmes" link. No dedicated FilterChip used (health chips are SET not CLEAR actions).
+5. FinancialsProgrammeTable uses `<tr role="button">` pattern (not DrillRow) since DrillRow renders a `<div>` incompatible with table structure.
+6. Cross-link tests require 30s timeout in dev mode (page compilation + 30 backend health calls on cold start). On a warm stack these pass in <5s.
+
+Impact: 6 files modified. 21 new vitest (551 total). 8 new Playwright tests. Exit 0 with 1 flaky (dev cold-start timing, passes on retry).
+
+---
+
+## D-067 | 2026-05-12 | M10-1 Shared Drill Infrastructure complete
+
+Context: M10-1 is the foundation for all drill interactivity across 14 tabs. Built before any tab-specific drill work.
+
+Decisions:
+1. URL-driven filter state via search params (D-066 rationale applies: bookmarkable, shareable, survives tab switch).
+2. `lib/drill.ts` exposes 4 pure/hook utilities: `useProgrammeFilter`, `buildDrillUrl`, `buildDrillThroughUrl`, `buildPortfolioUrl`. Pure functions tested in 19 vitest cases.
+3. `ProgrammeFilterBar` receives `initialProgrammes` prop from server-side fetch in home layout (SSR data, no client fetch needed). Fallback to 10 hardcoded codes if backend unreachable.
+4. `Breadcrumb` is a Client Component reading URL via `useSearchParams` and `usePathname`. Renders null at Level 0 (no programme selected).
+5. `DrillRow` uses `role="button"` + `tabIndex=0` + keyboard handlers per D-065 ruling. Gold ring on focus for WCAG AA.
+6. `GET /api/v1/programmes` list endpoint is unrestricted for all 6 roles. Scoped roles (DD/FL/PM) still see all 10 programme names (filter bar must show all); data-level scoping happens per-tab via existing assignment checks.
+7. `GET /api/v1/people` extended with `?programme=`, `?band=`, `?role=` params. Programme filter joins via `people.programme_id -> programmes.programme_code` (workforce records, not the RBAC assignment table).
+8. Existing unit tests: 530/530 green (511 prior + 19 new drill-utils). tsc clean on new files.
+
+Impact: 22 files created or modified. 5 new backend endpoints. 4 new Playwright tests. Backend integration tests require live DB to run; 5 new test files targeting 35+ integration assertions.
+
+---
+
+## D-066 | 2026-05-11 | M10 Drill Interactivity scoped as v1.1 milestone
+
+Context: v1.0.0 shipped with no interactive drill-down, drill-up, or drill-through. All 14 tabs are portfolio-level read displays. User selections do not filter data. No programme-level detail views exist. Wireframes specified drill interactivity; it was deferred to meet v1.0.0 launch date.
+
+Decision: Scope M10 as a full drill interactivity milestone targeting v1.1. Eight slices (M10-1 through M10-8). URL-driven filter state (search params) chosen over React context or localStorage. Level 0 (portfolio), Level 1 (programme-scoped via ?p=), Level 2 (entity detail routes) hierarchy. Five new backend endpoints. Shared frontend infrastructure: ProgrammeFilterBar, Breadcrumb, DrillRow, DrillDetailLayout, lib/drill.ts. Build starts 2026-05-12 IST morning.
+
+Scope document: docs/state/BUILD_SCOPE_M10_DRILL.md.
+
+Rationale: URL-driven state is the industry standard for BI dashboards. It enables bookmarking, sharing, back-navigation, and tab-switching with context preserved. React state would lose context on tab switch. The search param approach minimises new route files (only Level 2 entity detail pages require new page.tsx files) while delivering full filter interactivity.
+
+Impact: 8 Claude Code sessions. Estimated 150+ new tests, bringing total from 814 to 950+. No schema migrations required. Five new/extended backend endpoints. 14 tabs updated with filter bar and drill triggers.
+
+---
+
 ## D-065 | 2026-05-11 | M8-6 Security scan: python-jose CRITICAL CVE removed; Next.js HIGH accepted
 
 Context: trivy fs scan found CRITICAL CVE-2024-33663 in python-jose 3.3.0 (ECDSA algorithm confusion) plus 4 HIGH CVEs (2 python-multipart, 2 Next.js 14.2.35).

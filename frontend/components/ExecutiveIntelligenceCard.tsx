@@ -5,9 +5,10 @@ interface Props {
   kpis: ExecutiveKPIs;
   programmeStates: ProgrammeStateRow[];
   userRole: string;
+  activeProgamme: string | null;
 }
 
-export function ExecutiveIntelligenceCard({ kpis, programmeStates, userRole }: Props) {
+export function ExecutiveIntelligenceCard({ kpis, programmeStates, userRole, activeProgamme }: Props) {
   const subtitle = executiveSubtitle(userRole);
 
   const greenCount = programmeStates.filter((p) => p.display === "GREEN").length;
@@ -29,6 +30,12 @@ export function ExecutiveIntelligenceCard({ kpis, programmeStates, userRole }: P
         </p>
       )}
 
+      {activeProgamme !== null && (
+        <p className="text-accent-gold text-xs font-medium mb-4 tracking-wide">
+          Programme view: {activeProgamme}
+        </p>
+      )}
+
       <div className="grid grid-cols-3 gap-8">
 
         <div>
@@ -38,47 +45,73 @@ export function ExecutiveIntelligenceCard({ kpis, programmeStates, userRole }: P
               What does this tell me
             </h3>
           </div>
-          <p className="text-text-secondary text-sm leading-relaxed">
-            Delivery is{" "}
-            <span
-              className={
-                onTimeAlert ? "text-status-red font-semibold" : "text-text-primary font-semibold"
-              }
-            >
-              {kpis.onTimePct}% on plan
-            </span>{" "}
-            across{" "}
-            <span className="text-text-primary font-semibold">
-              {kpis.visibleProgrammes} programme{kpis.visibleProgrammes !== 1 ? "s" : ""}
-            </span>
-            .{" "}
-            {greenCount > 0 && (
-              <>
-                <span className="text-status-green font-semibold">{greenCount} green</span>
-                {(amberCount + redCount + breachCount) > 0 && ", "}
-              </>
-            )}
-            {amberCount > 0 && (
-              <>
-                <span className="text-status-amber font-semibold">{amberCount} amber</span>
-                {(redCount + breachCount) > 0 && ", "}
-              </>
-            )}
-            {(redCount + breachCount) > 0 && (
-              <span className="text-status-red font-semibold">
-                {redCount + breachCount} red{breachCount > 0 ? " or breach" : ""}
+          {activeProgamme !== null ? (
+            <p className="text-text-secondary text-sm leading-relaxed">
+              <span className="text-text-primary font-semibold">{activeProgamme}</span> is{" "}
+              <span
+                className={
+                  onTimeAlert ? "text-status-red font-semibold" : "text-text-primary font-semibold"
+                }
+              >
+                {kpis.onTimePct}% on plan
               </span>
-            )}
-            .{" "}
-            RAID severity index{" "}
-            <span
-              className={raidAlert ? "text-status-red font-semibold" : "text-status-amber font-semibold"}
-            >
-              {kpis.raidSeverityIndex.toFixed(1)}/10
-            </span>
-            {raidAlert && " -- above 7.0 alert threshold"}
-            .
-          </p>
+              {" "}with RAID severity index{" "}
+              <span
+                className={raidAlert ? "text-status-red font-semibold" : "text-status-amber font-semibold"}
+              >
+                {kpis.raidSeverityIndex.toFixed(1)}/10
+              </span>
+              {raidAlert && " (above 7.0 alert threshold)"}
+              .{" "}
+              {(redCount + breachCount) > 0 && (
+                <span className="text-status-red font-semibold">
+                  Health: {programmeStates[0]?.display ?? "unknown"}.
+                </span>
+              )}
+            </p>
+          ) : (
+            <p className="text-text-secondary text-sm leading-relaxed">
+              Delivery is{" "}
+              <span
+                className={
+                  onTimeAlert ? "text-status-red font-semibold" : "text-text-primary font-semibold"
+                }
+              >
+                {kpis.onTimePct}% on plan
+              </span>{" "}
+              across{" "}
+              <span className="text-text-primary font-semibold">
+                {kpis.visibleProgrammes} programme{kpis.visibleProgrammes !== 1 ? "s" : ""}
+              </span>
+              .{" "}
+              {greenCount > 0 && (
+                <>
+                  <span className="text-status-green font-semibold">{greenCount} green</span>
+                  {(amberCount + redCount + breachCount) > 0 && ", "}
+                </>
+              )}
+              {amberCount > 0 && (
+                <>
+                  <span className="text-status-amber font-semibold">{amberCount} amber</span>
+                  {(redCount + breachCount) > 0 && ", "}
+                </>
+              )}
+              {(redCount + breachCount) > 0 && (
+                <span className="text-status-red font-semibold">
+                  {redCount + breachCount} red{breachCount > 0 ? " or breach" : ""}
+                </span>
+              )}
+              .{" "}
+              RAID severity index{" "}
+              <span
+                className={raidAlert ? "text-status-red font-semibold" : "text-status-amber font-semibold"}
+              >
+                {kpis.raidSeverityIndex.toFixed(1)}/10
+              </span>
+              {raidAlert && " -- above 7.0 alert threshold"}
+              .
+            </p>
+          )}
         </div>
 
         <div className="pl-8 border-l border-border-subtle">

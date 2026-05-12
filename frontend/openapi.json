@@ -462,8 +462,68 @@
           "people"
         ],
         "summary": "Get People List",
-        "description": "Return all people. Reads not audited.",
         "operationId": "get_people_list_api_v1_people_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "programme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by programme code",
+              "title": "Programme"
+            },
+            "description": "Filter by programme code"
+          },
+          {
+            "name": "band",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by band (B1-B5)",
+              "title": "Band"
+            },
+            "description": "Filter by band (B1-B5)"
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by role",
+              "title": "Role"
+            },
+            "description": "Filter by role"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -474,13 +534,18 @@
                 }
               }
             }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
           }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/api/v1/programmes/{code}/raids": {
@@ -502,6 +567,7 @@
             "required": true,
             "schema": {
               "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,64}$",
               "description": "Programme code, e.g. PEGASUS",
               "title": "Code"
             },
@@ -551,6 +617,7 @@
             "required": true,
             "schema": {
               "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,64}$",
               "description": "Programme code, e.g. PEGASUS",
               "title": "Code"
             },
@@ -600,6 +667,7 @@
             "required": true,
             "schema": {
               "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,64}$",
               "description": "Programme code, e.g. PEGASUS",
               "title": "Code"
             },
@@ -613,6 +681,206 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HealthListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/programmes": {
+      "get": {
+        "tags": [
+          "programmes"
+        ],
+        "summary": "List Programmes",
+        "operationId": "list_programmes_api_v1_programmes_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProgrammeListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/programmes/{code}": {
+      "get": {
+        "tags": [
+          "programmes"
+        ],
+        "summary": "Get Programme",
+        "operationId": "get_programme_api_v1_programmes__code__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,64}$",
+              "description": "Programme code, e.g. PEGASUS",
+              "title": "Code"
+            },
+            "description": "Programme code, e.g. PEGASUS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProgrammeDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/programmes/{code}/raids/{raid_id}": {
+      "get": {
+        "tags": [
+          "programmes"
+        ],
+        "summary": "Get Raid",
+        "operationId": "get_raid_api_v1_programmes__code__raids__raid_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "raid_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "RAID item UUID",
+              "title": "Raid Id"
+            },
+            "description": "RAID item UUID"
+          },
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,64}$",
+              "description": "Programme code, e.g. PEGASUS",
+              "title": "Code"
+            },
+            "description": "Programme code, e.g. PEGASUS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RAIDItem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/programmes/{code}/milestones/{milestone_id}": {
+      "get": {
+        "tags": [
+          "programmes"
+        ],
+        "summary": "Get Milestone",
+        "operationId": "get_milestone_api_v1_programmes__code__milestones__milestone_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "milestone_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Milestone UUID",
+              "title": "Milestone Id"
+            },
+            "description": "Milestone UUID"
+          },
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,64}$",
+              "description": "Programme code, e.g. PEGASUS",
+              "title": "Code"
+            },
+            "description": "Programme code, e.g. PEGASUS"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MilestoneItem"
                 }
               }
             }
@@ -1334,6 +1602,167 @@
           "last_1on1_sentiment_score"
         ],
         "title": "PersonItem"
+      },
+      "ProgrammeDetail": {
+        "properties": {
+          "programme_code": {
+            "type": "string",
+            "title": "Programme Code"
+          },
+          "programme_name": {
+            "type": "string",
+            "title": "Programme Name"
+          },
+          "health_state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Health State"
+          },
+          "raid_summary": {
+            "$ref": "#/components/schemas/ProgrammeRaidSummary"
+          },
+          "milestone_summary": {
+            "$ref": "#/components/schemas/ProgrammeMilestoneSummary"
+          },
+          "latest_snapshot_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Snapshot At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "programme_code",
+          "programme_name",
+          "health_state",
+          "raid_summary",
+          "milestone_summary",
+          "latest_snapshot_at"
+        ],
+        "title": "ProgrammeDetail"
+      },
+      "ProgrammeListItem": {
+        "properties": {
+          "programme_code": {
+            "type": "string",
+            "title": "Programme Code"
+          },
+          "programme_name": {
+            "type": "string",
+            "title": "Programme Name"
+          },
+          "health_state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Health State"
+          }
+        },
+        "type": "object",
+        "required": [
+          "programme_code",
+          "programme_name",
+          "health_state"
+        ],
+        "title": "ProgrammeListItem"
+      },
+      "ProgrammeListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ProgrammeListItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "count"
+        ],
+        "title": "ProgrammeListResponse"
+      },
+      "ProgrammeMilestoneSummary": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "completed": {
+            "type": "integer",
+            "title": "Completed"
+          },
+          "on_time_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "On Time Pct"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "completed",
+          "on_time_pct"
+        ],
+        "title": "ProgrammeMilestoneSummary"
+      },
+      "ProgrammeRaidSummary": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "by_type": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "By Type"
+          },
+          "by_severity": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "By Severity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "by_type",
+          "by_severity"
+        ],
+        "title": "ProgrammeRaidSummary"
       },
       "RAIDItem": {
         "properties": {

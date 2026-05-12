@@ -182,3 +182,41 @@ export function executiveSubtitle(role: string): string | null {
   if (role === "DeliveryDirector") return "The delivery manager walks each one.";
   return null;
 }
+
+// ---------------------------------------------------------------------------
+// M10-2: Drill filter utilities
+// ---------------------------------------------------------------------------
+
+function healthParamToDisplaySet(
+  param: string,
+): Set<ProgrammeStateDisplay> | null {
+  switch (param) {
+    case "Red":
+      return new Set<ProgrammeStateDisplay>(["RED", "BREACH"]);
+    case "Amber":
+    case "Watching":
+      return new Set<ProgrammeStateDisplay>(["AMBER"]);
+    case "Green":
+      return new Set<ProgrammeStateDisplay>(["GREEN"]);
+    case "Failing":
+      return new Set<ProgrammeStateDisplay>(["BREACH"]);
+    default:
+      return null;
+  }
+}
+
+export function filterStatesByProgramme(
+  states: ProgrammeStateRow[],
+  code: string,
+): ProgrammeStateRow[] {
+  return states.filter((s) => s.programmeCode === code);
+}
+
+export function filterStatesByHealth(
+  states: ProgrammeStateRow[],
+  healthParam: string,
+): ProgrammeStateRow[] {
+  const displaySet = healthParamToDisplaySet(healthParam);
+  if (displaySet === null) return states;
+  return states.filter((s) => displaySet.has(s.display));
+}

@@ -201,10 +201,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * Get People List
-         * @description Return all people. Reads not audited.
-         */
+        /** Get People List */
         get: operations["get_people_list_api_v1_people_get"];
         put?: never;
         post?: never;
@@ -257,6 +254,74 @@ export interface paths {
         };
         /** List Programme Health */
         get: operations["list_programme_health_api_v1_programmes__code__health_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/programmes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Programmes */
+        get: operations["list_programmes_api_v1_programmes_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/programmes/{code}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Programme */
+        get: operations["get_programme_api_v1_programmes__code__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/programmes/{code}/raids/{raid_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Raid */
+        get: operations["get_raid_api_v1_programmes__code__raids__raid_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/programmes/{code}/milestones/{milestone_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Milestone */
+        get: operations["get_milestone_api_v1_programmes__code__milestones__milestone_id__get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -567,6 +632,57 @@ export interface components {
             overtime_hours_mtd: number | null;
             /** Last 1On1 Sentiment Score */
             last_1on1_sentiment_score: number | null;
+        };
+        /** ProgrammeDetail */
+        ProgrammeDetail: {
+            /** Programme Code */
+            programme_code: string;
+            /** Programme Name */
+            programme_name: string;
+            /** Health State */
+            health_state: string | null;
+            raid_summary: components["schemas"]["ProgrammeRaidSummary"];
+            milestone_summary: components["schemas"]["ProgrammeMilestoneSummary"];
+            /** Latest Snapshot At */
+            latest_snapshot_at: string | null;
+        };
+        /** ProgrammeListItem */
+        ProgrammeListItem: {
+            /** Programme Code */
+            programme_code: string;
+            /** Programme Name */
+            programme_name: string;
+            /** Health State */
+            health_state: string | null;
+        };
+        /** ProgrammeListResponse */
+        ProgrammeListResponse: {
+            /** Items */
+            items: components["schemas"]["ProgrammeListItem"][];
+            /** Count */
+            count: number;
+        };
+        /** ProgrammeMilestoneSummary */
+        ProgrammeMilestoneSummary: {
+            /** Total */
+            total: number;
+            /** Completed */
+            completed: number;
+            /** On Time Pct */
+            on_time_pct: number | null;
+        };
+        /** ProgrammeRaidSummary */
+        ProgrammeRaidSummary: {
+            /** Total */
+            total: number;
+            /** By Type */
+            by_type: {
+                [key: string]: number;
+            };
+            /** By Severity */
+            by_severity: {
+                [key: string]: number;
+            };
         };
         /** RAIDItem */
         RAIDItem: {
@@ -999,7 +1115,14 @@ export interface operations {
     };
     get_people_list_api_v1_people_get: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Filter by programme code */
+                programme?: string | null;
+                /** @description Filter by band (B1-B5) */
+                band?: string | null;
+                /** @description Filter by role */
+                role?: string | null;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -1013,6 +1136,15 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PeopleListResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
@@ -1100,6 +1232,126 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HealthListResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_programmes_api_v1_programmes_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProgrammeListResponse"];
+                };
+            };
+        };
+    };
+    get_programme_api_v1_programmes__code__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Programme code, e.g. PEGASUS */
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProgrammeDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_raid_api_v1_programmes__code__raids__raid_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description RAID item UUID */
+                raid_id: string;
+                /** @description Programme code, e.g. PEGASUS */
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RAIDItem"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_milestone_api_v1_programmes__code__milestones__milestone_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Milestone UUID */
+                milestone_id: string;
+                /** @description Programme code, e.g. PEGASUS */
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MilestoneItem"];
                 };
             };
             /** @description Validation Error */

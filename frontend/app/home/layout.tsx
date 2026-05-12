@@ -1,9 +1,26 @@
+import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { SESSION_COOKIE } from "@/lib/auth/cookies";
 import { decodeSessionToken } from "@/lib/auth/session";
+import { callBackend } from "@/lib/api-client/fetcher";
 import { RoleAwareNav } from "@/components/RoleAwareNav";
 import { RoleBadge } from "@/components/RoleBadge";
+import { Breadcrumb } from "@/components/drill/Breadcrumb";
+import { ProgrammeFilterBar } from "@/components/drill/ProgrammeFilterBar";
+import type { ProgrammeListItem } from "@/components/drill/ProgrammeFilterBar";
+
+interface ProgrammeListResponse {
+  items: ProgrammeListItem[];
+  count: number;
+}
+
+async function FilterBarLoader(): Promise<JSX.Element> {
+  const result = await callBackend<ProgrammeListResponse>("/api/v1/programmes").catch(
+    () => ({ items: [], count: 0 } as ProgrammeListResponse),
+  );
+  return <ProgrammeFilterBar initialProgrammes={result.items} />;
+}
 
 export default async function HomeLayout({
   children,
@@ -31,11 +48,21 @@ export default async function HomeLayout({
               <div className="text-text-muted text-xs">Programme delivery intelligence</div>
             </div>
           </div>
-          <RoleBadge role={user.role} apFlag={user.apFlag} />
+          <div className="flex items-center gap-4">
+            <Suspense fallback={null}>
+              <Breadcrumb />
+            </Suspense>
+            <RoleBadge role={user.role} apFlag={user.apFlag} />
+          </div>
         </div>
         <RoleAwareNav role={user.role} />
       </header>
-      <main className="flex-1 max-w-[1440px] w-full mx-auto px-8 py-8">{children}</main>
+      <main className="flex-1 max-w-[1440px] w-full mx-auto px-8 py-8">
+        <Suspense fallback={<div className="h-9 mb-5" aria-hidden="true" />}>
+          <FilterBarLoader />
+        </Suspense>
+        {children}
+      </main>
     </div>
   );
 }

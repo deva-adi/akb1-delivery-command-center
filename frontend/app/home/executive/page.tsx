@@ -25,6 +25,8 @@ import {
   isExecutiveAllowed,
   buildExecutiveKPIs,
   buildProgrammeStateList,
+  filterStatesByProgramme,
+  filterStatesByHealth,
 } from "@/lib/executive";
 import { ExecutiveIntelligenceCard } from "@/components/ExecutiveIntelligenceCard";
 import { ExecutiveKPIRow } from "@/components/ExecutiveKPIRow";
@@ -32,12 +34,19 @@ import { ExecutiveMarginChart } from "@/components/ExecutiveMarginChart";
 import { ExecutiveProgrammeStateList } from "@/components/ExecutiveProgrammeStateList";
 import { ExecutiveRev4Section } from "@/components/ExecutiveRev4Section";
 
-export default async function ExecutivePage(): Promise<JSX.Element> {
+export default async function ExecutivePage({
+  searchParams,
+}: {
+  searchParams: { p?: string; health?: string };
+}): Promise<JSX.Element> {
   const token = cookies().get(SESSION_COOKIE)?.value ?? "";
   const user = await decodeSessionToken(token);
 
   if (user === null) redirect("/login");
   if (!isExecutiveAllowed(user.role)) redirect("/home");
+
+  const activeProgamme = typeof searchParams.p === "string" ? searchParams.p : null;
+  const activeHealth = typeof searchParams.health === "string" ? searchParams.health : null;
 
   const [raidResults, milestoneResults, healthResults] = await Promise.all([
     Promise.allSettled(
@@ -82,15 +91,32 @@ export default async function ExecutivePage(): Promise<JSX.Element> {
     milestoneResults.some(isNonAuthError) ||
     healthResults.some(isNonAuthError);
 
-  const kpis = buildExecutiveKPIs(allMilestones, allRaids);
-  const programmeStates = buildProgrammeStateList(allHealth);
+  const allProgrammeStates = buildProgrammeStateList(allHealth);
+
+  // Server-side filtering: single programme or health filter
+  const filteredRaids = activeProgamme
+    ? allRaids.filter((r) => r.programme_code === activeProgamme)
+    : allRaids;
+  const filteredMilestones = activeProgamme
+    ? allMilestones.filter((m) => m.programme_code === activeProgamme)
+    : allMilestones;
+
+  let filteredStates = allProgrammeStates;
+  if (activeProgamme !== null) {
+    filteredStates = filterStatesByProgramme(allProgrammeStates, activeProgamme);
+  } else if (activeHealth !== null) {
+    filteredStates = filterStatesByHealth(allProgrammeStates, activeHealth);
+  }
+
+  const kpis = buildExecutiveKPIs(filteredMilestones, filteredRaids);
 
   return (
     <div className="grid gap-0 -mx-8 -mt-8">
       <ExecutiveIntelligenceCard
         kpis={kpis}
-        programmeStates={programmeStates}
+        programmeStates={filteredStates}
         userRole={user.role}
+        activeProgamme={activeProgamme}
       />
 
       {hasError && (
@@ -106,6 +132,9 @@ export default async function ExecutivePage(): Promise<JSX.Element> {
           <h2 className="text-text-primary text-base font-semibold">Executive Overview</h2>
           <span className="text-text-subtle text-xs font-mono">
             {kpis.visibleProgrammes} programme{kpis.visibleProgrammes !== 1 ? "s" : ""} visible
+            {activeProgamme !== null && (
+              <span className="ml-2 text-accent-gold">filtered to {activeProgamme}</span>
+            )}
           </span>
         </div>
         <ExecutiveKPIRow kpis={kpis} />
@@ -117,7 +146,11 @@ export default async function ExecutivePage(): Promise<JSX.Element> {
             <ExecutiveMarginChart />
           </div>
           <div>
-            <ExecutiveProgrammeStateList rows={programmeStates} />
+            <ExecutiveProgrammeStateList
+              rows={filteredStates}
+              activeProgamme={activeProgamme}
+              activeHealth={activeHealth}
+            />
           </div>
         </div>
       </section>

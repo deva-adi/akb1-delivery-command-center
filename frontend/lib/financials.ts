@@ -99,6 +99,44 @@ export interface FinancialsWhat {
   worstProgramme: string | null;
 }
 
+// ---------------------------------------------------------------------------
+// M10-2: Drill filter utilities
+// ---------------------------------------------------------------------------
+
+function financialHealthParamToStateSet(
+  param: string,
+): Set<FinancialState> | null {
+  switch (param) {
+    case "Red":
+      return new Set<FinancialState>(["RED", "BREACH"]);
+    case "Amber":
+    case "Watching":
+      return new Set<FinancialState>(["AMBER"]);
+    case "Green":
+      return new Set<FinancialState>(["GREEN"]);
+    case "Failing":
+      return new Set<FinancialState>(["BREACH"]);
+    default:
+      return null;
+  }
+}
+
+export function filterFinancialStatesByProgramme(
+  states: ProgrammeFinancialState[],
+  code: string,
+): ProgrammeFinancialState[] {
+  return states.filter((s) => s.programmeCode === code);
+}
+
+export function filterFinancialStatesByHealth(
+  states: ProgrammeFinancialState[],
+  healthParam: string,
+): ProgrammeFinancialState[] {
+  const stateSet = financialHealthParamToStateSet(healthParam);
+  if (stateSet === null) return states;
+  return states.filter((s) => stateSet.has(s.state));
+}
+
 export function buildFinancialsWhat(
   healthByProgramme: Record<string, HealthSnapshotItem[]>,
   milestones: MilestoneItem[],

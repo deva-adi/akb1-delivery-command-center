@@ -34,12 +34,19 @@ import { FinancialsProgrammeTable } from "@/components/FinancialsProgrammeTable"
 import { FinancialsBenchTax } from "@/components/FinancialsBenchTax";
 import { FinancialsRev4Section } from "@/components/FinancialsRev4Section";
 
-export default async function FinancialsPage(): Promise<JSX.Element> {
+export default async function FinancialsPage({
+  searchParams,
+}: {
+  searchParams: { p?: string; health?: string };
+}): Promise<JSX.Element> {
   const token = cookies().get(SESSION_COOKIE)?.value ?? "";
   const user = await decodeSessionToken(token);
 
   if (user === null) redirect("/login");
   if (!isFinancialsAllowed(user.role)) redirect("/home");
+
+  const activeProgamme = typeof searchParams.p === "string" ? searchParams.p : null;
+  const activeHealth = typeof searchParams.health === "string" ? searchParams.health : null;
 
   const [healthResults, milestoneResults] = await Promise.all([
     Promise.allSettled(
@@ -81,12 +88,26 @@ export default async function FinancialsPage(): Promise<JSX.Element> {
         !(r.reason instanceof BackendError && r.reason.status === 403),
     );
 
-  const intel = buildFinancialsWhat(healthByProgramme, allMilestones);
-  const programmeStates = buildProgrammeFinancialStates(healthByProgramme);
+  const allProgrammeStates = buildProgrammeFinancialStates(healthByProgramme);
+
+
+  // For intel card: compute from programme-scoped health when filtered
+  const intelHealthByProgramme =
+    activeProgamme !== null
+      ? Object.fromEntries(
+          Object.entries(healthByProgramme).filter(([code]) => code === activeProgamme),
+        )
+      : healthByProgramme;
+  const intelMilestones =
+    activeProgamme !== null
+      ? allMilestones.filter((m) => m.programme_code === activeProgamme)
+      : allMilestones;
+
+  const intel = buildFinancialsWhat(intelHealthByProgramme, intelMilestones);
 
   return (
     <div className="grid gap-0 -mx-8 -mt-8">
-      <FinancialsIntelligenceCard intel={intel} />
+      <FinancialsIntelligenceCard intel={intel} activeProgamme={activeProgamme} />
 
       {hasError && (
         <div className="mx-8 mt-6">
@@ -102,6 +123,9 @@ export default async function FinancialsPage(): Promise<JSX.Element> {
           <span className="text-text-subtle text-xs font-mono">
             {intel.visibleProgrammes} programme{intel.visibleProgrammes !== 1 ? "s" : ""} visible
             {" "}| financials_monthly not seeded
+            {activeProgamme !== null && (
+              <span className="ml-2 text-accent-gold">filtered to {activeProgamme}</span>
+            )}
           </span>
         </div>
         <FinancialsKPIGrid />
@@ -119,7 +143,11 @@ export default async function FinancialsPage(): Promise<JSX.Element> {
       </section>
 
       <section className="px-8 pb-6">
-        <FinancialsProgrammeTable states={programmeStates} />
+        <FinancialsProgrammeTable
+          allStates={allProgrammeStates}
+          activeProgamme={activeProgamme}
+          activeHealth={activeHealth}
+        />
       </section>
 
       <section className="px-8 pb-6">

@@ -1,5 +1,5 @@
 # BUILD_STATE.md
-### AKB1 Delivery Command Center v1 | Session-level build state | Last updated: 2026-05-11 (M8 CLOSED -- all integration and QA gates green)
+### AKB1 Delivery Command Center v1 | Session-level build state | Last updated: 2026-05-12 (M10-1 IN PROGRESS -- shared drill infrastructure built, awaiting gate confirmation)
 
 > Updated at the end of every substantive session. Percent complete per module. Keep to one page.
 
@@ -7,7 +7,7 @@
 
 ## Current Phase
 
-**M8 Integration and QA CLOSED 2026-05-11. All six M8 gates green. 814 tests passing. v1.0.0 launch target 2026-06-10. Next: M9 release preparation.**
+**M10-2 Executive and Financials drill CLOSED 2026-05-12. 551 vitest green. 297 pytest green. E2E exit 0 (1 flaky dev warm-up). M10-1 gate confirmed. Next: M10-3 (Delivery Health + Risk/RAID + Level 2 routes).**
 
 ## Overall Project Progress
 

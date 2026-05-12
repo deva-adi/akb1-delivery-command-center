@@ -5,10 +5,16 @@
  * given pre-aggregated HeatMapRow data.
  */
 
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { RaidHeatMap } from "@/components/RaidHeatMap";
 import type { HeatMapRow } from "@/lib/raids";
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ push: vi.fn() }),
+  usePathname: () => "/home/risk-raid",
+  useSearchParams: () => new URLSearchParams(),
+}));
 
 function makeRow(code: string, overrides: Partial<HeatMapRow> = {}): HeatMapRow {
   return {

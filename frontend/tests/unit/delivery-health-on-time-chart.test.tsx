@@ -5,10 +5,16 @@
  * rendering, empty state, and bar width style attribute.
  */
 
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { DeliveryHealthOnTimeChart } from "@/components/DeliveryHealthOnTimeChart";
 import type { OnTimeRow } from "@/lib/delivery-health";
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ push: vi.fn() }),
+  usePathname: () => "/home/delivery-health",
+  useSearchParams: () => new URLSearchParams(),
+}));
 
 function makeRow(overrides: Partial<OnTimeRow> = {}): OnTimeRow {
   return {

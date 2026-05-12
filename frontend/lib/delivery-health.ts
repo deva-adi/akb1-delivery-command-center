@@ -328,6 +328,49 @@ export interface EVMMetrics {
   eacLabel: string;
 }
 
+/** Filter to a single programme code. Used when ?p=CODE is active. */
+export function filterMilestonesByProgramme(
+  milestones: MilestoneItem[],
+  code: string,
+): MilestoneItem[] {
+  return milestones.filter((m) => m.programme_code === code);
+}
+
+const STATUS_PRIORITY: Record<MilestoneStatus, number> = {
+  Delayed: 0,
+  "At Risk": 1,
+  "On Track": 2,
+  Complete: 3,
+};
+
+/**
+ * Return ALL milestones as SlippingMilestone rows, sorted by status priority then slip days desc.
+ * Used in the programme-scoped list view when ?p=CODE is active.
+ */
+export function buildMilestoneList(milestones: MilestoneItem[]): SlippingMilestone[] {
+  const today = Date.now();
+  return milestones
+    .map((m) => {
+      const dueDayMs = new Date(m.due_date).getTime();
+      const slipDays = dueDayMs < today ? Math.floor((today - dueDayMs) / MS_PER_DAY) : 0;
+      return {
+        milestoneId: m.milestone_id,
+        title: m.title,
+        programmeCode: m.programme_code,
+        dueDate: m.due_date,
+        baselineDate: m.baseline_date,
+        status: m.status,
+        completionPct: m.completion_pct,
+        slipDays,
+      };
+    })
+    .sort((a, b) => {
+      const orderDiff = STATUS_PRIORITY[a.status] - STATUS_PRIORITY[b.status];
+      if (orderDiff !== 0) return orderDiff;
+      return b.slipDays - a.slipDays;
+    });
+}
+
 export function computeEVMForProgramme(
   milestones: MilestoneItem[],
   programmeCode: string,

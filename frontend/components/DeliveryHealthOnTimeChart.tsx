@@ -1,3 +1,4 @@
+import { DrillRow } from "@/components/drill/DrillRow";
 import type { OnTimeRow } from "@/lib/delivery-health";
 
 interface Props {
@@ -37,23 +38,29 @@ export function DeliveryHealthOnTimeChart({ rows }: Props) {
       ) : (
         <div className="space-y-2" data-testid="on-time-rows">
           {rows.map((row) => (
-            <div key={row.programmeCode} data-testid={`on-time-row-${row.programmeCode}`}>
-              <div className="flex justify-between text-[11px] mb-1">
-                <span className="text-text-primary">{row.programmeCode}</span>
-                <span
-                  className={`font-mono tabular font-semibold ${labelColor(row.onTimePct)}`}
-                >
-                  {row.onTimePct.toFixed(1)}%
-                </span>
+            <DrillRow
+              key={row.programmeCode}
+              href={`/home/delivery-health?p=${row.programmeCode}`}
+              className="rounded p-1"
+            >
+              <div data-testid={`on-time-row-${row.programmeCode}`}>
+                <div className="flex justify-between text-[11px] mb-1">
+                  <span className="text-text-primary">{row.programmeCode}</span>
+                  <span
+                    className={`font-mono tabular font-semibold ${labelColor(row.onTimePct)}`}
+                  >
+                    {row.onTimePct.toFixed(1)}%
+                  </span>
+                </div>
+                <div className="h-1.5 bg-border-subtle rounded-full">
+                  <div
+                    className={`h-1.5 rounded-full transition-all ${barColor(row.onTimePct)}`}
+                    style={{ width: `${Math.min(row.onTimePct, 100)}%` }}
+                    data-testid={`on-time-bar-${row.programmeCode}`}
+                  />
+                </div>
               </div>
-              <div className="h-1.5 bg-border-subtle rounded-full">
-                <div
-                  className={`h-1.5 rounded-full transition-all ${barColor(row.onTimePct)}`}
-                  style={{ width: `${Math.min(row.onTimePct, 100)}%` }}
-                  data-testid={`on-time-bar-${row.programmeCode}`}
-                />
-              </div>
-            </div>
+            </DrillRow>
           ))}
         </div>
       )}

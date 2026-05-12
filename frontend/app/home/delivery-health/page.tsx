@@ -24,6 +24,8 @@ import {
   buildKPIs,
   buildOnTimeByProgramme,
   buildSlippingMilestones,
+  buildMilestoneList,
+  filterMilestonesByProgramme,
   buildVelocityTrend,
   buildEstimationAccuracy,
   computeEVMForProgramme,
@@ -36,12 +38,18 @@ import { DeliveryHealthOnTimeChart } from "@/components/DeliveryHealthOnTimeChar
 import { DeliveryHealthMilestonesTable } from "@/components/DeliveryHealthMilestonesTable";
 import { DeliveryHealthEstimationSection } from "@/components/DeliveryHealthEstimationSection";
 
-export default async function DeliveryHealthPage(): Promise<JSX.Element> {
+export default async function DeliveryHealthPage({
+  searchParams,
+}: {
+  searchParams: { p?: string };
+}): Promise<JSX.Element> {
   const token = cookies().get(SESSION_COOKIE)?.value ?? "";
   const user = await decodeSessionToken(token);
 
   if (user === null) redirect("/login");
   if (!isDeliveryHealthAllowed(user.role)) redirect("/home");
+
+  const activeProgamme = typeof searchParams.p === "string" ? searchParams.p : null;
 
   const [milestoneResults, healthResults] = await Promise.all([
     Promise.allSettled(
@@ -74,14 +82,22 @@ export default async function DeliveryHealthPage(): Promise<JSX.Element> {
         !(r.reason instanceof BackendError && r.reason.status === 403),
     );
 
-  const kpis = buildKPIs(allMilestones);
-  const onTimeRows = buildOnTimeByProgramme(allMilestones);
-  const slippingMilestones = buildSlippingMilestones(allMilestones);
-  const velocityBuckets = buildVelocityTrend(allMilestones);
-  const estimationRows = buildEstimationAccuracy(allMilestones);
+  const scopedMilestones = activeProgamme
+    ? filterMilestonesByProgramme(allMilestones, activeProgamme)
+    : allMilestones;
+
+  const kpis = buildKPIs(scopedMilestones);
+  const onTimeRows = buildOnTimeByProgramme(scopedMilestones);
+  const milestoneListRows = activeProgamme
+    ? buildMilestoneList(scopedMilestones)
+    : buildSlippingMilestones(allMilestones);
+  const velocityBuckets = buildVelocityTrend(scopedMilestones);
+  const estimationRows = buildEstimationAccuracy(scopedMilestones);
 
   const highlightCode =
-    estimationRows[0]?.programmeCode ?? (PROGRAMME_CODES[0] as string);
+    activeProgamme ??
+    estimationRows[0]?.programmeCode ??
+    (PROGRAMME_CODES[0] as string);
   const evmMetrics = computeEVMForProgramme(allMilestones, highlightCode);
 
   return (
@@ -101,6 +117,9 @@ export default async function DeliveryHealthPage(): Promise<JSX.Element> {
           <h2 className="text-text-primary text-base font-semibold">Delivery Health</h2>
           <span className="text-text-subtle text-xs font-mono">
             {kpis.visibleProgrammes} programme{kpis.visibleProgrammes !== 1 ? "s" : ""} visible
+            {activeProgamme !== null && (
+              <span className="ml-2 text-accent-gold">filtered to {activeProgamme}</span>
+            )}
           </span>
         </div>
         <DeliveryHealthKPIRow kpis={kpis} />
@@ -118,7 +137,10 @@ export default async function DeliveryHealthPage(): Promise<JSX.Element> {
       </section>
 
       <section className="px-8 pb-6">
-        <DeliveryHealthMilestonesTable milestones={slippingMilestones} />
+        <DeliveryHealthMilestonesTable
+          milestones={milestoneListRows}
+          activeProgamme={activeProgamme}
+        />
       </section>
 
       <DeliveryHealthEstimationSection

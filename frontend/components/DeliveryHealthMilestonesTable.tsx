@@ -1,7 +1,11 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import type { SlippingMilestone, MilestoneStatus } from "@/lib/delivery-health";
 
 interface Props {
   milestones: SlippingMilestone[];
+  activeProgamme: string | null;
 }
 
 function statusBadge(status: MilestoneStatus): { label: string; classes: string } {
@@ -15,6 +19,11 @@ function statusBadge(status: MilestoneStatus): { label: string; classes: string 
       return {
         label: "At Risk",
         classes: "bg-status-amber/20 text-status-amber border-status-amber/40",
+      };
+    case "Complete":
+      return {
+        label: "Complete",
+        classes: "bg-status-green/20 text-status-green border-status-green/40",
       };
     default:
       return {
@@ -35,19 +44,40 @@ function slipColor(slipDays: number, status: MilestoneStatus): string {
   return "text-text-muted font-mono tabular";
 }
 
-export function DeliveryHealthMilestonesTable({ milestones }: Props) {
+export function DeliveryHealthMilestonesTable({ milestones, activeProgamme }: Props) {
+  const router = useRouter();
+
+  function handleRowClick(m: SlippingMilestone) {
+    router.push(
+      `/home/delivery-health/${m.programmeCode}/${m.milestoneId}`,
+      { scroll: false },
+    );
+  }
+
+  function handleRowKey(e: React.KeyboardEvent, m: SlippingMilestone) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleRowClick(m);
+    }
+  }
+
+  const heading = activeProgamme
+    ? `Milestones: ${activeProgamme}`
+    : "Top 5 Slipping Milestones";
+  const subheading = activeProgamme
+    ? "All milestones for this programme. Click a row to view detail."
+    : "At Risk and Delayed milestones only. Drill to programme detail for recovery plan.";
+
   return (
     <div
       className="bg-bg-surface border border-border-subtle rounded-lg p-5"
       data-testid="delivery-health-milestones-table"
     >
       <div className="flex items-baseline justify-between mb-1">
-        <h3 className="text-text-primary font-semibold">Top 5 Slipping Milestones</h3>
+        <h3 className="text-text-primary font-semibold">{heading}</h3>
         <span className="text-text-subtle text-xs">Ranked by days past plan</span>
       </div>
-      <p className="text-text-muted text-xs mb-4">
-        At Risk and Delayed milestones only. Drill to programme detail for recovery plan.
-      </p>
+      <p className="text-text-muted text-xs mb-4">{subheading}</p>
 
       {milestones.length === 0 ? (
         <div className="flex items-center justify-center h-20 text-text-subtle text-sm">
@@ -71,7 +101,12 @@ export function DeliveryHealthMilestonesTable({ milestones }: Props) {
               return (
                 <tr
                   key={m.milestoneId}
-                  className="hover:bg-border-subtle/20 transition cursor-pointer"
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`View milestone: ${m.title}`}
+                  onClick={() => handleRowClick(m)}
+                  onKeyDown={(e) => handleRowKey(e, m)}
+                  className="hover:bg-border-subtle/20 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent-gold focus:ring-inset"
                   data-testid={`milestone-row-${m.milestoneId}`}
                 >
                   <td className="py-3 text-text-primary">{m.title}</td>

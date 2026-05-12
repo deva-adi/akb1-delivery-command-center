@@ -22,23 +22,33 @@ import { callBackend, BackendError } from "@/lib/api-client/fetcher";
 import {
   PROGRAMME_CODES,
   buildHeatMap,
-  buildTop10,
+  buildFilteredTop10,
   buildTrend,
   computeKPIs,
   isRaidAllowed,
+  filterRaidsByProgramme,
 } from "@/lib/raids";
 import type { RaidListResponse } from "@/lib/raids";
 import { RaidHeatMap } from "@/components/RaidHeatMap";
 import { RaidTrend } from "@/components/RaidTrend";
 import { RaidTop10 } from "@/components/RaidTop10";
 import { RaidIntelligenceCard } from "@/components/RaidIntelligenceCard";
+import { RaidTypeFilterBar } from "@/components/RaidTypeFilterBar";
 
-export default async function RiskRaidPage(): Promise<JSX.Element> {
+export default async function RiskRaidPage({
+  searchParams,
+}: {
+  searchParams: { p?: string; severity?: string; type?: string };
+}): Promise<JSX.Element> {
   const token = cookies().get(SESSION_COOKIE)?.value ?? "";
   const user = await decodeSessionToken(token);
 
   if (user === null) redirect("/login");
   if (!isRaidAllowed(user.role)) redirect("/home");
+
+  const activeProgamme = typeof searchParams.p === "string" ? searchParams.p : null;
+  const activeSeverity = typeof searchParams.severity === "string" ? searchParams.severity : null;
+  const activeType = typeof searchParams.type === "string" ? searchParams.type : null;
 
   const results = await Promise.allSettled(
     PROGRAMME_CODES.map((code) =>
@@ -54,12 +64,16 @@ export default async function RiskRaidPage(): Promise<JSX.Element> {
     (r) => r.status === "rejected" && !(r.reason instanceof BackendError && r.reason.status === 403),
   );
 
-  const heatMapRows = buildHeatMap(allRaids);
-  const top10 = buildTop10(allRaids);
-  const trendBuckets = buildTrend(allRaids);
-  const kpis = computeKPIs(allRaids);
+  const scopedRaids = activeProgamme
+    ? filterRaidsByProgramme(allRaids, activeProgamme)
+    : allRaids;
 
-  const visibleCount = new Set(allRaids.map((r) => r.programme_code)).size;
+  const heatMapRows = buildHeatMap(scopedRaids);
+  const top10 = buildFilteredTop10(scopedRaids, { severity: activeSeverity, type: activeType });
+  const trendBuckets = buildTrend(scopedRaids);
+  const kpis = computeKPIs(scopedRaids);
+
+  const visibleCount = new Set(scopedRaids.map((r) => r.programme_code)).size;
 
   return (
     <div className="grid gap-0 -mx-8 -mt-8">
@@ -78,6 +92,9 @@ export default async function RiskRaidPage(): Promise<JSX.Element> {
           <h2 className="text-text-primary text-base font-semibold">Risk and RAID</h2>
           <span className="text-text-subtle text-xs font-mono">
             {visibleCount} programme{visibleCount !== 1 ? "s" : ""} visible
+            {activeProgamme !== null && (
+              <span className="ml-2 text-accent-gold">filtered to {activeProgamme}</span>
+            )}
           </span>
         </div>
 
@@ -118,6 +135,7 @@ export default async function RiskRaidPage(): Promise<JSX.Element> {
           />
         </div>
 
+        <RaidTypeFilterBar activeType={activeType} />
         <RaidTop10 items={top10} />
       </section>
     </div>

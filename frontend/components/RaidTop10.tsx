@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import type { Top10Row } from "@/lib/raids";
 
 interface Props {
@@ -29,6 +32,22 @@ function ownerLabel(userId: string | null): string {
 }
 
 export function RaidTop10({ items }: Props) {
+  const router = useRouter();
+
+  function handleRowClick(item: Top10Row) {
+    router.push(
+      `/home/risk-raid/${item.programmeCode}/${item.raidId}`,
+      { scroll: false },
+    );
+  }
+
+  function handleRowKey(e: React.KeyboardEvent, item: Top10Row) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleRowClick(item);
+    }
+  }
+
   if (items.length === 0) {
     return (
       <div className="bg-bg-surface border border-border-subtle rounded-lg p-5">
@@ -45,7 +64,7 @@ export function RaidTop10({ items }: Props) {
         <span className="text-text-subtle text-xs">Severity desc, then last updated</span>
       </div>
       <p className="text-text-muted text-xs mb-4">
-        Open and Escalated Critical and High items only.
+        Open and Escalated Critical and High items only. Click a row to view detail.
       </p>
 
       <table className="w-full text-sm" data-testid="raid-top10-table">
@@ -64,7 +83,12 @@ export function RaidTop10({ items }: Props) {
           {items.map((item) => (
             <tr
               key={item.raidId}
-              className="hover:bg-border-subtle/30 transition cursor-pointer"
+              role="button"
+              tabIndex={0}
+              aria-label={`View RAID item: ${item.title}`}
+              onClick={() => handleRowClick(item)}
+              onKeyDown={(e) => handleRowKey(e, item)}
+              className="hover:bg-border-subtle/30 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent-gold focus:ring-inset"
               data-testid={`top10-row-${item.raidId}`}
             >
               <td className="py-3 text-text-primary pr-4">{item.title}</td>

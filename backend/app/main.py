@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from contextlib import asynccontextmanager
 
+import asyncpg
 from fastapi import FastAPI
 
 from app.api.v1.admin import router as admin_router
@@ -16,6 +17,7 @@ from app.cache import close_redis_client, get_redis_client
 from app.config import get_settings
 from app.middleware.csrf import CsrfMiddleware
 from app.middleware.rate_limit import RateLimitMiddleware
+from app.seed.generator import seed_admin_user
 
 
 @asynccontextmanager
@@ -23,6 +25,21 @@ async def lifespan(app: FastAPI):
     # Single shared Redis client lives on app.state so middleware (which
     # cannot use Depends) can read it the same way as DI-driven routes.
     app.state.redis_client = get_redis_client()
+
+    # Ensure the admin bootstrap user exists on every boot.
+    # seed_admin_user() checks IF EXISTS and returns early, so this is safe
+    # to call on every restart without touching the 300-user seed or the
+    # locked SHA-256 fingerprint.
+    # Uses database_url_migrations (akb1_owner) because akb1_app does not
+    # hold INSERT on people. Mirrors the same pattern used by the seed CLI.
+    settings = get_settings()
+    dsn = settings.database_url_migrations.replace("+asyncpg", "")
+    _conn = await asyncpg.connect(dsn)
+    try:
+        await seed_admin_user(_conn)
+    finally:
+        await _conn.close()
+
     try:
         yield
     finally:

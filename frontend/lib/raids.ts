@@ -178,6 +178,67 @@ export function buildTrend(raids: RaidItem[]): WeekBucket[] {
   }));
 }
 
+/** Filter to a single programme code. Used when ?p=CODE is active. */
+export function filterRaidsByProgramme(raids: RaidItem[], code: string): RaidItem[] {
+  return raids.filter((r) => r.programme_code === code);
+}
+
+const VALID_SEVERITIES = new Set(["Critical", "High", "Medium", "Low"]);
+const VALID_TYPES = new Set(["Risk", "Assumption", "Issue", "Dependency"]);
+
+/** Filter by severity string. Returns all raids unchanged when value is not a valid severity. */
+export function filterRaidsBySeverity(raids: RaidItem[], severity: string): RaidItem[] {
+  if (!VALID_SEVERITIES.has(severity)) return raids;
+  return raids.filter((r) => r.severity === severity);
+}
+
+/** Filter by raid_type string. Returns all raids unchanged when value is not a valid type. */
+export function filterRaidsByType(raids: RaidItem[], type: string): RaidItem[] {
+  if (!VALID_TYPES.has(type)) return raids;
+  return raids.filter((r) => r.raid_type === type);
+}
+
+/**
+ * Build a filtered top-10 list.
+ * When severity is provided: filters to that severity only.
+ * When severity is null/omitted: defaults to Critical + High.
+ * When type is provided: additionally filters by raid_type.
+ */
+export function buildFilteredTop10(
+  raids: RaidItem[],
+  opts: { severity?: string | null; type?: string | null } = {},
+): Top10Row[] {
+  let open = raids.filter((r) => OPEN_STATUSES.has(r.status));
+
+  if (opts.severity && VALID_SEVERITIES.has(opts.severity)) {
+    open = open.filter((r) => r.severity === opts.severity);
+  } else {
+    open = open.filter((r) => HIGH_SEVERITIES.has(r.severity));
+  }
+
+  if (opts.type && VALID_TYPES.has(opts.type)) {
+    open = open.filter((r) => r.raid_type === opts.type);
+  }
+
+  return open
+    .sort((a, b) => {
+      const sevDiff = SEVERITY_ORDER[a.severity] - SEVERITY_ORDER[b.severity];
+      if (sevDiff !== 0) return sevDiff;
+      return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+    })
+    .slice(0, 10)
+    .map((r) => ({
+      raidId: r.raid_id,
+      title: r.title,
+      programmeCode: r.programme_code,
+      raidType: r.raid_type,
+      ownerUserId: r.owner_user_id,
+      status: r.status,
+      severity: r.severity,
+      updatedAt: r.updated_at,
+    }));
+}
+
 /** Compute top-level KPI numbers from all fetched raids. */
 export function computeKPIs(raids: RaidItem[]): RaidKPIs {
   const now = Date.now();

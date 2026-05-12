@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import type { HeatMapRow, RaidSeverity } from "@/lib/raids";
 
 interface Props {
@@ -10,13 +13,13 @@ function cellClass(severity: RaidSeverity, count: number): string {
   }
   switch (severity) {
     case "Critical":
-      return "bg-status-red text-white";
+      return "bg-status-red text-white cursor-pointer hover:opacity-80";
     case "High":
-      return "bg-status-amber text-bg-base";
+      return "bg-status-amber text-bg-base cursor-pointer hover:opacity-80";
     case "Medium":
-      return "bg-border-strong/60 text-text-primary";
+      return "bg-border-strong/60 text-text-primary cursor-pointer hover:opacity-80";
     case "Low":
-      return "bg-border-subtle/60 text-text-muted";
+      return "bg-border-subtle/60 text-text-muted cursor-pointer hover:opacity-80";
   }
 }
 
@@ -36,7 +39,25 @@ function sumRows(rows: HeatMapRow[]) {
 }
 
 export function RaidHeatMap({ rows }: Props) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const totals = sumRows(rows);
+
+  function handleCellClick(programmeCode: string, severity: string, count: number) {
+    if (count === 0) return;
+    const next = new URLSearchParams(searchParams.toString());
+    next.set("p", programmeCode);
+    next.set("severity", severity);
+    router.push(`${pathname}?${next.toString()}`, { scroll: false });
+  }
+
+  function handleRowClick(programmeCode: string) {
+    const next = new URLSearchParams(searchParams.toString());
+    next.set("p", programmeCode);
+    next.delete("severity");
+    router.push(`${pathname}?${next.toString()}`, { scroll: false });
+  }
 
   return (
     <div
@@ -48,7 +69,7 @@ export function RaidHeatMap({ rows }: Props) {
         <span className="text-text-subtle text-xs">Programme x Severity (open items only)</span>
       </div>
       <p className="text-text-muted text-xs mb-4">
-        Count of Open and Escalated RAID items per programme.
+        Count of Open and Escalated RAID items per programme. Click a cell to filter.
       </p>
 
       <div className="overflow-x-auto">
@@ -67,10 +88,13 @@ export function RaidHeatMap({ rows }: Props) {
             {rows.map((row) => (
               <tr
                 key={row.programmeCode}
-                className="hover:bg-border-subtle/40 transition cursor-pointer"
+                className="hover:bg-border-subtle/40 transition"
                 data-testid={`heat-map-row-${row.programmeCode}`}
               >
-                <td className="py-1.5 pr-3 text-text-primary font-medium">
+                <td
+                  className="py-1.5 pr-3 text-text-primary font-medium cursor-pointer hover:text-accent-gold transition-colors"
+                  onClick={() => handleRowClick(row.programmeCode)}
+                >
                   {row.programmeCode}
                 </td>
                 {(
@@ -84,6 +108,7 @@ export function RaidHeatMap({ rows }: Props) {
                   <td key={sev} className="py-1.5 px-2">
                     <div
                       className={`h-6 rounded font-mono font-bold tabular flex items-center justify-center ${cellClass(sev, count)}`}
+                      onClick={() => handleCellClick(row.programmeCode, sev, count)}
                       data-testid={`cell-${row.programmeCode}-${sev}`}
                     >
                       {count}

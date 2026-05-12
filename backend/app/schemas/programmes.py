@@ -81,3 +81,35 @@ class HealthSnapshotItem(BaseModel):
 class HealthListResponse(BaseModel):
     items: list[HealthSnapshotItem]
     count: int
+
+
+class ProgrammeListItem(BaseModel):
+    programme_code: str
+    programme_name: str
+    health_state: str | None
+
+
+class ProgrammeListResponse(BaseModel):
+    items: list[ProgrammeListItem]
+    count: int
+
+
+class ProgrammeRaidSummary(BaseModel):
+    total: int
+    by_type: dict[str, int]
+    by_severity: dict[str, int]
+
+
+class ProgrammeMilestoneSummary(BaseModel):
+    total: int
+    completed: int
+    on_time_pct: float | None
+
+
+class ProgrammeDetail(BaseModel):
+    programme_code: str
+    programme_name: str
+    health_state: str | None
+    raid_summary: ProgrammeRaidSummary
+    milestone_summary: ProgrammeMilestoneSummary
+    latest_snapshot_at: datetime.datetime | None

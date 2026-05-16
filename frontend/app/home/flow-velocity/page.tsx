@@ -35,9 +35,15 @@ import { FlowWIPBars } from "@/components/FlowWIPBars";
 import { FlowSprintTable } from "@/components/FlowSprintTable";
 import { FlowDORASection } from "@/components/FlowDORASection";
 
-export default async function FlowVelocityPage(): Promise<JSX.Element> {
+export default async function FlowVelocityPage({
+  searchParams,
+}: {
+  searchParams: { p?: string };
+}): Promise<JSX.Element> {
   const token = cookies().get(SESSION_COOKIE)?.value ?? "";
   const user = await decodeSessionToken(token);
+
+  const activeProgramme = typeof searchParams.p === "string" ? searchParams.p : null;
 
   if (user === null) redirect("/login");
   if (!isFlowAllowed(user.role)) redirect("/home");
@@ -115,7 +121,7 @@ export default async function FlowVelocityPage(): Promise<JSX.Element> {
             <FlowCFDChart />
           </div>
           <div>
-            <FlowWIPBars rows={wipRows} />
+            <FlowWIPBars rows={wipRows} activeProgramme={activeProgramme} />
           </div>
         </div>
       </section>

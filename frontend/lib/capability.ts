@@ -22,6 +22,33 @@ export function isCapabilityAllowed(role: string): boolean {
   return CAPABILITY_ALLOWED_ROLES.has(role);
 }
 
+/**
+ * Build the GET /api/v1/people URL with optional programme and band filters.
+ * Null params are omitted. Both null returns the bare endpoint.
+ *
+ * buildPeopleUrl("PEGASUS", "B3") => "/api/v1/people?programme=PEGASUS&band=B3"
+ * buildPeopleUrl(null, "B3")      => "/api/v1/people?band=B3"
+ * buildPeopleUrl(null, null)      => "/api/v1/people"
+ */
+export function buildPeopleUrl(
+  programme: string | null,
+  band: string | null,
+): string {
+  const params = new URLSearchParams();
+  if (programme !== null) params.set("programme", programme);
+  if (band !== null) params.set("band", band);
+  const qs = params.toString();
+  return qs ? `/api/v1/people?${qs}` : "/api/v1/people";
+}
+
+/**
+ * Filter people by band. Excludes people with null band.
+ * Used for client-side tests and intersection logic verification.
+ */
+export function filterPeopleByBand(people: PersonItem[], band: string): PersonItem[] {
+  return people.filter((p) => p.band === band);
+}
+
 // ---------------------------------------------------------------------------
 // API types (mirror openapi.json PersonItem + PeopleListResponse)
 // ---------------------------------------------------------------------------

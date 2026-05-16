@@ -116,6 +116,33 @@ export interface ClientHealthWhat {
   delayedMilestones: number;
 }
 
+// ---------------------------------------------------------------------------
+// Signal column slugs for ?signal= URL param
+// ---------------------------------------------------------------------------
+
+/**
+ * Maps signal column display names to their ?signal= URL parameter values.
+ * Six signal columns in ClientSignalMatrix (same order as the table).
+ */
+export const SIGNAL_SLUGS: Record<string, string> = {
+  "Escalations 90d":   "escalations-90d",
+  "Missed Exec Mtgs":  "missed-exec-mtgs",
+  "Ticket Age":        "ticket-age",
+  "Last NPS":          "last-nps",
+  "Value Realisation": "value-realisation",
+  "Composite":         "composite",
+};
+
+/** Ordered list of signal column display names, matching table column order. */
+export const SIGNAL_COLUMNS = [
+  "Escalations 90d",
+  "Missed Exec Mtgs",
+  "Ticket Age",
+  "Last NPS",
+  "Value Realisation",
+  "Composite",
+] as const;
+
 export function buildClientHealthWhat(
   states: ProgrammeClientState[],
   allMilestones: MilestoneItem[],

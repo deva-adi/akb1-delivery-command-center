@@ -50,6 +50,33 @@ export const SLA_CATEGORIES = [
 
 export type SLACategory = (typeof SLA_CATEGORIES)[number];
 
+/**
+ * URL-safe slugs for each SLA category.
+ * Used as the ?sla= query param value when a column or cell is drilled.
+ * "Ticket MTTR" maps to "incident-response" per M10-5 gate spec.
+ */
+export const SLA_SLUGS: Record<SLACategory, string> = {
+  "Uptime": "uptime",
+  "Ticket MTTR": "incident-response",
+  "Response": "response",
+  "Quality": "quality",
+  "Release": "change-mgmt",
+  "Support": "support",
+};
+
+/**
+ * Reverse map: slug -> SLACategory.
+ * Used to translate an incoming ?sla= param back to the display category.
+ */
+export const SLA_SLUG_TO_CATEGORY: Record<string, SLACategory> = {
+  "uptime": "Uptime",
+  "incident-response": "Ticket MTTR",
+  "response": "Response",
+  "quality": "Quality",
+  "change-mgmt": "Release",
+  "support": "Support",
+};
+
 /** Rendered cell state derived from health sub-RAG proxy. */
 export type SLACellState = "BREACH" | "RED" | "AMBER" | "GREEN";
 

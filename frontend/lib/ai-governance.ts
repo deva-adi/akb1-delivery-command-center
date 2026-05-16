@@ -72,6 +72,24 @@ export function getAccessLevel(role: string, apFlag: boolean): AIGovAccessLevel 
 // Static constants
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// Tier column slugs for ?tier= URL param
+// ---------------------------------------------------------------------------
+
+/**
+ * Maps AI risk tier display names to their ?tier= URL parameter values.
+ * Four tier columns in AIGovRiskTierMatrix (same order as the table).
+ */
+export const AI_TIER_SLUGS: Record<string, string> = {
+  "Green":       "green",
+  "Amber":       "amber",
+  "Red":         "red",
+  "Red Pending": "red-pending",
+};
+
+/** Ordered list of tier display names, matching table column order. */
+export const AI_TIER_COLUMNS = ["Green", "Amber", "Red", "Red Pending"] as const;
+
 export const RISK_TIERS = ["Green", "Amber", "Red"] as const;
 export type RiskTier = (typeof RISK_TIERS)[number];
 

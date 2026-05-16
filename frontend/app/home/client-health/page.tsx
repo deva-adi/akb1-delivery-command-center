@@ -33,12 +33,19 @@ import { ClientHealthRadar } from "@/components/ClientHealthRadar";
 import { ClientInterventionPlaybook } from "@/components/ClientInterventionPlaybook";
 import { ClientHealthRev4Section } from "@/components/ClientHealthRev4Section";
 
-export default async function ClientHealthPage(): Promise<JSX.Element> {
+export default async function ClientHealthPage({
+  searchParams,
+}: {
+  searchParams: { p?: string; signal?: string };
+}): Promise<JSX.Element> {
   const token = cookies().get(SESSION_COOKIE)?.value ?? "";
   const user = await decodeSessionToken(token);
 
   if (user === null) redirect("/login");
   if (!isClientHealthAllowed(user.role)) redirect("/home");
+
+  const activeProgramme = typeof searchParams.p === "string" ? searchParams.p : null;
+  const activeSignal = typeof searchParams.signal === "string" ? searchParams.signal : null;
 
   const [healthResults, milestoneResults] = await Promise.all([
     Promise.allSettled(
@@ -107,7 +114,12 @@ export default async function ClientHealthPage(): Promise<JSX.Element> {
       </section>
 
       <section className="px-8 pb-6">
-        <ClientSignalMatrix states={states} intel={intel} />
+        <ClientSignalMatrix
+          states={states}
+          intel={intel}
+          activeProgramme={activeProgramme}
+          activeSignal={activeSignal}
+        />
       </section>
 
       <section className="px-8 pb-6">

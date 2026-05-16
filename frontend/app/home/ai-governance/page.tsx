@@ -38,12 +38,19 @@ import {
 } from "@/components/AIGovCharts";
 import { AIGovPendingBacklog } from "@/components/AIGovPendingBacklog";
 
-export default async function AIGovernancePage(): Promise<JSX.Element> {
+export default async function AIGovernancePage({
+  searchParams,
+}: {
+  searchParams: { p?: string; tier?: string };
+}): Promise<JSX.Element> {
   const token = cookies().get(SESSION_COOKIE)?.value ?? "";
   const user = await decodeSessionToken(token);
 
   if (user === null) redirect("/login");
   if (!isAIGovAllowed(user.role)) redirect("/home");
+
+  const activeProgramme = typeof searchParams.p === "string" ? searchParams.p : null;
+  const activeTier = typeof searchParams.tier === "string" ? searchParams.tier : null;
 
   const accessLevel = getAccessLevel(user.role, user.apFlag);
 
@@ -77,7 +84,11 @@ export default async function AIGovernancePage(): Promise<JSX.Element> {
       </section>
 
       <section className="px-8 pb-6">
-        <AIGovRiskTierMatrix accessLevel={accessLevel} />
+        <AIGovRiskTierMatrix
+          accessLevel={accessLevel}
+          activeProgramme={activeProgramme}
+          activeTier={activeTier}
+        />
       </section>
 
       <section className="px-8 pb-6">

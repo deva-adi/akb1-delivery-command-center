@@ -1,8 +1,30 @@
-import type { SLAMatrixRow, SLACellState } from "@/lib/ops-sla";
-import { SLA_CATEGORIES } from "@/lib/ops-sla";
+"use client";
+
+/**
+ * SLA Status Matrix with drill interactivity (M10-5).
+ *
+ * Click a cell        -> sets ?p=CODE&sla=SLUG
+ * Click a row header  -> sets ?p=CODE, clears ?sla=
+ * Click a col header  -> sets ?sla=SLUG, preserves ?p= if active
+ *
+ * activeProgramme and activeSla come from ops-sla/page.tsx (server searchParams).
+ * useRouter is used for navigation; useSearchParams is NOT used here to avoid
+ * requiring a Suspense boundary on this component.
+ *
+ * Highlighting:
+ *   active row   -- gold background tint on the entire row
+ *   active col   -- gold underline on the column header
+ *   active cell  -- gold ring-2 on the cell badge (intersection of row + col)
+ */
+
+import { useRouter } from "next/navigation";
+import type { SLAMatrixRow, SLACellState, SLACategory } from "@/lib/ops-sla";
+import { SLA_CATEGORIES, SLA_SLUGS } from "@/lib/ops-sla";
 
 interface Props {
   rows: SLAMatrixRow[];
+  activeProgramme: string | null;
+  activeSla: string | null;
 }
 
 function cellStyle(state: SLACellState): string {
@@ -12,7 +34,42 @@ function cellStyle(state: SLACellState): string {
   return "bg-status-green text-bg-base";
 }
 
-export function OpsSLAMatrix({ rows }: Props) {
+export function OpsSLAMatrix({ rows, activeProgramme, activeSla }: Props) {
+  const router = useRouter();
+
+  function handleCellClick(programmeCode: string, category: SLACategory) {
+    const slug = SLA_SLUGS[category];
+    const params = new URLSearchParams();
+    params.set("p", programmeCode);
+    params.set("sla", slug);
+    router.push(`/home/ops-sla?${params.toString()}`, { scroll: false });
+  }
+
+  function handleRowHeaderClick(programmeCode: string) {
+    const params = new URLSearchParams();
+    params.set("p", programmeCode);
+    // ?sla= intentionally cleared: row header drill is programme-only
+    router.push(`/home/ops-sla?${params.toString()}`, { scroll: false });
+  }
+
+  function handleColHeaderClick(category: SLACategory) {
+    const slug = SLA_SLUGS[category];
+    const params = new URLSearchParams();
+    if (activeProgramme !== null) params.set("p", activeProgramme);
+    params.set("sla", slug);
+    router.push(`/home/ops-sla?${params.toString()}`, { scroll: false });
+  }
+
+  function handleKeyActivate(
+    e: React.KeyboardEvent,
+    action: () => void,
+  ) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      action();
+    }
+  }
+
   if (rows.length === 0) {
     return (
       <div
@@ -38,42 +95,99 @@ export function OpsSLAMatrix({ rows }: Props) {
         </span>
       </div>
       <p className="text-text-muted text-xs mb-4">
-        Derived from health snapshot sub-RAGs. Cells show BREACH when overall RAG is Failing, RED
-        when Red, AMBER when Amber or Watching, GREEN otherwise.
+        Click a cell to scope programme and SLA category. Click a row header to scope by programme.
+        Click a column header to scope by SLA category. Derived from health snapshot sub-RAGs.
       </p>
 
       <div className="overflow-x-auto">
         <table className="w-full text-[11px]">
           <thead>
-            <tr className="text-text-muted text-[10px] uppercase tracking-wider">
-              <th className="text-left py-2 pr-3 font-medium">Programme</th>
-              {SLA_CATEGORIES.map((cat) => (
-                <th key={cat} className="py-2 px-1 text-center font-medium">
-                  {cat}
-                </th>
-              ))}
+            <tr className="text-[10px] uppercase tracking-wider">
+              <th className="text-left py-2 pr-3 font-medium text-text-muted">Programme</th>
+              {SLA_CATEGORIES.map((cat) => {
+                const slug = SLA_SLUGS[cat];
+                const isColActive = activeSla === slug;
+                return (
+                  <th
+                    key={cat}
+                    className={`py-2 px-1 text-center font-medium cursor-pointer select-none transition-colors hover:text-accent-gold ${
+                      isColActive
+                        ? "text-accent-gold underline underline-offset-2"
+                        : "text-text-muted"
+                    }`}
+                    onClick={() => handleColHeaderClick(cat)}
+                    onKeyDown={(e) => handleKeyActivate(e, () => handleColHeaderClick(cat))}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Filter by SLA category ${cat}`}
+                    data-testid={`sla-col-header-${slug}`}
+                  >
+                    {cat}
+                  </th>
+                );
+              })}
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
-              <tr
-                key={row.programmeCode}
-                className="hover:bg-bg-surface-subtle/50 transition cursor-pointer"
-              >
-                <td className="py-1.5 pr-3 text-text-primary font-semibold">
-                  {row.programmeCode}
-                </td>
-                {row.cells.map((cell) => (
-                  <td key={cell.category} className="py-1.5 px-1">
-                    <div
-                      className={`h-7 rounded flex items-center justify-center text-[10px] font-mono tabular ${cellStyle(cell.state)}`}
-                    >
-                      {cell.state}
-                    </div>
+            {rows.map((row) => {
+              const isRowActive = activeProgramme === row.programmeCode;
+              return (
+                <tr
+                  key={row.programmeCode}
+                  className={`transition-colors ${
+                    isRowActive
+                      ? "bg-accent-gold/10"
+                      : "hover:bg-bg-surface-subtle/50"
+                  }`}
+                >
+                  <td
+                    className={`py-1.5 pr-3 font-semibold cursor-pointer select-none transition-colors hover:text-accent-gold ${
+                      isRowActive ? "text-accent-gold" : "text-text-primary"
+                    }`}
+                    onClick={() => handleRowHeaderClick(row.programmeCode)}
+                    onKeyDown={(e) =>
+                      handleKeyActivate(e, () => handleRowHeaderClick(row.programmeCode))
+                    }
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Filter by programme ${row.programmeCode}`}
+                    data-testid={`sla-row-header-${row.programmeCode}`}
+                  >
+                    {row.programmeCode}
                   </td>
-                ))}
-              </tr>
-            ))}
+                  {row.cells.map((cell) => {
+                    const slug = SLA_SLUGS[cell.category];
+                    const isColActive = activeSla === slug;
+                    const isCellActive = isRowActive && isColActive;
+                    return (
+                      <td key={cell.category} className="py-1.5 px-1">
+                        <div
+                          className={`h-7 rounded flex items-center justify-center text-[10px] font-mono tabular-nums cursor-pointer hover:opacity-80 transition-opacity ${cellStyle(cell.state)} ${
+                            isCellActive
+                              ? "ring-2 ring-accent-gold ring-inset"
+                              : isColActive
+                                ? "ring-1 ring-accent-gold/50 ring-inset"
+                                : ""
+                          }`}
+                          onClick={() => handleCellClick(row.programmeCode, cell.category)}
+                          onKeyDown={(e) =>
+                            handleKeyActivate(e, () =>
+                              handleCellClick(row.programmeCode, cell.category),
+                            )
+                          }
+                          role="button"
+                          tabIndex={0}
+                          aria-label={`${row.programmeCode} ${cell.category}: ${cell.state}`}
+                          data-testid={`sla-cell-${row.programmeCode}-${slug}`}
+                        >
+                          {cell.state}
+                        </div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

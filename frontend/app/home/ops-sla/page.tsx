@@ -35,12 +35,19 @@ import { OpsSLABreachTable } from "@/components/OpsSLABreachTable";
 import { OpsDecisionQueue } from "@/components/OpsDecisionQueue";
 import { OpsRev4Section } from "@/components/OpsRev4Section";
 
-export default async function OpsSLAPage(): Promise<JSX.Element> {
+export default async function OpsSLAPage({
+  searchParams,
+}: {
+  searchParams: { p?: string; sla?: string };
+}): Promise<JSX.Element> {
   const token = cookies().get(SESSION_COOKIE)?.value ?? "";
   const user = await decodeSessionToken(token);
 
   if (user === null) redirect("/login");
   if (!isOpsAllowed(user.role)) redirect("/home");
+
+  const activeProgramme = typeof searchParams.p === "string" ? searchParams.p : null;
+  const activeSla = typeof searchParams.sla === "string" ? searchParams.sla : null;
 
   const [healthResults, milestoneResults] = await Promise.all([
     Promise.allSettled(
@@ -111,7 +118,11 @@ export default async function OpsSLAPage(): Promise<JSX.Element> {
       <section className="px-8 pb-6">
         <div className="grid grid-cols-3 gap-6">
           <div className="col-span-2">
-            <OpsSLAMatrix rows={matrixRows} />
+            <OpsSLAMatrix
+                rows={matrixRows}
+                activeProgramme={activeProgramme}
+                activeSla={activeSla}
+              />
           </div>
           <div>
             <OpsIncidentTrend />

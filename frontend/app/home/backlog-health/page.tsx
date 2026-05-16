@@ -39,12 +39,18 @@ import { BacklogAgingHistogram } from "@/components/BacklogAgingHistogram";
 import { BacklogDoRBars } from "@/components/BacklogDoRBars";
 import { BacklogProgrammeTable } from "@/components/BacklogProgrammeTable";
 
-export default async function BacklogHealthPage(): Promise<JSX.Element> {
+export default async function BacklogHealthPage({
+  searchParams,
+}: {
+  searchParams: { p?: string };
+}): Promise<JSX.Element> {
   const token = cookies().get(SESSION_COOKIE)?.value ?? "";
   const user = await decodeSessionToken(token);
 
   if (user === null) redirect("/login");
   if (!isBacklogHealthAllowed(user.role)) redirect("/home");
+
+  const activeProgramme = typeof searchParams.p === "string" ? searchParams.p : null;
 
   const [healthResults, milestoneResults] = await Promise.all([
     Promise.allSettled(
@@ -123,7 +129,7 @@ export default async function BacklogHealthPage(): Promise<JSX.Element> {
       </section>
 
       <section className="px-8 pb-6">
-        <BacklogProgrammeTable states={states} />
+        <BacklogProgrammeTable states={states} activeProgramme={activeProgramme} />
       </section>
     </div>
   );

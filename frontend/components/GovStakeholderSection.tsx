@@ -1,17 +1,38 @@
+"use client";
+
 /**
  * Stakeholder Influence Map (stub) + Over-Optimism Portfolio (real data) +
  * Escalation Timing (stub).
+ *
+ * Over-optimism rows are clickable: sets ?p=CODE via router.push.
+ * Active row gets bg-accent-gold/10. Pattern: BacklogProgrammeTable.
  */
 
+import { useRouter } from "next/navigation";
 import type { OverOptimismRow } from "@/lib/governance";
 
 interface Props {
   overOptimismRows: OverOptimismRow[];
+  activeProgramme: string | null;
 }
 
-export function GovStakeholderSection({ overOptimismRows }: Props) {
+export function GovStakeholderSection({ overOptimismRows, activeProgramme }: Props) {
+  const router = useRouter();
   const flaggedRows = overOptimismRows.filter((r) => r.flagged);
   const displayed = overOptimismRows.slice(0, 6);
+
+  function handleRowClick(code: string) {
+    const params = new URLSearchParams();
+    params.set("p", code);
+    router.push(`/home/governance-operating-model?${params.toString()}`, { scroll: false });
+  }
+
+  function handleKeyActivate(e: React.KeyboardEvent, action: () => void) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      action();
+    }
+  }
 
   return (
     <section
@@ -58,37 +79,51 @@ export function GovStakeholderSection({ overOptimismRows }: Props) {
           <div className="text-text-subtle text-sm py-4 text-center">No health data in scope.</div>
         ) : (
           <div className="space-y-2">
-            {displayed.map((row) => (
-              <div
-                key={row.programmeCode}
-                className={`flex items-center justify-between text-xs p-2 rounded ${
-                  row.flagged ? "bg-status-red/10" : ""
-                }`}
-                data-testid={`over-optimism-row-${row.programmeCode}`}
-              >
-                <span className="text-text-primary">{row.programmeCode}</span>
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-text-muted">
-                    {row.greenSnapshotCount} green period{row.greenSnapshotCount !== 1 ? "s" : ""}
+            {displayed.map((row) => {
+              const isActive = activeProgramme === row.programmeCode;
+              return (
+                <div
+                  key={row.programmeCode}
+                  className={`flex items-center justify-between text-xs p-2 rounded cursor-pointer select-none transition-colors hover:bg-bg-surface-elevated/50 ${
+                    isActive
+                      ? "bg-accent-gold/10"
+                      : row.flagged
+                        ? "bg-status-red/10"
+                        : ""
+                  }`}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => handleRowClick(row.programmeCode)}
+                  onKeyDown={(e) => handleKeyActivate(e, () => handleRowClick(row.programmeCode))}
+                  aria-label={`Filter by programme ${row.programmeCode}`}
+                  data-testid={`governance-row-${row.programmeCode}`}
+                >
+                  <span className={isActive ? "text-accent-gold font-semibold" : "text-text-primary"}>
+                    {row.programmeCode}
                   </span>
-                  {row.flagged ? (
-                    <span
-                      className="px-1.5 py-0.5 bg-status-red/30 text-status-red rounded text-[10px]"
-                      data-testid={`flagged-badge-${row.programmeCode}`}
-                    >
-                      Flagged
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-text-muted">
+                      {row.greenSnapshotCount} green period{row.greenSnapshotCount !== 1 ? "s" : ""}
                     </span>
-                  ) : (
-                    <span
-                      className="px-1.5 py-0.5 bg-status-green/20 text-status-green rounded text-[10px]"
-                      data-testid={`ok-badge-${row.programmeCode}`}
-                    >
-                      OK
-                    </span>
-                  )}
+                    {row.flagged ? (
+                      <span
+                        className="px-1.5 py-0.5 bg-status-red/30 text-status-red rounded text-[10px]"
+                        data-testid={`flagged-badge-${row.programmeCode}`}
+                      >
+                        Flagged
+                      </span>
+                    ) : (
+                      <span
+                        className="px-1.5 py-0.5 bg-status-green/20 text-status-green rounded text-[10px]"
+                        data-testid={`ok-badge-${row.programmeCode}`}
+                      >
+                        OK
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

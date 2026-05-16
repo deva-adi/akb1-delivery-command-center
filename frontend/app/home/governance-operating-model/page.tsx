@@ -37,7 +37,12 @@ import { GovPreReadSection } from "@/components/GovPreReadSection";
 import { GovStakeholderSection } from "@/components/GovStakeholderSection";
 import { GovAdminSection } from "@/components/GovAdminSection";
 
-export default async function GovernancePage(): Promise<JSX.Element> {
+export default async function GovernancePage({
+  searchParams,
+}: {
+  searchParams: { p?: string };
+}): Promise<JSX.Element> {
+  const activeProgramme = typeof searchParams.p === "string" ? searchParams.p : null;
   const token = cookies().get(SESSION_COOKIE)?.value ?? "";
   const user = await decodeSessionToken(token);
 
@@ -125,7 +130,7 @@ export default async function GovernancePage(): Promise<JSX.Element> {
 
         <GovPreReadSection />
 
-        <GovStakeholderSection overOptimismRows={overOptimismRows} />
+        <GovStakeholderSection overOptimismRows={overOptimismRows} activeProgramme={activeProgramme} />
 
         <GovAdminSection
           tierConfigItems={tierConfigItems}

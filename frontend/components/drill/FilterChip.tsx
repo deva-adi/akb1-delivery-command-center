@@ -20,7 +20,10 @@ export function FilterChip({ label, paramKey }: FilterChipProps): JSX.Element {
   }
 
   return (
-    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent-gold text-bg-base text-xs font-semibold">
+    <span
+      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent-gold text-bg-base text-xs font-semibold"
+      data-testid={`filter-chip-${paramKey}`}
+    >
       {label}
       <button
         type="button"

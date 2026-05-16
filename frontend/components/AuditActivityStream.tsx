@@ -3,46 +3,43 @@
 /**
  * Audit Trail Console activity stream.
  *
- * Client component: manages filter state, paginates via the
- * /api/audit/search Route Handler proxy, and expands rows by
- * fetching /api/audit/entry/{id} via the Route Handler proxy.
+ * Client component: manages time window and method filter state, paginates
+ * via the /api/audit/search Route Handler proxy. Row clicks navigate to
+ * the Level 2 detail route /home/audit-trail-console/{entry_id}.
  *
- * AP enforcement is handled entirely by the backend; this component
- * surfaces the 403 responses as inline messages without reproducing
- * the access logic.
+ * URL-driven filters (actor, table, from, to, outcome) are passed as props
+ * from the server page and shown as clearable FilterChips.
+ *
+ * AP enforcement is handled entirely by the backend.
  */
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, Suspense } from "react";
+import { useRouter } from "next/navigation";
 import type {
   AuditSearchEntry,
   AuditSearchResponse,
-  AuditEntryDetail,
 } from "@/lib/audit-console";
 import {
   formatTimestamp,
   methodChip,
   outcomeChip,
   roleChip,
-  buildDiffLines,
-  type DiffLine,
 } from "@/lib/audit-console";
+import { FilterChip } from "@/components/drill/FilterChip";
 
 type TimeWindow = "24h" | "7d" | "30d" | "90d";
-type ExpandState = "loading" | "loaded" | "denied" | "error";
 
 interface Props {
   initialItems: AuditSearchEntry[];
   initialTotalCount: number;
   initialNextCursor: string | null;
-  /** True when the server-side initial fetch returned 403 (AP or role denial). */
   apDenied: boolean;
-  /** Whether the current user can request per-entry detail (ap_flag=true). */
   canSeeDetail: boolean;
-}
-
-interface ExpandedEntry {
-  state: ExpandState;
-  detail: AuditEntryDetail | null;
+  filterActor: string | null;
+  filterTable: string | null;
+  filterFrom: string | null;
+  filterTo: string | null;
+  filterOutcome: string | null;
 }
 
 const TIME_WINDOWS: TimeWindow[] = ["24h", "7d", "30d", "90d"];
@@ -71,8 +68,14 @@ export function AuditActivityStream({
   initialTotalCount,
   initialNextCursor,
   apDenied,
-  canSeeDetail,
+  canSeeDetail: _canSeeDetail,
+  filterActor,
+  filterTable,
+  filterFrom,
+  filterTo,
+  filterOutcome,
 }: Props): JSX.Element {
+  const router = useRouter();
   const [timeWindow, setTimeWindow] = useState<TimeWindow>("7d");
   const [httpMethod, setHttpMethod] = useState("");
   const [outcome, setOutcome] = useState("");
@@ -83,11 +86,6 @@ export function AuditActivityStream({
   const [fetchError, setFetchError] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
-
-  const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [expandedEntries, setExpandedEntries] = useState<
-    Map<string, ExpandedEntry>
-  >(new Map());
 
   const isInitialRender = useRef(true);
 
@@ -127,7 +125,6 @@ export function AuditActivityStream({
           setItems((prev) => [...prev, ...data.items]);
         } else {
           setItems(data.items);
-          setExpandedId(null);
         }
         setTotalCount(data.total_count);
         setNextCursor(data.next_cursor ?? null);
@@ -152,44 +149,21 @@ export function AuditActivityStream({
     void fetchItems();
   }, [timeWindow, httpMethod, outcome, fetchItems]);
 
-  async function expandRow(entryId: string): Promise<void> {
-    if (expandedId === entryId) {
-      setExpandedId(null);
-      return;
+  // Client-side filter applied on top of the fetched page.
+  const displayedItems = items.filter((item) => {
+    if (filterActor && item.actor_user_id !== filterActor) return false;
+    if (filterTable && item.resource_type !== filterTable) return false;
+    if (filterOutcome && item.outcome !== filterOutcome) return false;
+    if (filterFrom) {
+      const from = new Date(filterFrom);
+      if (new Date(item.occurred_at) < from) return false;
     }
-
-    setExpandedId(entryId);
-
-    if (expandedEntries.has(entryId)) return;
-
-    setExpandedEntries((prev) =>
-      new Map(prev).set(entryId, { state: "loading", detail: null }),
-    );
-
-    try {
-      const response = await fetch(`/api/audit/entry/${entryId}`);
-      if (response.status === 403) {
-        setExpandedEntries((prev) =>
-          new Map(prev).set(entryId, { state: "denied", detail: null }),
-        );
-        return;
-      }
-      if (!response.ok) {
-        setExpandedEntries((prev) =>
-          new Map(prev).set(entryId, { state: "error", detail: null }),
-        );
-        return;
-      }
-      const detail = (await response.json()) as AuditEntryDetail;
-      setExpandedEntries((prev) =>
-        new Map(prev).set(entryId, { state: "loaded", detail }),
-      );
-    } catch {
-      setExpandedEntries((prev) =>
-        new Map(prev).set(entryId, { state: "error", detail: null }),
-      );
+    if (filterTo) {
+      const to = new Date(filterTo);
+      if (new Date(item.occurred_at) > to) return false;
     }
-  }
+    return true;
+  });
 
   if (apDenied) {
     return (
@@ -209,6 +183,38 @@ export function AuditActivityStream({
 
   return (
     <div>
+      {/* URL-driven filter chips */}
+      {(filterActor || filterTable || filterFrom || filterTo || filterOutcome) && (
+        <div className="flex items-center gap-2 flex-wrap mb-4" data-testid="url-filter-chips">
+          <span className="text-text-muted text-xs">Active filters:</span>
+          {filterActor && (
+            <Suspense fallback={<span className="text-accent-gold text-xs font-semibold">actor</span>}>
+              <FilterChip label={filterActor.slice(0, 8)} paramKey="actor" />
+            </Suspense>
+          )}
+          {filterTable && (
+            <Suspense fallback={<span className="text-accent-gold text-xs font-semibold">{filterTable}</span>}>
+              <FilterChip label={filterTable} paramKey="table" />
+            </Suspense>
+          )}
+          {filterFrom && (
+            <Suspense fallback={<span className="text-accent-gold text-xs font-semibold">from {filterFrom}</span>}>
+              <FilterChip label={`from ${filterFrom}`} paramKey="from" />
+            </Suspense>
+          )}
+          {filterTo && (
+            <Suspense fallback={<span className="text-accent-gold text-xs font-semibold">to {filterTo}</span>}>
+              <FilterChip label={`to ${filterTo}`} paramKey="to" />
+            </Suspense>
+          )}
+          {filterOutcome && (
+            <Suspense fallback={<span className="text-accent-gold text-xs font-semibold">{filterOutcome}</span>}>
+              <FilterChip label={filterOutcome} paramKey="outcome" />
+            </Suspense>
+          )}
+        </div>
+      )}
+
       <FilterBar
         timeWindow={timeWindow}
         httpMethod={httpMethod}
@@ -224,7 +230,7 @@ export function AuditActivityStream({
           <span className="text-text-muted text-xs">
             {filterLoading
               ? "Loading..."
-              : `Showing ${items.length} of ${totalCount.toLocaleString()} results`}
+              : `Showing ${displayedItems.length} of ${totalCount.toLocaleString()} results`}
           </span>
         </div>
 
@@ -237,17 +243,16 @@ export function AuditActivityStream({
         )}
 
         <div className="divide-y divide-border-subtle" data-testid="audit-stream">
-          {items.length === 0 && !filterLoading ? (
+          {displayedItems.length === 0 && !filterLoading ? (
             <EmptyState />
           ) : (
-            items.map((item) => (
+            displayedItems.map((item) => (
               <AuditStreamRow
                 key={item.entry_id}
                 item={item}
-                expanded={expandedId === item.entry_id}
-                expandedEntry={expandedEntries.get(item.entry_id) ?? null}
-                canSeeDetail={canSeeDetail}
-                onExpand={() => void expandRow(item.entry_id)}
+                onNavigate={() =>
+                  router.push(`/home/audit-trail-console/${item.entry_id}`)
+                }
               />
             ))
           )}
@@ -256,7 +261,7 @@ export function AuditActivityStream({
         {nextCursor !== null && (
           <div className="border-t border-border-subtle px-4 py-3 flex items-center justify-between text-xs text-text-muted">
             <span>
-              Showing {items.length} of {totalCount.toLocaleString()}
+              Showing {displayedItems.length} of {totalCount.toLocaleString()}
             </span>
             <button
               onClick={() => void fetchItems(nextCursor)}
@@ -274,7 +279,7 @@ export function AuditActivityStream({
 }
 
 // ---------------------------------------------------------------------------
-// Filter bar
+// Filter bar (component-controlled, not URL-driven)
 // ---------------------------------------------------------------------------
 
 interface FilterBarProps {
@@ -378,83 +383,8 @@ function FilterBar({
 }
 
 // ---------------------------------------------------------------------------
-// Individual stream row
+// Individual stream row -- click navigates to Level 2 detail route
 // ---------------------------------------------------------------------------
-
-interface RowProps {
-  item: AuditSearchEntry;
-  expanded: boolean;
-  expandedEntry: ExpandedEntry | null;
-  canSeeDetail: boolean;
-  onExpand: () => void;
-}
-
-function AuditStreamRow({
-  item,
-  expanded,
-  expandedEntry,
-  canSeeDetail,
-  onExpand,
-}: RowProps): JSX.Element {
-  const mChip = methodChip(item.http_method);
-  const oChip = outcomeChip(item.outcome);
-  const rChip = roleChip(item.actor_role);
-  const shortRole = ROLE_ABBREV[item.actor_role] ?? item.actor_role.slice(0, 4).toUpperCase();
-  const shortUuid = item.actor_user_id.slice(0, 8);
-
-  return (
-    <>
-      <div
-        className="px-4 py-2 hover:bg-bg-surface-elevated/30 cursor-pointer text-xs flex items-center gap-3"
-        onClick={onExpand}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => e.key === "Enter" && onExpand()}
-        aria-expanded={expanded}
-        data-testid={`audit-row-${item.entry_id}`}
-      >
-        <span className="font-mono text-text-muted tabular-nums w-36 shrink-0">
-          {formatTimestamp(item.occurred_at)}
-        </span>
-        <span className="text-text-secondary w-28 shrink-0 font-mono text-[11px] truncate" title={item.actor_user_id}>
-          {shortUuid}
-        </span>
-        <span
-          className={`px-1.5 py-0.5 ${rChip.bg} ${rChip.text} rounded text-[10px] w-12 text-center shrink-0`}
-        >
-          {shortRole}
-        </span>
-        <span
-          className={`px-1.5 py-0.5 ${mChip.bg} ${mChip.text} rounded text-[10px] w-14 text-center shrink-0`}
-        >
-          {item.http_method}
-        </span>
-        <span className="font-mono text-text-secondary flex-1 truncate" title={item.endpoint}>
-          {item.endpoint}
-        </span>
-        <span className="text-text-secondary w-40 shrink-0 truncate" title={item.resource_type}>
-          {item.resource_type}
-          {item.resource_id !== null && (
-            <span className="text-text-subtle"> #{item.resource_id.slice(0, 8)}</span>
-          )}
-        </span>
-        <span
-          className={`px-1.5 py-0.5 ${oChip.bg} ${oChip.text} rounded text-[10px] w-20 text-center shrink-0`}
-        >
-          {item.outcome}
-        </span>
-      </div>
-
-      {expanded && (
-        <ExpandedRow
-          item={item}
-          expandedEntry={expandedEntry}
-          canSeeDetail={canSeeDetail}
-        />
-      )}
-    </>
-  );
-}
 
 const ROLE_ABBREV: Record<string, string> = {
   PortfolioOwner:    "PO",
@@ -465,133 +395,64 @@ const ROLE_ABBREV: Record<string, string> = {
   ReadOnly:          "RO",
 };
 
-// ---------------------------------------------------------------------------
-// Expanded row: diff view
-// ---------------------------------------------------------------------------
-
-interface ExpandedRowProps {
+interface RowProps {
   item: AuditSearchEntry;
-  expandedEntry: ExpandedEntry | null;
-  canSeeDetail: boolean;
+  onNavigate: () => void;
 }
 
-function ExpandedRow({
-  item,
-  expandedEntry,
-  canSeeDetail,
-}: ExpandedRowProps): JSX.Element {
-  if (!canSeeDetail) {
-    return (
-      <div
-        className="px-4 py-3 bg-bg-surface-subtle border-b border-border-subtle"
-        data-testid="ap-required-message"
-      >
-        <p className="text-text-muted text-xs">
-          Audit Permission required to view full pre- and post-state. Aggregate metadata visible above.
-        </p>
-      </div>
-    );
-  }
-
-  if (expandedEntry === null || expandedEntry.state === "loading") {
-    return (
-      <div className="px-4 py-3 bg-bg-surface-subtle border-b border-border-subtle">
-        <p className="text-text-muted text-xs">Loading entry detail...</p>
-      </div>
-    );
-  }
-
-  if (expandedEntry.state === "denied") {
-    return (
-      <div
-        className="px-4 py-3 bg-bg-surface-subtle border-b border-border-subtle"
-        data-testid="ap-required-message"
-      >
-        <p className="text-text-muted text-xs">
-          Audit Permission required to view full pre- and post-state. Aggregate metadata visible above.
-        </p>
-      </div>
-    );
-  }
-
-  if (expandedEntry.state === "error" || expandedEntry.detail === null) {
-    return (
-      <div className="px-4 py-3 bg-bg-surface-subtle border-b border-border-subtle">
-        <p className="text-status-red text-xs">Failed to load entry detail.</p>
-      </div>
-    );
-  }
-
-  const detail = expandedEntry.detail;
-  const { beforeLines, afterLines } = buildDiffLines(
-    detail.before_json,
-    detail.after_json,
-    detail.diff,
-  );
+function AuditStreamRow({ item, onNavigate }: RowProps): JSX.Element {
+  const mChip = methodChip(item.http_method);
+  const oChip = outcomeChip(item.outcome);
+  const rChip = roleChip(item.actor_role);
+  const shortRole = ROLE_ABBREV[item.actor_role] ?? item.actor_role.slice(0, 4).toUpperCase();
+  const shortUuid = item.actor_user_id.slice(0, 8);
 
   return (
     <div
-      className="px-4 py-3 bg-bg-surface-subtle border-b border-border-subtle"
-      data-testid={`expanded-row-${item.entry_id}`}
+      className="px-4 py-2 hover:bg-bg-surface-elevated/30 cursor-pointer text-xs flex items-center gap-3"
+      onClick={onNavigate}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onNavigate();
+        }
+      }}
+      aria-label={`View audit entry ${item.entry_id}`}
+      data-testid={`audit-entry-row-${item.entry_id}`}
     >
-      <div className="grid grid-cols-2 gap-4 mb-3">
-        <DiffPanel label="Before" lines={beforeLines} />
-        <DiffPanel label="After" lines={afterLines} />
-      </div>
-      <div className="text-[10px] text-text-subtle">
-        Resource: {detail.resource_type}
-        {detail.resource_id !== null && ` #${detail.resource_id}`}
-        {" | "}Outcome: {detail.outcome}
-        {detail.ip_address !== null && ` | IP: ${detail.ip_address}`}
-      </div>
-    </div>
-  );
-}
-
-interface DiffPanelProps {
-  label: string;
-  lines: DiffLine[];
-}
-
-function DiffPanel({ label, lines }: DiffPanelProps): JSX.Element {
-  return (
-    <div>
-      <div className="text-text-muted text-[10px] uppercase tracking-wider mb-2">
-        {label}
-      </div>
-      <pre
-        className="font-mono text-[10px] text-text-secondary bg-bg-base border border-border-subtle rounded p-3 overflow-x-auto min-h-[3rem]"
-        data-testid={`diff-panel-${label.toLowerCase()}`}
+      <span className="font-mono text-text-muted tabular-nums w-36 shrink-0">
+        {formatTimestamp(item.occurred_at)}
+      </span>
+      <span className="text-text-secondary w-28 shrink-0 font-mono text-[11px] truncate" title={item.actor_user_id}>
+        {shortUuid}
+      </span>
+      <span
+        className={`px-1.5 py-0.5 ${rChip.bg} ${rChip.text} rounded text-[10px] w-12 text-center shrink-0`}
       >
-        {lines.length === 0 ? (
-          <span className="text-text-subtle">No snapshot</span>
-        ) : (
-          lines.map((line, idx) => (
-            <DiffLineRow key={`${line.key}-${idx}`} line={line} />
-          ))
+        {shortRole}
+      </span>
+      <span
+        className={`px-1.5 py-0.5 ${mChip.bg} ${mChip.text} rounded text-[10px] w-14 text-center shrink-0`}
+      >
+        {item.http_method}
+      </span>
+      <span className="font-mono text-text-secondary flex-1 truncate" title={item.endpoint}>
+        {item.endpoint}
+      </span>
+      <span className="text-text-secondary w-40 shrink-0 truncate" title={item.resource_type}>
+        {item.resource_type}
+        {item.resource_id !== null && (
+          <span className="text-text-subtle"> #{item.resource_id.slice(0, 8)}</span>
         )}
-      </pre>
+      </span>
+      <span
+        className={`px-1.5 py-0.5 ${oChip.bg} ${oChip.text} rounded text-[10px] w-20 text-center shrink-0`}
+      >
+        {item.outcome}
+      </span>
     </div>
-  );
-}
-
-function DiffLineRow({ line }: { line: DiffLine }): JSX.Element {
-  const isAdded = line.kind === "added" || line.kind === "changed-after";
-  const isRemoved = line.kind === "removed" || line.kind === "changed-before";
-
-  const lineClass = isAdded
-    ? "bg-status-green/15 text-[#86EFAC] block px-1"
-    : isRemoved
-      ? "bg-status-red/15 text-[#FCA5A5] block px-1"
-      : "block px-1";
-
-  const prefix = isAdded ? "+ " : isRemoved ? "- " : "  ";
-
-  return (
-    <span className={lineClass}>
-      {prefix}
-      {`"${line.key}": ${JSON.stringify(line.value)},`}
-    </span>
   );
 }
 

@@ -35,7 +35,16 @@ import {
 import { AuditKPIGrid } from "@/components/AuditKPIGrid";
 import { AuditActivityStream } from "@/components/AuditActivityStream";
 
-export default async function AuditConsolePage(): Promise<JSX.Element> {
+export default async function AuditConsolePage({
+  searchParams,
+}: {
+  searchParams: { actor?: string; table?: string; from?: string; to?: string; outcome?: string };
+}): Promise<JSX.Element> {
+  const filterActor = typeof searchParams.actor === "string" ? searchParams.actor : null;
+  const filterTable = typeof searchParams.table === "string" ? searchParams.table : null;
+  const filterFrom = typeof searchParams.from === "string" ? searchParams.from : null;
+  const filterTo = typeof searchParams.to === "string" ? searchParams.to : null;
+  const filterOutcome = typeof searchParams.outcome === "string" ? searchParams.outcome : null;
   const token = cookies().get(SESSION_COOKIE)?.value ?? "";
   const user = await decodeSessionToken(token);
 
@@ -92,6 +101,11 @@ export default async function AuditConsolePage(): Promise<JSX.Element> {
           initialNextCursor={initialData?.next_cursor ?? null}
           apDenied={apDenied}
           canSeeDetail={canSeeDetail}
+          filterActor={filterActor}
+          filterTable={filterTable}
+          filterFrom={filterFrom}
+          filterTo={filterTo}
+          filterOutcome={filterOutcome}
         />
       </main>
     </div>

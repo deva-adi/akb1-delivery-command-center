@@ -103,9 +103,13 @@ FRONTEND_FETCHES: frozenset[tuple[str, str]] = frozenset({
     ("GET",   "/api/v1/admin/threshold-register"),
     ("GET",   "/api/v1/admin/tier-config"),
     ("GET",   "/api/v1/people"),
+    ("GET",   "/api/v1/programmes"),
+    ("GET",   "/api/v1/programmes/{code}"),
     ("GET",   "/api/v1/programmes/{code}/health"),
     ("GET",   "/api/v1/programmes/{code}/milestones"),
+    ("GET",   "/api/v1/programmes/{code}/milestones/{milestone_id}"),
     ("GET",   "/api/v1/programmes/{code}/raids"),
+    ("GET",   "/api/v1/programmes/{code}/raids/{raid_id}"),
     ("GET",   "/api/v1/audit/search"),
     ("GET",   "/api/v1/audit/entry/{entry_id}"),
     ("POST",  "/api/v1/auth/login"),
@@ -128,7 +132,7 @@ class TestFrontendFetchCoverage:
         )
 
     def test_frontend_fetch_count_matches_expected(self):
-        assert len(FRONTEND_FETCHES) == 9, (
+        assert len(FRONTEND_FETCHES) == 13, (
             "FRONTEND_FETCHES changed size -- update this count if intentional"
         )
 
@@ -180,3 +184,128 @@ class TestSchemaConformance:
             f"Server error: {case.method} {case.formatted_path} "
             f"-> {response.status_code}\n{response.text[:300]}"
         )
+
+
+# ---------------------------------------------------------------------------
+# M10-1 new endpoints -- targeted no-5xx coverage (M10-8 addition)
+# ---------------------------------------------------------------------------
+
+_M10_PATHS = [
+    "/api/v1/programmes",
+    "/api/v1/programmes/PEGASUS",
+    "/api/v1/programmes/ANDROMEDA",
+]
+
+_M10_PARAM_PATHS = [
+    "/api/v1/programmes/PEGASUS/raids",
+    "/api/v1/programmes/PEGASUS/milestones",
+]
+
+
+@pytest.mark.skipif(not _reachable, reason="backend not reachable at localhost:8000")
+class TestM10EndpointsNoPO5xx:
+    """GET /api/v1/programmes* endpoints return no 5xx under PO token."""
+
+    def test_programmes_list_no_5xx(self):
+        r = requests.get(f"{BACKEND_URL}/api/v1/programmes",
+                         headers=_po_headers(ap_flag=True), timeout=5)
+        assert r.status_code < 500, f"5xx: GET /api/v1/programmes -> {r.status_code}"
+
+    def test_programme_pegasus_no_5xx(self):
+        r = requests.get(f"{BACKEND_URL}/api/v1/programmes/PEGASUS",
+                         headers=_po_headers(ap_flag=True), timeout=5)
+        assert r.status_code < 500, f"5xx: GET /api/v1/programmes/PEGASUS -> {r.status_code}"
+
+    def test_programme_andromeda_no_5xx(self):
+        r = requests.get(f"{BACKEND_URL}/api/v1/programmes/ANDROMEDA",
+                         headers=_po_headers(ap_flag=True), timeout=5)
+        assert r.status_code < 500, f"5xx: GET /api/v1/programmes/ANDROMEDA -> {r.status_code}"
+
+    def test_programme_raids_detail_unknown_id_returns_404_not_500(self):
+        fake_id = "00000000-0000-0000-0000-000000000099"
+        r = requests.get(
+            f"{BACKEND_URL}/api/v1/programmes/PEGASUS/raids/{fake_id}",
+            headers=_po_headers(ap_flag=True), timeout=5,
+        )
+        assert r.status_code < 500, (
+            f"5xx on unknown RAID id: GET /api/v1/programmes/PEGASUS/raids/{fake_id} "
+            f"-> {r.status_code}"
+        )
+        # 429 is allowed: rate limiter fires when run immediately after schemathesis (D-064)
+        assert r.status_code in (404, 403, 422, 429), (
+            f"Expected 404/403/422/429 for unknown id, got {r.status_code}"
+        )
+
+    def test_programme_milestones_detail_unknown_id_returns_404_not_500(self):
+        fake_id = "00000000-0000-0000-0000-000000000099"
+        r = requests.get(
+            f"{BACKEND_URL}/api/v1/programmes/PEGASUS/milestones/{fake_id}",
+            headers=_po_headers(ap_flag=True), timeout=5,
+        )
+        assert r.status_code < 500, (
+            f"5xx on unknown milestone id: GET /api/v1/programmes/PEGASUS/milestones/{fake_id} "
+            f"-> {r.status_code}"
+        )
+        # 429 is allowed: rate limiter fires when run immediately after schemathesis (D-064)
+        assert r.status_code in (404, 403, 422, 429), (
+            f"Expected 404/403/422/429 for unknown id, got {r.status_code}"
+        )
+
+    def test_audit_entry_detail_unknown_id_returns_404_not_500(self):
+        fake_id = "00000000-0000-0000-0000-000000000099"
+        r = requests.get(
+            f"{BACKEND_URL}/api/v1/audit/entry/{fake_id}",
+            headers=_po_headers(ap_flag=True), timeout=5,
+        )
+        assert r.status_code < 500, (
+            f"5xx on unknown audit entry: GET /api/v1/audit/entry/{fake_id} "
+            f"-> {r.status_code}"
+        )
+        # 429 is allowed: rate limiter fires when run immediately after schemathesis (D-064)
+        assert r.status_code in (404, 403, 422, 429), (
+            f"Expected 404/403/422/429 for unknown audit entry, got {r.status_code}"
+        )
+
+
+@pytest.mark.skipif(not _reachable, reason="backend not reachable at localhost:8000")
+class TestM10EndpointsNoPM5xx:
+    """Same 5 endpoints under ProgrammeManager token -- no 5xx allowed."""
+
+    PM_UUID = uuid.UUID("00000000-0000-0000-0000-000000000003")
+
+    def _pm_headers(self) -> dict[str, str]:
+        return {"Authorization": f"Bearer {_token(self.PM_UUID, 'ProgrammeManager')}"}
+
+    def test_programmes_list_no_5xx(self):
+        r = requests.get(f"{BACKEND_URL}/api/v1/programmes",
+                         headers=self._pm_headers(), timeout=5)
+        assert r.status_code < 500, f"5xx: GET /api/v1/programmes -> {r.status_code}"
+
+    def test_programme_single_no_5xx(self):
+        r = requests.get(f"{BACKEND_URL}/api/v1/programmes/PEGASUS",
+                         headers=self._pm_headers(), timeout=5)
+        assert r.status_code < 500, f"5xx: GET /api/v1/programmes/PEGASUS -> {r.status_code}"
+
+    def test_programme_raids_detail_unknown_id_no_5xx(self):
+        fake_id = "00000000-0000-0000-0000-000000000099"
+        r = requests.get(
+            f"{BACKEND_URL}/api/v1/programmes/PEGASUS/raids/{fake_id}",
+            headers=self._pm_headers(), timeout=5,
+        )
+        assert r.status_code < 500
+
+    def test_programme_milestones_detail_unknown_id_no_5xx(self):
+        fake_id = "00000000-0000-0000-0000-000000000099"
+        r = requests.get(
+            f"{BACKEND_URL}/api/v1/programmes/PEGASUS/milestones/{fake_id}",
+            headers=self._pm_headers(), timeout=5,
+        )
+        assert r.status_code < 500
+
+    def test_audit_entry_unknown_id_no_5xx(self):
+        fake_id = "00000000-0000-0000-0000-000000000099"
+        r = requests.get(
+            f"{BACKEND_URL}/api/v1/audit/entry/{fake_id}",
+            headers=self._pm_headers(), timeout=5,
+        )
+        assert r.status_code < 500

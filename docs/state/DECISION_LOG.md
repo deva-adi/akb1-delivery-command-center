@@ -5,6 +5,30 @@
 
 ---
 
+## D-072 | 2026-05-16 | Level 2 routes exist only where backend entity detail endpoint exists
+
+Context: Many entities (financials, client signals, backlog items) are not seeded in v1.0.
+Decision: Level 2 routes are built only for milestones, RAID items, and audit entries -- the three entities with a working detail endpoint (GET /api/v1/programmes/{code}/milestones/{id}, GET /api/v1/programmes/{code}/raids/{id}, GET /api/v1/audit/entry/{id}). All stub sections remain non-clickable and no Level 2 route exists for them.
+Rationale: No fake drill. Every Level 2 route shows real data from a real backend endpoint. Stubs are clearly labelled per v1.0 convention. Keeping fake routes out prevents misleading behaviour and dead-end navigations.
+
+---
+
+## D-071 | 2026-05-16 | Table drill uses direct onClick not DrillRow wrapper
+
+Context: DrillRow renders a div which is invalid inside HTML table elements (tr/td). Using it inside tables caused invalid HTML that both failed axe-core validation and triggered browser parsing quirks.
+Decision: Clickable tr and td elements get onClick, onKeyDown, role="button", and tabIndex=0 applied directly on the element. DrillRow is reserved for non-table clickable elements such as pyramid bars and WIP bars.
+Rationale: Valid HTML. Passes axe-core WCAG AA. Consistent keyboard accessibility pattern across all interactive table rows.
+
+---
+
+## D-070 | 2026-05-16 | useRouter over useSearchParams in client table components
+
+Context: M10-5 through M10-7 required interactive tables (OpsSLAMatrix, ClientSignalMatrix, AIGovRiskTierMatrix, BacklogProgrammeTable, GovStakeholderSection) without adding new Suspense boundaries.
+Decision: All "use client" table components receive activeState props from the server page (which reads searchParams). Navigation uses useRouter only. useSearchParams is used only in Breadcrumb, ProgrammeFilterBar, and FilterChip, which are wrapped in Suspense in layout.tsx.
+Rationale: Avoids Suspense boundary proliferation on every interactive table. Keeps server components as the single source of URL truth. Follows the pattern established in M10-2 (D-068 item 1).
+
+---
+
 ## D-068 | 2026-05-12 | M10-2 Executive and Financials drill complete
 
 Context: First two tabs wired with full drill interactivity.

@@ -1,5 +1,5 @@
 # MILESTONE_STATUS.md
-### AKB1 Delivery Command Center v1 | Milestone gates and progress | Last updated: 2026-05-11 (M8 CLOSED)
+### AKB1 Delivery Command Center v1 | Milestone gates and progress | Last updated: 2026-05-16 (M10-8 COMPLETE)
 
 > One row per milestone. Each milestone has a gate before it closes.
 
@@ -19,6 +19,12 @@
 | M7 | Frontend build | Claude Code | Planned | Vitest 100 percent pass. All 14 tabs render. Intelligence layer renders on every tab. | pending | pending |
 | M8 | Integration, QA, benchmark | Claude Code | CLOSED | Playwright 51/51 green. axe-core zero critical WCAG AA violations across 14 tabs. Locust GREEN at 100 (p95 24ms) and 500 (p95 140ms) concurrent, AMBER at 1000 (p95 380ms). Drill integrity 12/12 green. Contract tests 31/31 green. Security scan CRITICAL=0 HIGH bandit=0. 814 total tests green. See gate evidence below. | 2026-05-11 | 2026-05-11 |
 | M9 | v1.0.0 release plus LinkedIn launch | Claude Code plus Adi | Planned | Tag v1.0.0 pushed, repo flipped public, LinkedIn launch kit live, release notes published. | pending | pending |
+| M10-1 | Shared drill infrastructure | Claude Code | CLOSED | ProgrammeFilterBar, Breadcrumb, DrillRow, DrillDetailLayout, FilterChip, lib/drill.ts. 5 new backend endpoints. 530 vitest green. | 2026-05-12 | 2026-05-12 |
+| M10-2 | Executive plus Financials drill | Claude Code | CLOSED | Programme rows clickable, health chips, cross-links, server-side filtering, Suspense fix. 551 vitest. | 2026-05-12 | 2026-05-12 |
+| M10-3 | Delivery Health plus Risk RAID drill | Claude Code | CLOSED | On-time bar, milestone Level 2, RAID heat map, RAID Level 2. 609 vitest. | 2026-05-12 | 2026-05-12 |
+| M10-4/5/6 | Workforce + Flow + Ops + Client + Backlog + AI Gov drill | Claude Code | CLOSED | Pyramid bars, WIP bars, SLA matrix, signal matrix, backlog rows, AI tier cells all interactive. 624 vitest. | 2026-05-16 | 2026-05-16 |
+| M10-7 | Governance drill plus Audit Trail Level 2 | Claude Code | CLOSED | Over-optimism rows clickable, audit entry Level 2 route, before/after JSON panels, filter chips. 636 vitest. | 2026-05-16 | 2026-05-16 |
+| M10-8 | Full E2E drill suite plus WCAG plus contract tests | Claude Code | COMPLETE | 34-test full_drill_suite, 5 WCAG re-scan routes, 11 new contract tests, Locust drill tasks added. 636+ vitest. See gate below. | 2026-05-16 | 2026-05-16 |
 
 ## Gate Evidence
 

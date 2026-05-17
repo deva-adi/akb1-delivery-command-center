@@ -113,3 +113,33 @@ test("a11y: delivery-health has zero critical WCAG AA violations", async ({ page
   }
   expect(criticalViolations(results)).toEqual([]);
 });
+
+// ---------------------------------------------------------------------------
+// M10-8 WCAG re-scan: new interactive routes with role=button drill elements
+// ---------------------------------------------------------------------------
+
+const M10_NEW_ROUTES = [
+  { name: "client-health-p-PEGASUS",     path: "/home/client-health?p=PEGASUS",                role: "PortfolioOwner" },
+  { name: "backlog-health-p-PEGASUS",    path: "/home/backlog-health?p=PEGASUS",               role: "PortfolioOwner" },
+  { name: "ai-governance-p-PEGASUS",     path: "/home/ai-governance?p=PEGASUS&tier=red",       role: "PortfolioOwner" },
+  { name: "governance-p-PEGASUS",        path: "/home/governance-operating-model?p=PEGASUS",   role: "PortfolioOwner" },
+  { name: "audit-trail-console-rows",    path: "/home/audit-trail-console",                    role: "PortfolioOwner" },
+] as const;
+
+for (const route of M10_NEW_ROUTES) {
+  test(`a11y: ${route.name} has zero critical WCAG AA violations`, async ({ page }) => {
+    await loginAs(page, route.role);
+    await page.goto(route.path);
+    await page.waitForLoadState("networkidle");
+    const results = await runAxe(page);
+    const serious = seriousViolations(results);
+    if (serious.length > 0) {
+      test.info().annotations.push({
+        type: "serious-violations",
+        description: serious.map((v) => `${v.id}: ${v.description}`).join(" | "),
+      });
+    }
+    expect(criticalViolations(results)).toEqual([]);
+    expect(seriousViolations(results)).toEqual([]);
+  });
+}

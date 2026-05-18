@@ -40,9 +40,10 @@ import { GovAdminSection } from "@/components/GovAdminSection";
 export default async function GovernancePage({
   searchParams,
 }: {
-  searchParams: { p?: string };
+  searchParams: { p?: string; kpi?: string };
 }): Promise<JSX.Element> {
   const activeProgramme = typeof searchParams.p === "string" ? searchParams.p : null;
+  const activeKpi = typeof searchParams.kpi === "string" ? searchParams.kpi : null;
   const token = cookies().get(SESSION_COOKIE)?.value ?? "";
   const user = await decodeSessionToken(token);
 
@@ -119,7 +120,7 @@ export default async function GovernancePage({
       )}
 
       <main className="px-8 py-8">
-        <GovKPIGrid />
+        <GovKPIGrid activeKpi={activeKpi} />
 
         <section className="grid grid-cols-12 gap-6 mb-8">
           <GovCadenceCalendar />

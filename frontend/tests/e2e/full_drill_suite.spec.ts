@@ -502,3 +502,39 @@ test("executive: breadcrumb Portfolio link strips ?p= from URL", async ({ page }
 
   await expect(page).not.toHaveURL(/[?&]p=/);
 });
+
+// ---------------------------------------------------------------------------
+// Governance: KPI cell drill (M10-9)
+// ---------------------------------------------------------------------------
+
+test("governance: KPI grid renders gov-kpi-card-decision-latency testid", async ({ page }) => {
+  await loginAs(page, "PortfolioOwner");
+  await page.goto("/home/governance-operating-model");
+
+  const card = page.getByTestId("gov-kpi-card-decision-latency");
+  await expect(card).toBeVisible({ timeout: 30000 });
+});
+
+test("governance: clicking gov-kpi-card-raci-gap sets ?kpi=raci-gap", async ({ page }) => {
+  await loginAs(page, "PortfolioOwner");
+  await page.goto("/home/governance-operating-model");
+
+  const card = page.getByTestId("gov-kpi-card-raci-gap");
+  await expect(card).toBeVisible({ timeout: 30000 });
+  await card.click();
+
+  await expect(page).toHaveURL(/[?&]kpi=raci-gap/);
+});
+
+test("governance: clicking gov-kpi-card-raci-gap twice keeps ?kpi=raci-gap in URL", async ({ page }) => {
+  await loginAs(page, "PortfolioOwner");
+  await page.goto("/home/governance-operating-model");
+
+  const card = page.getByTestId("gov-kpi-card-raci-gap");
+  await expect(card).toBeVisible({ timeout: 30000 });
+  await card.click();
+  await expect(page).toHaveURL(/[?&]kpi=raci-gap/);
+
+  await card.click();
+  await expect(page).toHaveURL(/[?&]kpi=raci-gap/);
+});

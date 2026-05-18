@@ -1,5 +1,11 @@
+"use client";
+
 /**
- * Governance KPI grid -- 10 cards in a 5-column layout.
+ * Governance KPI grid -- 10 cards in a 5-column layout (M10-9).
+ *
+ * Each card is clickable: sets ?kpi=SLUG via router.push. Active card carries
+ * ring-2 ring-accent-gold ring-inset. Pattern A: 'use client' + useRouter only,
+ * no useSearchParams (avoids Suspense boundary requirement).
  *
  * All values are stubs pending the following backend entities:
  * decisions, cadences, raci_activities, pre_read_documents,
@@ -7,15 +13,21 @@
  * TODO: replace each stub when its respective endpoint lands.
  */
 
+import { useRouter } from "next/navigation";
+import { KPI_SLUGS } from "@/lib/governance";
+
 interface KpiCardProps {
   label: string;
   value: string;
   unit: string;
   sub: string;
   color: "red" | "amber" | "green";
+  slug: string;
+  activeKpi: string | null;
+  onClick: (slug: string) => void;
 }
 
-function KpiCard({ label, value, unit, sub, color }: KpiCardProps) {
+function KpiCard({ label, value, unit, sub, color, slug, activeKpi, onClick }: KpiCardProps) {
   const borderClass =
     color === "red"
       ? "border-status-red/50"
@@ -28,9 +40,27 @@ function KpiCard({ label, value, unit, sub, color }: KpiCardProps) {
       : color === "amber"
       ? "text-status-amber"
       : "text-status-green";
+  const isActive = activeKpi === slug;
+
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onClick(slug);
+    }
+  }
 
   return (
-    <div className={`bg-bg-surface border ${borderClass} rounded-md p-4 relative`}>
+    <div
+      className={`bg-bg-surface border ${borderClass} rounded-md p-4 relative cursor-pointer select-none transition-colors hover:border-accent-gold/60 ${
+        isActive ? "ring-2 ring-accent-gold ring-inset" : ""
+      }`}
+      role="button"
+      tabIndex={0}
+      aria-label={`Filter by KPI ${label}`}
+      data-testid={`gov-kpi-card-${slug}`}
+      onClick={() => onClick(slug)}
+      onKeyDown={handleKeyDown}
+    >
       <div className="absolute top-2 right-2 px-1 py-0.5 bg-border-subtle/60 rounded text-[9px] text-text-subtle font-mono">
         stub
       </div>
@@ -44,23 +74,125 @@ function KpiCard({ label, value, unit, sub, color }: KpiCardProps) {
   );
 }
 
-export function GovKPIGrid() {
+interface Props {
+  activeKpi: string | null;
+}
+
+export function GovKPIGrid({ activeKpi }: Props) {
+  const router = useRouter();
+
+  function handleCardClick(slug: string) {
+    const params = new URLSearchParams();
+    params.set("kpi", slug);
+    router.push(`/home/governance-operating-model?${params.toString()}`, { scroll: false });
+  }
+
   return (
     <section
       className="grid grid-cols-5 gap-3 mb-8"
       data-testid="gov-kpi-grid"
     >
-      <KpiCard label="Decision Latency Wtd" value="7.4" unit="days" sub="Target below 2.0. Amber" color="amber" />
-      <KpiCard label="Decisions Open (Pegasus)" value="14" unit="7 past SLA" sub="Target below 5. Red" color="red" />
-      <KpiCard label="Cadence Attendance" value="82" unit="percent" sub="Target above 90. Amber" color="amber" />
-      <KpiCard label="Cadence Theatre" value="3" unit="cadences" sub="Target 0. Red" color="red" />
-      <KpiCard label="RACI Gap" value="12.3" unit="percent" sub="Target below 5. Red" color="red" />
+      <KpiCard
+        label="Decision Latency Wtd"
+        value="7.4"
+        unit="days"
+        sub="Target below 2.0. Amber"
+        color="amber"
+        slug={KPI_SLUGS["Decision Latency Wtd"]}
+        activeKpi={activeKpi}
+        onClick={handleCardClick}
+      />
+      <KpiCard
+        label="Decisions Open (Pegasus)"
+        value="14"
+        unit="7 past SLA"
+        sub="Target below 5. Red"
+        color="red"
+        slug={KPI_SLUGS["Decisions Open"]}
+        activeKpi={activeKpi}
+        onClick={handleCardClick}
+      />
+      <KpiCard
+        label="Cadence Attendance"
+        value="82"
+        unit="percent"
+        sub="Target above 90. Amber"
+        color="amber"
+        slug={KPI_SLUGS["Cadence Attendance"]}
+        activeKpi={activeKpi}
+        onClick={handleCardClick}
+      />
+      <KpiCard
+        label="Cadence Theatre"
+        value="3"
+        unit="cadences"
+        sub="Target 0. Red"
+        color="red"
+        slug={KPI_SLUGS["Cadence Theatre"]}
+        activeKpi={activeKpi}
+        onClick={handleCardClick}
+      />
+      <KpiCard
+        label="RACI Gap"
+        value="12.3"
+        unit="percent"
+        sub="Target below 5. Red"
+        color="red"
+        slug={KPI_SLUGS["RACI Gap"]}
+        activeKpi={activeKpi}
+        onClick={handleCardClick}
+      />
 
-      <KpiCard label="RACI Overlap" value="8.5" unit="percent" sub="Target below 8. Amber" color="amber" />
-      <KpiCard label="Contract Staleness (max)" value="210" unit="days" sub="Target below 90. Red" color="red" />
-      <KpiCard label="Pre-Read Issuance" value="72" unit="percent" sub="Target above 90. Amber" color="amber" />
-      <KpiCard label="Commitment Delta" value="28" unit="percent" sub="Target below 10. Red" color="red" />
-      <KpiCard label="Sponsor Engagement (min)" value="38" unit="score" sub="Target above 70. Red" color="red" />
+      <KpiCard
+        label="RACI Overlap"
+        value="8.5"
+        unit="percent"
+        sub="Target below 8. Amber"
+        color="amber"
+        slug={KPI_SLUGS["RACI Overlap"]}
+        activeKpi={activeKpi}
+        onClick={handleCardClick}
+      />
+      <KpiCard
+        label="Contract Staleness (max)"
+        value="210"
+        unit="days"
+        sub="Target below 90. Red"
+        color="red"
+        slug={KPI_SLUGS["Contract Staleness"]}
+        activeKpi={activeKpi}
+        onClick={handleCardClick}
+      />
+      <KpiCard
+        label="Pre-Read Issuance"
+        value="72"
+        unit="percent"
+        sub="Target above 90. Amber"
+        color="amber"
+        slug={KPI_SLUGS["Pre-Read Issuance"]}
+        activeKpi={activeKpi}
+        onClick={handleCardClick}
+      />
+      <KpiCard
+        label="Commitment Delta"
+        value="28"
+        unit="percent"
+        sub="Target below 10. Red"
+        color="red"
+        slug={KPI_SLUGS["Commitment Delta"]}
+        activeKpi={activeKpi}
+        onClick={handleCardClick}
+      />
+      <KpiCard
+        label="Sponsor Engagement (min)"
+        value="38"
+        unit="score"
+        sub="Target above 70. Red"
+        color="red"
+        slug={KPI_SLUGS["Sponsor Engagement"]}
+        activeKpi={activeKpi}
+        onClick={handleCardClick}
+      />
     </section>
   );
 }

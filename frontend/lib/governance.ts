@@ -121,3 +121,33 @@ export interface ThresholdItem {
 export interface ThresholdListResponse {
   items: ThresholdItem[];
 }
+
+// ---------------------------------------------------------------------------
+// Governance KPI grid slug map (M10-9)
+// ---------------------------------------------------------------------------
+
+export const KPI_SLUGS: Record<string, string> = {
+  "Decision Latency Wtd": "decision-latency",
+  "Decisions Open": "decisions-open",
+  "Cadence Attendance": "cadence-attendance",
+  "Cadence Theatre": "cadence-theatre",
+  "RACI Gap": "raci-gap",
+  "RACI Overlap": "raci-overlap",
+  "Contract Staleness": "contract-staleness",
+  "Pre-Read Issuance": "pre-read-issuance",
+  "Commitment Delta": "commitment-delta",
+  "Sponsor Engagement": "sponsor-engagement",
+};
+
+export const KPI_SLUG_TO_LABEL: Record<string, string> = {
+  "decision-latency": "Decision Latency Wtd",
+  "decisions-open": "Decisions Open",
+  "cadence-attendance": "Cadence Attendance",
+  "cadence-theatre": "Cadence Theatre",
+  "raci-gap": "RACI Gap",
+  "raci-overlap": "RACI Overlap",
+  "contract-staleness": "Contract Staleness",
+  "pre-read-issuance": "Pre-Read Issuance",
+  "commitment-delta": "Commitment Delta",
+  "sponsor-engagement": "Sponsor Engagement",
+};
